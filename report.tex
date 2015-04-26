@@ -1,0 +1,194 @@
+\documentclass{acm_proc_article-sp}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{lipsum}
+
+\usepackage{inconsolata}
+\usepackage{listings}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\lstset{language=Java,
+	xleftmargin=7mm,
+	xrightmargin=2mm,
+	frame=single,
+	framesep=3pt,
+	aboveskip=2em,
+	belowskip=1em,
+	numbers=left,
+	numbersep=9pt,
+	captionpos=b,
+	tabsize=2,
+	keepspaces=true,
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    showstringspaces=false,
+    breakatwhitespace=true,
+    commentstyle=\color{greencomments},
+    keywordstyle=\color{bluekeywords},
+    stringstyle=\color{redstrings},
+  	basicstyle=\ttfamily\scriptsize,
+	otherkeywords={
+		rep,norep,owner,world,any,peer,
+		where,reads,writes,pure,impure,
+		intersects,disjoint,unique}
+}
+
+\begin{document}
+
+\title{Ownership Types for Local Reasoning}
+\subtitle{CS5218: AY2014/2015 Semester 2, Final Project}
+
+\numberofauthors{3} 
+
+\author{
+\alignauthor
+Darius Foo\\
+       \affaddr{A0097282@u.nus.edu}
+\alignauthor
+Daryl Seah\\
+       \affaddr{A0026468@u.nus.edu}
+\alignauthor
+Joel Low\\
+       \affaddr{A0097630@u.nus.edu}
+}
+
+
+
+\maketitle
+\begin{abstract}
+	\lipsum[1]
+\end{abstract}
+
+
+
+\section{Introduction}
+\label{sec:intro}
+
+% Problem, motivation, and Breadth goes here
+
+\lipsum[2]
+
+
+
+\section{Ownership Types}
+\label{sec:ownership}
+
+% terminology and the basics
+
+\subsection{Topology}
+\label{subsec:topo}
+
+\lipsum[3]
+
+\subsection{Encapsulation}
+\label{subsec:encap}
+
+\lipsum[4]
+
+\subsection{Applications}
+\label{subsec:apps}
+
+\lipsum[5]
+
+
+
+
+\section{Variants}
+\label{sec:variants}
+
+\subsection{Clarke's Ownership Types}
+\label{subsec:clarke}
+
+\subsection{Boyapati's SafeJava}
+\label{subsec:boyapati}
+
+\subsection{Dietl and M\"{u}ller's Universe Types}
+\label{subsec:dietl}
+
+\subsection{Cameron's Multiple Ownership}
+\label{subsec:cameron}
+
+
+
+
+\section{Evaluation}
+\label{sec:eval}
+
+\lipsum[6]
+
+
+
+
+\section{Conclusion}
+\label{sec:conclude}
+
+\lipsum[8]
+
+
+
+
+
+
+
+
+\section{Testing}
+\label{sec:test}
+
+% Code Snippets
+\begin{lstlisting}[caption={Car Engine Example},label=code:car_eng_test]
+class Person {}
+class Engine<any engineOwner> {
+  void start() { /* ... */ }
+}
+
+class Car<carOwner, driverOwner> {
+  Engine<this> engine; Person<a & ?> driver;
+    
+  void start() {
+    if (driver != null) getEngine().start();
+  }
+  Engine<world> getEngine() { return engine; }
+}
+\end{lstlisting}
+
+Reference to Listing~\ref{code:car_eng_test} and Section~\ref{sec:test}.
+
+% Citations
+aldrich04domains~\cite{aldrich04domains},\newline
+aldrich02aliasjava~\cite{aldrich02aliasjava},\newline
+almeida97balloons~\cite{almeida97balloons},\newline
+boyapati04safejava~\cite{boyapati04safejava},\newline
+boyapati02races~\cite{boyapati02races},\newline
+boyapati03innerclass~\cite{boyapati03innerclass},\newline
+boyapati03rtsj~\cite{boyapati03rtsj},\newline
+cameron07mojo~\cite{cameron07mojo},\newline
+cameron10encoding~\cite{cameron10encoding},\newline
+clarke03ownership~\cite{clarke03ownership},\newline
+clarke02ownership~\cite{clarke02ownership},\newline
+clarke13aliasing~\cite{clarke13aliasing},\newline
+clarke98ownership~\cite{clarke98ownership},\newline
+cunningham08ut~\cite{cunningham08ut},\newline
+dietl09gut~\cite{dietl09gut},\newline
+dietl11gut~\cite{dietl11gut},\newline
+dietl07gut~\cite{dietl07gut},\newline
+dietl13ownership~\cite{dietl13ownership},\newline
+dietl08dependent~\cite{dietl08dependent},\newline
+dietl05jml~\cite{dietl05jml},\newline
+hogg91islands~\cite{hogg91islands},\newline
+muller02modular~\cite{muller02modular},\newline
+muller99universes~\cite{muller99universes},\newline
+noble98alias~\cite{noble98alias}
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{report}
+
+\end{document}
