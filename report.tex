@@ -89,8 +89,9 @@ a large program.
 In practice, many escape mechanisms which break the encapsulation of an object 
 are used. These mechanisms, while allowing expressiveness in programs, prevent 
 the programmer from reaping the benefits of being able to isolate a module and 
-reason about its behaviour and effects. Here, we present an example, originally 
-presented by \cite{clarke98ownership}:
+reason about its behaviour and effects. We present an example in 
+Listing~\ref{code:modular_reasoning_car_engine_1}, originally 
+described in \cite{clarke98ownership}.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -134,9 +135,9 @@ using Java's syntax, there would be four levels of access: \lstinline|public|,
 \lstinline|protected|, \lstinline|private|, and default (package-level) access. 
 These access specifiers are annotations on types and variables, limiting 
 \emph{visibility} of the identifiers of said types and variables to the 
-appropriate scope. The following example, modified from 
-Listing~\ref{code:modular_reasoning_car_engine_1}, demonstrates that enforcing 
-encapsulation using access specifiers alone are insufficient:
+appropriate scope. Listing~\ref{code:modular_reasoning_car_engine_2}, modified 
+from Listing~\ref{code:modular_reasoning_car_engine_1}, demonstrates that 
+enforcing encapsulation using access specifiers alone are insufficient.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -171,11 +172,11 @@ class Main {
 
 \end{lstlisting}
 
-In this example we annotate each method and member variable with an appropriate 
-access specifier. We also define an additional \emph{accessor} method, for the 
-situation where a property of the car's engine must be accessed outside of the 
-car (an instrument attached to the car's electronics to measure performance, 
-for example). However, as seen on 
+In Listing~\ref{code:modular_reasoning_car_engine_2} we annotate each method 
+and member variable with an appropriate access specifier. We also define an 
+additional \emph{accessor} method, for the situation where a property of the 
+car's engine must be accessed outside of the car (an instrument attached to the 
+car's electronics to measure performance, for example). However, as seen on 
 line~\ref{code:modular_reasoning_car_engine_2_engine_start} the original 
 problem has not been resolved: the engine can still be started externally.
 
