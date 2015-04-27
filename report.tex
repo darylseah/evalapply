@@ -397,20 +397,129 @@ references cannot be used to mutate the state of the object being referenced.
 \subsection{Clarke's Ownership Types}
 \label{subsec:clarke}
 
+% Ownership types was first proposed by Clarke et al. in 1998 to mitigate the
+% aliasing problem in the analysis of object-oriented programs. Since then it
+% has been used for a variety of program verification applications.
+%
+% Uses modifiers rep, norep and owner along with parameterized classes for
+% generic ownership specification (syntax conflicts with Java/C#’s generics,
+% similar to C++’s templates).
+%
+% Iterators not possible (too strict because of owners-as-dominators discipline)
+% - In XStack example, iterator modification has to go through stack
+%
+% - Iterator is only usable in the context of the owner of both the iterator and
+%	 stack
+%
+% - Boyapati: A type system that strictly enforces object encapsulation is 
+%	 too constraining [113]: it does not allow efficient implementation of
+%	 important constructs like iterators [104, 71]. Consider, for example, an
+%	 iterator over the above-mentioned Stack object s. If the iterator is
+%	 encapsulated within s, it cannot be used outside s. If the iterator is not
+%	 encapsulated within s, it cannot directly access the list nodes in s, and
+%	 hence cannot run efficiently. [SafeJava, pg 25]
+%
+% Multiple owners not possible
+% - Cannot append two XStacks together because an append() function would have
+% to be declared rep. The other xstack would have a problem to be passed to the
+% first xstack because the contexts are different
+%
+% Not possible to transfer ownership
+% - Example?
+%
+% No inheritance; Inheritance not supported (or just not discussed)
+%
+% Key Idea: Ownership types impose structural invariants on the object graphs of
+% well-typed programs that limit the kinds of aliasing possible
+% - e.g. getter functions which return references to objects within the
+%	 invariant, allowing internals to be modified outside the owner.
+
 \lipsum[7]
 
 \subsection{Boyapati's SafeJava}
 \label{subsec:boyapati}
 
+% For solving the iterator problem
+%
+% Fully parametized ownership type system (conflicts with Java’s generics
+% syntax) with constraints (e.g. where sOwner <= tOwner)
+%
+% Does not have rep or norep keywords → uses this and world on first parameter
+% of object reference to denote primary owner.
+%
+% Supports effects clauses and constraints.
+%
+% Supports inheritance
+%
+% Support ownership transfer
+% only for unique references. unique references can be ‘borrowed’ so that in
+% a local scope an alias exists. Not completely static. (p54) Leaves null
+% pointers at runtime.
+%
+% Key Idea: Inner-classes (or classes in the same ‘module’) have privileged
+% access to the representation of the enclosing class -- ownership structure
+% unchanged, only access rules modified with an exception for inner-classes. The
+% concept of a peer in Universes seems to generalize this.
+%
+% - Ownership types can be mostly verified at compile time, but dynamic casts
+% are allowed in Java and so he proposes a complementary runtime system that
+% checks casts.
+%
+% Secondary owners must necessarily be ancestors of the primary owner. This is
+% because users parameterising the class would not know of any descendents of
+% the primary owner due to the encapsulation barrier.
+
+
 \lipsum[8]
+
 
 \subsection{Dietl and M\"{u}ller's Universe Types}
 \label{subsec:dietl}
+
+% Uses modifiers rep, peer, any on references, and pure/impure on methods.
+%
+% Additional modifiers self and lost are never used when annotating source code,
+% but are required in the type system for checking. 
+% - lost is denotable but not expressible, more information than any (that’s why
+%	  we can cast lost -> any). Assigning to lost fields is a type error.
+% - any is denotable and expressible. Fields of type any can be assigned to
+%
+% The peer modifier is distinct from owner in the original paper. Peer means
+% that the referenced object is a co-owner of the representation, owner means
+% that the reference object has the same owner (but does not have representation
+% access). In this sense, universes allow primitive support for multiple owners,
+% as long as these ‘peers’ are declared in the same module.
+%
+% Vanilla Universe Types requires runtime checking without parameterization. An
+% example is the use of any for references to values in a container class. This
+% implies that the references are read-only --- the user of a container cannot
+% obtain and modify the objects with these read-only references UNLESS they are
+% casted to rep something, with the appropriate runtime check. Generic Universe
+% Types solves this problem.
+%
+% Iterators can be more efficient because they can have direct access to the
+% representation of the container for reading and writing.
 
 \lipsum[9]
 
 \subsection{Cameron's Multiple Ownership}
 \label{subsec:cameron}
+
+% Key idea: dropping the owner-as-dominator requirement and allowing multiple
+% owners gives more expressiveness at the cost of the looser guarantees
+% - Classical ownership: owners-as-dominators/modifiers; solution is to flatten
+%   ownership structures
+% - DAG object topologies are more expressive than the traditional trees
+% - Guarantees now relate to computational effects, not encapsulation
+% - Modifier guarantee unchanged
+%
+% Ownership wildcards/basic existential quantification (one owner not knowing
+% details of others)
+%
+% intersects and disjoint (helps control effects as well) constraints which
+% limit possible multiple ownership
+%
+% where clauses for ownership parameters
 
 \lipsum[10]
 
@@ -426,6 +535,15 @@ references cannot be used to mutate the state of the object being referenced.
 
 \section{Conclusion}
 \label{sec:conclude}
+
+% Need dynamic checking of ownership if casting or reflection is possible
+% - In practice, compile-time checking alone is insufficient
+
+% Annotations are a burden on programmers
+% - Declare everything to be owned by root/world?
+% - Limits of ownership inference?
+
+
 
 \lipsum[12]
 
