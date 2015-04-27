@@ -12,10 +12,6 @@
 ## Intermediate documents:
 *.dvi
 *-converted-to.*
-# these rules might exclude image files for figures etc.
-# *.ps
-# *.eps
-# *.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
@@ -129,3 +125,5 @@ sympy-plots-for-*.tex/
 
 ## Output files
 *.pdf
+*.ps
+
