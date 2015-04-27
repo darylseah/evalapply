@@ -86,7 +86,7 @@ likely that ownership types will only be used for safety-critical programs.
 \end{abstract}
 
 \section{Introduction}
-\label{sec:intro}
+\label{sec:introduction}
 
 % Problem, motivation, and Breadth goes here
 The advent of Object-Oriented Programming has allowed programmers to write and 
@@ -99,6 +99,7 @@ improve the speed at which analyses can be completed, especially when analysing
 a large program.
 
 \subsection{Limits of Traditional Mechanisms}
+label{subsec:traditional\_mechanism\_limits}
 In practice, many escape mechanisms which break the encapsulation of an object 
 are used. These mechanisms, while allowing expressiveness in programs, prevent 
 the programmer from reaping the benefits of being able to isolate a module and 
@@ -211,16 +212,16 @@ types, making reasoning about the program more difficult.
 % terminology and the basics
 Ownership Types is an addition to the type system to encode ownership 
 information. This directly overcomes the limitations of only using access 
-specifiers. Using Boyapati's SafeJava\cite{boyapati04safejava} syntax, the Car 
-example can be expressed as per \cref{code:ownership_types_car_engine_1} 
+specifiers. Using SafeJava's\cite{boyapati04safejava} syntax, the Car example 
+can be expressed as per \cref{code:ownership_types_car_engine_1} 
 \vpageref[above]{code:ownership_types_car_engine_1}.
 
 \Cref{code:ownership_types_car_engine_1} introduces the notion of an ownership 
 \emph{type}. Just like generics, this is information which is created and 
-enforced statically. All types are now parameterised by an owner type, 
-preventing objects with different owners from being assigned to each other. 
-Furthermore, it is not possible to express the owner type of an object 
-belonging to another object, preventing the encapsulation violation 
+enforced statically. All types are now parameterised by an ownership type, 
+preventing objects with different owners from being assigned (and indeed, 
+referenced). Furthermore, it is not possible to express the ownership type of 
+an object belonging to another object, preventing the encapsulation violation 
 on \cref{code:ownership_types_car_engine_1_engine_start}.
 
 \begin{lstlisting}[
@@ -235,7 +236,8 @@ class Engine<EngineOwner> {
 }
 
 class Car<CarOwner, DriverOwner> {
-	Engine<this> engine; Person<DriverOwner> driver;
+	Engine<this> engine; Person<DriverOwner> driver; /*@
+		\label{code:ownership_types_car_engine_1_parametric_owner} @*/
 	
 	void start() {
 		if (driver != null) {
@@ -247,7 +249,7 @@ class Car<CarOwner, DriverOwner> {
 }
 
 class Main {
-	public static void main() {
+	static void main() {
 		Car<this, world> car = new Car<this, world>();
 		car.start();
 		car.getEngine().start();/*@\label{code:ownership_types_car_engine_1_engine_start}@*/
@@ -255,14 +257,25 @@ class Main {
 }
 \end{lstlisting}
 
+Ownership parameters can also be used within the class declaration, as shown on 
+\cref{code:ownership_types_car_engine_1_parametric_owner}. Special keywords 
+have been introduced: \lstinline|world| indicating that the value is not owned 
+by any object (i.e. it is owned by the system), and \lstinline|this| has been 
+overloaded to mean the current object's ownership context.
 
-\subsection{Topology}
-\label{subsec:topo}
+Type-checking this program results in a type-check failure because it is not 
+possible to express the ownership context of the car outside of the class. 
+However, it is possible to express the car's ownership to objects used by it, 
+through the ownership parameter mechanism.
+
+This is one of the few approaches that we have examined. The other approaches 
+are conceptually similar; the difference among them lies mainly in their 
+expressivity.
 
 \lipsum[3]
 
-\subsection{Encapsulation}
-\label{subsec:encap}
+\subsubsection{Encapsulation}
+\label{subsec:encapsulation}
 
 \lipsum[4]
 
