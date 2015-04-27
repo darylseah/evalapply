@@ -1012,16 +1012,16 @@
 % 12 Jan 2000 gkmt
 \def\section{%
     \@startsection{section}{1}{\z@}{-10\p@ \@plus -4\p@ \@minus -2\p@}%
-    {0.5pt}{\baselineskip=14pt\secfnt\@ucheadtrue}%
+    {2.5pt}{\baselineskip=14pt\secfnt\@ucheadtrue}%
 }
 
 \def\subsection{%
     \@startsection{subsection}{2}{\z@}{-10\p@ \@plus -4\p@ \@minus -2\p@}
-    {0.5pt}{\baselineskip=14pt\secfnt}%
+    {2pt}{\baselineskip=14pt\secfnt}%
 }
 \def\subsubsection{%
     \@startsection{subsubsection}{3}{\z@}{-10\p@ \@plus -4\p@ \@minus -2\p@}%
-    {0.5pt}{\baselineskip=14pt\subsecfnt}%
+    {1.5pt}{\baselineskip=14pt\subsecfnt}%
 }
 
 %\def\paragraph{%
@@ -1332,6 +1332,7 @@
         {References} % was uppercased but this affects pdf bookmarks (SP/GM October 2004)
          \@mkboth{{\refname}}{{\refname}}%
      }%
+		 \vspace{1pt}
      \list{[\arabic{enumi}]}{%
          \settowidth\labelwidth{[#1]}%
          \leftmargin\labelwidth
