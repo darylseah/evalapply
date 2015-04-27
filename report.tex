@@ -100,7 +100,7 @@ improve the speed at which analyses can be completed, especially when analysing
 a large program.
 
 \subsection{Limits of Traditional Mechanisms}
-label{subsec:traditional\_mechanism\_limits}
+\label{subsec:traditional_mechanism_limits}
 In practice, many escape mechanisms which break the encapsulation of an object 
 are used. These mechanisms, while allowing expressiveness in programs, prevent 
 the programmer from reaping the benefits of being able to isolate a module and 
@@ -290,11 +290,10 @@ a consistent set of terms to be used across the different systems proposed.
 		\item \textbf{Abstract Data Types}: We modified a Queue example from 
 		\cite{boyapati04safejava}, and added iterators, which can be seen as a 
 		view over the data stored in the data type.
-		\item \textbf{Inheritance}: A recurring pattern in Object-Oriented 	
-		Programming where behaviour is augmented onto existing classes.
-		\item \textbf{Generics}: Building upon the ADT use case, Generics 
-		allow 	
-		programmers to write reusable components.
+		\item \textbf{Inheritance}: A recurring pattern in Object-Ori\-ented 	
+		Programming where behaviour is augme\-nted onto existing classes.
+		\item \textbf{Generics}: Building upon the ADT use case, Gen\-erics 
+		allow programmers to write reusable components.
 		\item \textbf{Cardinality of Ownership}: Having multiple owners of an 
 		object is useful for writing parallel/distributed algorithms.
 		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership 
@@ -337,15 +336,33 @@ encapsulation disciplines are discussed:
 
 \begin{description}
 	\item[Owners-as-Dominators] Objects can only be modified by following a 
-	reference chain from the root context through the object's owner. Aliasing 
-	is restricted, because no aliases to an object B owned by an object A can 
-	exist outside of the ownership context of object A.
+	reference chain from the root context thr\-ough the object's owner. 
+	Aliasing is restricted, because no aliases to an object B owned by an 
+	object A can exist outside of the ownership context of object A.
 	\item[Owners-as-Modifiers] Objects can only be modified by following a 
-	reference chain from the root context through the object's owner. However, 
-	read-only access is granted in all other contexts. Aliasing is \emph{not} 
-	restricted.
-	
+	reference chain from the root context thr\-ough the object's owner. 
+	However, read-only access is granted in all other contexts. Aliasing is 
+	\emph{not} restricted.
 \end{description}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics{ownership-dominator-vs-modifier.eps}
+	\caption{Owners-as-Dominators vs. Owners-as-Modifiers}
+	\label{fig:ownership-dominator-vs-modifier}
+\end{figure}
+
+\Cref{fig:ownership-dominator-vs-modifier} \cite{dietl09gut} illustrates the 
+difference between both encapsulation disciplines. References between objects 
+are represented by arrows. The owner of an object is the class at the top of 
+the dashed box the object is in.
+
+If the \textbf{owner-as-dominator} discipline 
+is adhered to, then only the solid arrows are allowed. The dashed arrows are 
+references which do not pass through the object's owner, and as such are only 
+allowed in the \textbf{owner-as-modifier} discipline. In the 
+\textbf{owner-as-modifier} discipline, while such a reference is legal, these 
+references cannot be used to mutate the state of the object being referenced.
 
 \subsection{Applications}
 \label{subsec:apps}
