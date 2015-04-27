@@ -542,7 +542,7 @@
 \def\dblfloatpagefraction{.5}
 
 \long\def\@makecaption#1#2{
-   \vskip \baselineskip
+   \vskip \baselineskip \vspace{-3pt}
    \setbox\@tempboxa\hbox{\textbf{#1: #2}}
    \ifdim \wd\@tempboxa >\hsize % IF longer than one line:
        \textbf{#1: #2}\par               %   THEN set as ordinary paragraph.
