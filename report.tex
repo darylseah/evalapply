@@ -9,6 +9,9 @@
 \usepackage{float}
 \usepackage{lipsum}
 
+\setkeys{Gin}{width=0.98\linewidth}
+\graphicspath{{./figures/}}
+
 \IfFileExists{zi4.sty}{\usepackage{zi4}}{\usepackage{inconsolata}}
 \usepackage{listings}
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
@@ -283,7 +286,22 @@ class Car<carOwner, driverOwner> {
 }
 \end{lstlisting}
 
-Reference to Listing~\ref{code:car_eng_test} and Section~\ref{sec:test}.
+% Figures
+\begin{figure}[t]
+\centering
+\includegraphics{iterator-fail-inside.eps}
+\caption{List Iterator inside representation.}
+\label{fig:iterator-inside-test}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics{iterator-fail-outside.eps}
+\caption{List Iterator outside representation.}
+\label{fig:iterator-outside-test}
+\end{figure}
+
+Reference to Listing~\ref{code:car_eng_test}, Section~\ref{sec:test} and Figures~\ref{fig:iterator-inside-test} and~\ref{fig:iterator-outside-test}.
 
 % Citations
 aldrich04domains~\cite{aldrich04domains},\newline
