@@ -10,6 +10,7 @@
 \usepackage{multirow}
 \usepackage{color}
 \usepackage{booktabs}
+\usepackage{xparse}
 \usepackage{float}
 \usepackage{lipsum}
 
@@ -426,40 +427,55 @@ references cannot be used to mutate the state of the object being referenced.
 
 \lipsum[12]
 
-
-\newcommand{\col}[1]{ }
-
 \begin{table*}[t]
-\caption{Expressivity of Ownership Types.}
-\label{tab:expressivity}
+\caption{Summary of Ownership Type Systems}
+\label{tab:summary}
 \centering
+\NewDocumentCommand{\rot}
+	{O{45} O{1.8em} m}{\makebox[#2][l]{\rotatebox{#1}{#3}}}
 \renewcommand{\arraystretch}{1.3}
-\footnotesize
-\begin{tabular}{ccccc}
-\toprule
-& & & ~\textbf{Generic}~ & \\
-~\textbf{Original}~ & ~\textbf{SafeJava}~ & 
-~\textbf{Universe Types}~ & ~\textbf{Universe Types}~ & ~\textbf{Multiple Ownership}~\\
-\midrule
-1		& 39		& 3	& 5.65	\\
-2		& 47		& 4	& 7.01	\\
-3 		& 53		& 3	& 9.71	\\
-1 \& 2	& 86		& 4	& 8.13	\\
-2 \& 3	& 100	& 4	& 9.48	\\
-1, 2 \& 3	& 139	& 5	& 9.35	\\
-\bottomrule
+\newcommand{\Yes}{$\medbullet$}
+\newcommand{\Maybe}{$\medcirc$}
+\newcommand{\No}{$\times$}
+\vspace{1em}
+\begin{tabular}{rllllllllllllll} &~&
+\rot{Immutable View} &
+\rot{Mutable View} &
+\rot{Binary Operations} &
+\rot{Class Inheritance} &
+\rot{Ownership Constraints} &
+\rot{Ownership Transfer} &
+\rot{Generic Ownership} &
+\rot{Generic Types} &
+\rot{Multiple Owners} &
+\rot{Alias Control} &
+\rot{Effect Specifications} &
+\rot{Local Reasoning} &~~
+\\ \toprule
+Ownership Types~\cite{clarke98ownership}&
+& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
+& \Yes & \Yes & \Maybe
+\\ 
+SafeJava~\cite{boyapati04safejava}&
+& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
+& \Yes & \Yes & \Yes
+\\
+Universe Types~\cite{cunningham08ut}&
+& \Yes & \No & \Yes & \Yes & \No & \Maybe & \No & \Maybe & \No
+& \Yes & \No & \Yes
+\\
+Generic Universe Types~\cite{dietl11gut}&
+& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
+& \Yes & \No & \Yes
+\\
+Multiple Ownership~\cite{cameron07mojo}&
+& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
+& \Yes & \Yes & \Yes
+\\ \bottomrule
 \end{tabular}
 \end{table*}
 
-% clarke98ownership
-% boyapati04safejava
-% cunningham08ut
-% dietl11gut
-% cameron07mojo
 
-$\medbullet$
-$\medcirc$
-$\otimes$
 
 
 
