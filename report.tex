@@ -109,7 +109,7 @@ are used. These mechanisms, while allowing expressiveness in programs, prevent
 the programmer from reaping the benefits of being able to isolate a module and 
 reason about its behaviour and effects. We present an example in 
 \cref{code:modular_reasoning_car_engine_1}, originally 
-described in \cite{clarke98ownership}.
+described in~\cite{clarke98ownership}.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -216,7 +216,7 @@ types, making reasoning about the program more difficult.
 % terminology and the basics
 Ownership Types is an addition to the type system to encode ownership 
 information. This directly overcomes the limitations of only using access 
-specifiers. Using SafeJava's\cite{boyapati04safejava} syntax, the Car example 
+specifiers. Using SafeJava's\,\cite{boyapati04safejava} syntax, the Car example 
 can be expressed as per \cref{code:ownership_types_car_engine_1} 
 \vpageref[above]{code:ownership_types_car_engine_1}.
 
@@ -290,9 +290,9 @@ a consistent set of terms to be used across the different systems proposed.
 	use cases can be broadly categorised as such:
 	
 	\begin{itemize}
-		\item \textbf{Abstract Data Types}: We modified a Queue example from 
-		\cite{boyapati04safejava}, and added iterators, which can be seen as a 
-		view over the data stored in the data type.
+		\item \textbf{Abstract Data Types}: We modified a Queue example
+		from~\cite{boyapati04safejava}, and added iterators, which can be seen
+		as a view over the data stored in the data type.
 		\item \textbf{Inheritance}: A recurring pattern in Object-Ori\-ented 	
 		Programming where behaviour is augme\-nted onto existing classes.
 		\item \textbf{Generics}: Building upon the ADT use case, Gen\-erics 
@@ -355,7 +355,7 @@ encapsulation disciplines are discussed:
 	\label{fig:ownership-dominator-vs-modifier}
 \end{figure}
 
-\Cref{fig:ownership-dominator-vs-modifier} \cite{dietl09gut} illustrates the 
+\Cref{fig:ownership-dominator-vs-modifier}~\cite{dietl09gut} illustrates the 
 difference between both encapsulation disciplines. References between objects 
 are represented by arrows. The owner of an object is the class at the top of 
 the dashed box the object is in.
