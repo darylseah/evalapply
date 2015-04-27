@@ -343,8 +343,26 @@ encapsulation disciplines are discussed:
 	reference chain from the root context through the object's owner. However, 
 	read-only access is granted in all other contexts. Aliasing is \emph{not} 
 	restricted.
-	
 \end{description}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics{ownership-dominator-vs-modifier.eps}
+	\caption{Owners-as-Dominators vs. Owners-as-Modifiers}
+	\label{fig:ownership-dominator-vs-modifier}
+\end{figure}
+
+\Cref{fig:ownership-dominator-vs-modifier} \cite{dietl09gut} illustrates the 
+difference between both encapsulation disciplines. References between objects 
+are represented by arrows. The owner of an object is the class at the top of 
+the dashed box the object is in.
+
+If the \textbf{owner-as-dominator} discipline 
+is adhered to, then only the solid arrows are allowed. The dashed arrows are 
+references which do not pass through the object's owner, and as such are only 
+allowed in the \textbf{owner-as-modifier} discipline. In the 
+\textbf{owner-as-modifier} discipline, while such a reference is legal, these 
+references cannot be used to mutate the state of the object being referenced.
 
 \subsection{Applications}
 \label{subsec:apps}
