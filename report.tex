@@ -6,6 +6,7 @@
 \usepackage{multirow}
 \usepackage{color}
 \usepackage{booktabs}
+\usepackage{float}
 \usepackage{lipsum}
 
 \IfFileExists{zi4.sty}{\usepackage{zi4}}{\usepackage{inconsolata}}
@@ -92,6 +93,7 @@ reason about its behaviour and effects. Here, we present an example, originally
 presented by \cite{clarke98ownership}:
 
 \begin{lstlisting}[
+	float, floatplacement=t,
 	caption={Car},
 	label=code:modular_reasoning_car_engine_1
 ]
@@ -137,6 +139,7 @@ Listing~\ref{code:modular_reasoning_car_engine_1}, demonstrates that enforcing
 encapsulation using access specifiers alone are insufficient:
 
 \begin{lstlisting}[
+	float, floatplacement=t,
 	caption={Car with Access Specifiers},
 	label=code:modular_reasoning_car_engine_2
 ]
@@ -250,7 +253,11 @@ types, making reasoning about the program more difficult.
 \label{sec:test}
 
 % Code Snippets
-\begin{lstlisting}[caption={Car Engine Example},label=code:car_eng_test]
+\begin{lstlisting}[
+	float, floatplacement=t,
+	caption={Car Engine Example},
+	label=code:car_eng_test
+]
 class Person {}
 class Engine<any engineOwner> {
   void start() { /* ... */ }
