@@ -3,6 +3,7 @@
 \setlength{\paperwidth}{210mm}
 
 \usepackage{txfonts}
+\usepackage{pifont}
 \usepackage{cite}
 \usepackage{graphicx}
 \usepackage{url}
@@ -43,10 +44,11 @@
 	keywordstyle=\color{bluekeywords},
 	stringstyle=\color{redstrings},
 	basicstyle=\ttfamily\scriptsize,
-	otherkeywords={
+	morekeywords={
 		rep,norep,owner,world,any,peer,
 		where,reads,writes,pure,impure,
 		intersects,disjoint,unique},
+	otherkeywords={&,?},
 	escapeinside={/*@}{@*/}
 }
 
@@ -433,15 +435,23 @@ references cannot be used to mutate the state of the object being referenced.
 \centering
 \NewDocumentCommand{\rot}
 	{O{45} O{1.8em} m}{\makebox[#2][l]{\rotatebox{#1}{#3}}}
-\renewcommand{\arraystretch}{1.4}
 \newcommand{\Yes}{$~\medbullet$}
-\newcommand{\Maybe}{$~\medcirc$}
+\newcommand{\Limited}{$~\medcirc$}
+\newcommand{\Maybe}{$~\bigtriangleup$}
 \newcommand{\No}{$~\times$}
+\newcommand{\note}[1]{\textsuperscript{$#1$}}
+\newcommand{\comment}[2]{
+	& & \multicolumn{12}{l}{
+		\scriptsize \note{#1}\,#2 \vspace{-0.7em}
+	} \\
+}
+\renewcommand{\arraystretch}{1.4}
 \vspace{1em}
 \begin{tabular}{rllllllllllllll}
 	\scriptsize
 	\begin{tabular}[b]{|rl|} \hline
 		\Yes & Supported \\	
+		\Limited & Partially Supported \\
 		\No & Not Supported   \\
 		\Maybe & Not Discussed \\
 		\hline \multicolumn{1}{r}{}
@@ -470,16 +480,23 @@ SafeJava~\cite{boyapati04safejava}&
 \\
 Universe Types~\cite{cunningham08ut}&
 	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \No & \Maybe & \No
-	& \No & \Yes & \Yes
+	& \No & \Limited\note{\ast} & \Yes
 \\
 Generic Universe Types~\cite{dietl11gut}&
 	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
-	& \No & \Yes & \Yes
+	& \No & \Limited\note{\ast} & \Yes
 \\
 Multiple Ownership~\cite{cameron07mojo}&
 	& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
-	& \Yes & \Yes & \Yes
+	& \Yes & \Yes & \Limited\note{\dagger}
 \\ \bottomrule
+\comment{\ast}{
+	UT/GUT only supports \lstinline|pure| and \lstinline|impure|, rather than
+  the more general \lstinline|reads| and \lstinline|writes| declarations.
+}
+\comment{\dagger}{
+	The ownership wildcard \lstinline|?| limits the local reasoning possible.
+}
 \end{tabular}
 \end{table*}
 
@@ -499,16 +516,17 @@ Multiple Ownership~\cite{cameron07mojo}&
 ]
 class Person {}
 class Engine<any engineOwner> {
-  void start() { /* ... */ }
+  pure void start() { /* ... */ }
 }
 
 class Car<carOwner, driverOwner> {
-  Engine<this> engine; Person<a & ?> driver;
+  rep Engine<this> engine;
+	norep Person<a & ?> driver;
     
-  void start() {
+  impure void start() {
     if (driver != null) getEngine().start();
   }
-  Engine<world> getEngine() { return engine; }
+  Engine<world> getEngine() reads { return engine; }
 }
 \end{lstlisting}
 
