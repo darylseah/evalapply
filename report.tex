@@ -127,8 +127,8 @@ Here, we present a car, with a driver and an engine. The car defines a
 \lstinline|start| method, which will start the engine; the engine can 
 only be started if a driver is present. However, on 
 line~\ref{code:modular_reasoning_car_engine_1_engine_start} the car's engine 
-was started, engine bypassing that check. This should not have been allowed 
-because it has broken the encapsulation discipline.
+was started, bypassing that check. This should not have been allowed because it 
+has broken the encapsulation discipline.
 
 The traditional approach to preventing this is to utilise access specifiers; 
 using Java's syntax, there would be four levels of access: \lstinline|public|, 
@@ -178,7 +178,10 @@ additional \emph{accessor} method, for the situation where a property of the
 car's engine must be accessed outside of the car (an instrument attached to the 
 car's electronics to measure performance, for example). However, as seen on 
 line~\ref{code:modular_reasoning_car_engine_2_engine_start} the original 
-problem has not been resolved: the engine can still be started externally.
+problem has not been resolved: the engine can still be started externally. 
+There is no way to reconcile access to parts of an object based on who `owns' 
+the object, and who is accessing the object. Thus, access specifiers alone are 
+not expressive enough.
 
 While access specifiers can be modified to support such a 
 scenario\footnote{Read-only and mutable interfaces can be extracted from the 
