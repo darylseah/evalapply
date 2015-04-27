@@ -275,6 +275,9 @@ expressivity.
 \subsection{Definitions}
 \label{subsec:definitions}
 
+In this paper, we try to make our definitions as generic as possible, allowing 
+a consistent set of terms to be used across the different systems proposed.
+
 \begin{description}
 	\item[Expressivity] How complex a notion of ownership a system can allow a 
 	programmer to express. We have designed various use cases, which encompass 
@@ -309,12 +312,39 @@ expressivity.
 
 \end{description}
 
-\lipsum[3]
+\subsection{Ownership Topologies}
+\label{subsec:topologies}
 
-\subsubsection{Encapsulation}
+An ownership topology is a description of the structure and organisation of the 
+object store. In this paper, two topologies are examined:
+
+\begin{description}
+	\item[Hierarchical \emph{a.k.a. Tree}] This is a single ownership topology, 
+	where every object as one owner.
+	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership topology, 
+	where an object can have multiple owners. All owners of the object can 
+	modify its invariant.
+\end{description}
+
+\subsection{Encapsulation Disciplines}
 \label{subsec:encapsulation}
 
-\lipsum[4]
+Where an ownership topology \emph{describes} the structure of the object store, 
+an encapsulation discipline \emph{prescribes} the structure of the object 
+store. They can thus be seen as related ideas. In this paper, two main 
+encapsulation disciplines are discussed:
+
+\begin{description}
+	\item[Owners-as-Dominators] Objects can only be modified by following a 
+	reference chain from the root context through the object's owner. Aliasing 
+	is restricted, because no aliases to an object B owned by an object A can 
+	exist outside of the ownership context of object A.
+	\item[Owners-as-Modifiers] Objects can only be modified by following a 
+	reference chain from the root context through the object's owner. However, 
+	read-only access is granted in all other contexts. Aliasing is \emph{not} 
+	restricted.
+	
+\end{description}
 
 \subsection{Applications}
 \label{subsec:apps}
