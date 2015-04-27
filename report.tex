@@ -272,6 +272,43 @@ This is one of the few approaches that we have examined. The other approaches
 are conceptually similar; the difference among them lies mainly in their 
 expressivity.
 
+\subsection{Definitions}
+\label{subsec:definitions}
+
+\begin{description}
+	\item[Expressivity] How complex a notion of ownership a system can allow a 
+	programmer to express. We have designed various use cases, which encompass 
+	a variety of design patterns which can be found in programs used today, and 
+	analysed each system for its ability to express such a design pattern. Our 
+	use cases can be broadly categorised as such:
+	
+	\begin{itemize}
+		\item \textbf{Abstract Data Types}: We modified a Queue example from 
+		\cite{boyapati04safejava}, and added iterators, which can be seen as a 
+		view over the data stored in the data type.
+		\item \textbf{Inheritance}: A recurring pattern in Object-Oriented 	
+		Programming where behaviour is augmented onto existing classes.
+		\item \textbf{Generics}: Building upon the ADT use case, Generics 
+		allow 	
+		programmers to write reusable components.
+		\item \textbf{Cardinality of Ownership}: Having multiple owners of an 
+		object is useful for writing parallel/distributed algorithms.
+		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership 
+		from 
+		one object to another is useful for producer-consumer pattern.
+		
+	\end{itemize}
+	
+	\item[Representation Invariant] A constraint on the state of the object, 
+	maintained throughout its lifetime
+	\item[Owner] An object or objects responsible for maintaining  the 
+	representation invariant of an object.
+	\item[Context \emph{a.k.a. Universe, Box}] A nested partition of the object 
+	store containing all the objects constituting the representation of 
+	a particular object.
+
+\end{description}
+
 \lipsum[3]
 
 \subsubsection{Encapsulation}
