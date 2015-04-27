@@ -45,6 +45,10 @@
 	escapeinside={/*@}{@*/}
 }
 
+\usepackage{varioref}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
 \begin{document}
 
 \title{Ownership Types for Local Reasoning}
@@ -95,7 +99,7 @@ In practice, many escape mechanisms which break the encapsulation of an object
 are used. These mechanisms, while allowing expressiveness in programs, prevent 
 the programmer from reaping the benefits of being able to isolate a module and 
 reason about its behaviour and effects. We present an example in 
-Listing~\ref{code:modular_reasoning_car_engine_1}, originally 
+\cref{code:modular_reasoning_car_engine_1}, originally 
 described in \cite{clarke98ownership}.
 
 \begin{lstlisting}[
@@ -131,7 +135,7 @@ class Main {
 Here, we present a car, with a driver and an engine. The car defines a 
 \lstinline|start| method, which will start the engine; the engine can 
 only be started if a driver is present. However, on 
-line~\ref{code:modular_reasoning_car_engine_1_engine_start} the car's engine 
+\cref{code:modular_reasoning_car_engine_1_engine_start} the car's engine 
 was started, bypassing that check. This should not have been allowed because it 
 has broken the encapsulation discipline.
 
@@ -140,9 +144,9 @@ using Java's syntax, there would be four levels of access: \lstinline|public|,
 \lstinline|protected|, \lstinline|private|, and default (package-level) access. 
 These access specifiers are annotations on types and variables, limiting 
 \emph{visibility} of the identifiers of said types and variables to the 
-appropriate scope. Listing~\ref{code:modular_reasoning_car_engine_2}, modified 
-from Listing~\ref{code:modular_reasoning_car_engine_1}, demonstrates that 
-enforcing encapsulation using access specifiers alone are insufficient.
+appropriate scope. \cref{code:modular_reasoning_car_engine_2}, modified from 
+\cref{code:modular_reasoning_car_engine_1}, demonstrates that enforcing 
+encapsulation using access specifiers alone are insufficient.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -306,7 +310,8 @@ class Car<carOwner, driverOwner> {
 \label{fig:iterator-outside-test}
 \end{figure}
 
-Reference to Listing~\ref{code:car_eng_test}, Section~\ref{sec:test} and Figures~\ref{fig:iterator-inside-test} and~\ref{fig:iterator-outside-test}.
+Reference to \cref{code:car_eng_test}, \cref{sec:test} and 
+\cref{fig:iterator-inside-test,fig:iterator-outside-test}.
 
 % Citations
 aldrich04domains~\cite{aldrich04domains},\newline
