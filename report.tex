@@ -25,19 +25,20 @@
 	captionpos=b,
 	tabsize=2,
 	keepspaces=true,
-    showspaces=false,
-    showtabs=false,
-    breaklines=true,
-    showstringspaces=false,
-    breakatwhitespace=true,
-    commentstyle=\color{greencomments},
-    keywordstyle=\color{bluekeywords},
-    stringstyle=\color{redstrings},
-  	basicstyle=\ttfamily\scriptsize,
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	commentstyle=\color{greencomments},
+	keywordstyle=\color{bluekeywords},
+	stringstyle=\color{redstrings},
+	basicstyle=\ttfamily\scriptsize,
 	otherkeywords={
 		rep,norep,owner,world,any,peer,
 		where,reads,writes,pure,impure,
-		intersects,disjoint,unique}
+		intersects,disjoint,unique},
+	escapeinside={/*@}{@*/}
 }
 
 \begin{document}
@@ -50,13 +51,13 @@
 \author{
 \alignauthor
 Darius Foo\\
-       \affaddr{A0097282@u.nus.edu}
+		\affaddr{A0097282@u.nus.edu}
 \alignauthor
 Daryl Seah\\
-       \affaddr{A0026468@u.nus.edu}
+		\affaddr{A0026468@u.nus.edu}
 \alignauthor
 Joel Low\\
-       \affaddr{A0097630@u.nus.edu}
+		\affaddr{A0097630@u.nus.edu}
 }
 
 
@@ -82,6 +83,49 @@ programmers are now able to reason about programs at a modular level.
 Likewise, it should follow that static program analysis tools be able to 
 improve the speed at which analyses can be completed, especially when analysing 
 a large program.
+
+\subsection{Limits of Traditional Mechanisms}
+In practice, many escape mechanisms which break the encapsulation of an object 
+are used. These mechanisms, while allowing expressiveness in programs, prevent 
+the programmer from reaping the benefits of being able to isolate a module and 
+reason about its behaviour and effects. Here, we present an example, originally 
+presented by \cite{clarke98ownership}:
+
+\begin{lstlisting}[
+	caption={Modular reasoning: Car Engine},
+	label=code:modular_reasoning_car_engine_1
+]
+class Person {}
+
+class Engine {
+	void start() { /* ... */}
+}
+
+class Car {
+	Engine engine; Person driver;
+
+	void start() {
+		if (driver != null) {
+			engine.start();
+		}
+	}
+}
+
+class Main {
+	static void main() {
+		Car car = new Car();
+		car.start();
+		car.engine.start();/*@\label{modular_reasoning_car_engine_1_engine_start}@*/
+	}
+}
+\end{lstlisting}
+
+Here, we present a car, with a driver and an engine. The car defines a 
+\lstinline|start| method, which will start the engine; the engine can 
+only be started if a driver is present. However, on line 
+\ref{modular_reasoning_car_engine_1_engine_start} client code that created the 
+car was able to start the engine bypassing that check. This should not be 
+allowed because it has broken the encapsulation discipline.
 
 \section{Ownership Types}
 \label{sec:ownership}
