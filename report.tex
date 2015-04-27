@@ -428,15 +428,15 @@ references cannot be used to mutate the state of the object being referenced.
 \lipsum[12]
 
 \begin{table*}[t]
-\caption{Summary of Ownership Type Systems}
+\caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
 \label{tab:summary}
 \centering
 \NewDocumentCommand{\rot}
 	{O{45} O{1.8em} m}{\makebox[#2][l]{\rotatebox{#1}{#3}}}
-\renewcommand{\arraystretch}{1.3}
-\newcommand{\Yes}{$\medbullet$}
-\newcommand{\Maybe}{$\medcirc$}
-\newcommand{\No}{$\times$}
+\renewcommand{\arraystretch}{1.4}
+\newcommand{\Yes}{$~\medbullet$}
+\newcommand{\Maybe}{$~\medcirc$}
+\newcommand{\No}{$~\times$}
 \vspace{1em}
 \begin{tabular}{rllllllllllllll} &~&
 \rot{Immutable View} &
@@ -448,13 +448,13 @@ references cannot be used to mutate the state of the object being referenced.
 \rot{Generic Ownership} &
 \rot{Generic Types} &
 \rot{Multiple Owners} &
-\rot{Alias Control} &
-\rot{Effect Specifications} &
-\rot{Local Reasoning} &~~
+\rot{\bf Alias Control} &
+\rot{\bf Effect Specifications} &
+\rot{\bf Local Reasoning} &~~
 \\ \toprule
 Ownership Types~\cite{clarke98ownership}&
 & \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
-& \Yes & \Yes & \Maybe
+& \Yes & \Maybe & \Yes
 \\ 
 SafeJava~\cite{boyapati04safejava}&
 & \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
@@ -462,11 +462,11 @@ SafeJava~\cite{boyapati04safejava}&
 \\
 Universe Types~\cite{cunningham08ut}&
 & \Yes & \No & \Yes & \Yes & \No & \Maybe & \No & \Maybe & \No
-& \Yes & \No & \Yes
+& \No & \Yes & \Yes
 \\
 Generic Universe Types~\cite{dietl11gut}&
 & \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
-& \Yes & \No & \Yes
+& \No & \Yes & \Yes
 \\
 Multiple Ownership~\cite{cameron07mojo}&
 & \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
