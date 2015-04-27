@@ -438,7 +438,15 @@ references cannot be used to mutate the state of the object being referenced.
 \newcommand{\Maybe}{$~\medcirc$}
 \newcommand{\No}{$~\times$}
 \vspace{1em}
-\begin{tabular}{rllllllllllllll} &~&
+\begin{tabular}{rllllllllllllll}
+	\scriptsize
+	\begin{tabular}[b]{|rl|} \hline
+		\Yes & Supported \\	
+		\No & Not Supported   \\
+		\Maybe & Not Discussed \\
+		\hline \multicolumn{1}{r}{}
+	\end{tabular} \hspace{10pt}
+&~&
 \rot{Immutable View} &
 \rot{Mutable View} &
 \rot{Binary Operations} &
@@ -453,24 +461,24 @@ references cannot be used to mutate the state of the object being referenced.
 \rot{\bf Local Reasoning} &~~
 \\ \toprule
 Ownership Types~\cite{clarke98ownership}&
-& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
-& \Yes & \Maybe & \Yes
+	& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
+	& \Yes & \Maybe & \Yes
 \\ 
 SafeJava~\cite{boyapati04safejava}&
-& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
-& \Yes & \Yes & \Yes
+	& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
+	& \Yes & \Yes & \Yes
 \\
 Universe Types~\cite{cunningham08ut}&
-& \Yes & \No & \Yes & \Yes & \No & \Maybe & \No & \Maybe & \No
-& \No & \Yes & \Yes
+	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \No & \Maybe & \No
+	& \No & \Yes & \Yes
 \\
 Generic Universe Types~\cite{dietl11gut}&
-& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
-& \No & \Yes & \Yes
+	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
+	& \No & \Yes & \Yes
 \\
 Multiple Ownership~\cite{cameron07mojo}&
-& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
-& \Yes & \Yes & \Yes
+	& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
+	& \Yes & \Yes & \Yes
 \\ \bottomrule
 \end{tabular}
 \end{table*}
