@@ -2,6 +2,7 @@
 \setlength{\paperheight}{297mm}
 \setlength{\paperwidth}{210mm}
 
+\usepackage{txfonts}
 \usepackage{cite}
 \usepackage{graphicx}
 \usepackage{url}
@@ -395,8 +396,39 @@ encapsulation disciplines are discussed:
 \lipsum[12]
 
 
+\newcommand{\col}[1]{ }
 
+\begin{table*}[t]
+\caption{Expressivity of Ownership Types.}
+\label{tab:expressivity}
+\centering
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabular}{ccccc}
+\toprule
+& & & ~\textbf{Generic}~ & \\
+~\textbf{Original}~ & ~\textbf{SafeJava}~ & 
+~\textbf{Universe Types}~ & ~\textbf{Universe Types}~ & ~\textbf{Multiple Ownership}~\\
+\midrule
+1		& 39		& 3	& 5.65	\\
+2		& 47		& 4	& 7.01	\\
+3 		& 53		& 3	& 9.71	\\
+1 \& 2	& 86		& 4	& 8.13	\\
+2 \& 3	& 100	& 4	& 9.48	\\
+1, 2 \& 3	& 139	& 5	& 9.35	\\
+\bottomrule
+\end{tabular}
+\end{table*}
 
+% clarke98ownership
+% boyapati04safejava
+% cunningham08ut
+% dietl11gut
+% cameron07mojo
+
+$\medbullet$
+$\medcirc$
+$\otimes$
 
 
 
