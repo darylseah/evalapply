@@ -464,10 +464,38 @@ with a full cross-comparison provided only in \cref{sec:eval}.
 
 The concept of ``ownership'' was first introduced by Clarke et al. in a 1998
 paper~\cite{clarke98ownership} with the motivation of mitigating the problems
-of uncontrolled aliasing in Object-Oriented languages. Clarke took inspiration
-from Islands~\cite{hogg91islands} and Balloons~\cite{almeida97balloons}, which
-were early attempts at solving the same problem but did not provide sufficient
-expressivity to be practical.
+of uncontrolled aliasing in Object-Oriented languages. This was a refinement of
+a similar idea proposed by Clarke's thesis advisors called \emph{flexible alias
+protection}~\cite{noble98alias} which, in turn, took inspiration from
+Islands~\cite{hogg91islands} and Balloons~\cite{almeida97balloons}. These were
+early attempts at (essentially) solving the same problem but did not provide
+sufficient expressivity and ease of use to be practical. In particular, objects
+could not play multiple roles in both Islands and Balloons, and Balloons
+required the programmer to deal with complex abstract
+interpretation~\cite{noble98alias}.
+
+
+
+% islands of objects - guarantee that an object is not aliased.
+%
+%
+% balloons - controlling shared state.
+%
+%
+% flexiable alias protection - limiting where an alias could propgate and limiting changes observable through an alias.
+%
+% ownership is a formalism of flexible alias protection.
+%
+% objects can play different roles in flexible alias protection.
+% for example, containers can hold refs to value objects that it doesn't own
+%   . In balloon/islands, everything refererenced by ta container must be part of the rep??? (confirm this)
+%
+%
+%
+%
+% balloon types = complex abstract interpretation, not intuitive for programmers
+
+
 
 
 % Ownership types was first proposed by Clarke et al. in 1998 to mitigate the
