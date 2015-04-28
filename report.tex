@@ -375,9 +375,9 @@ mutate the state of the object being referenced.
 
 Deriving directly from the example problem given in our 
 \hyperref[code:modular_reasoning_car_engine_1]{introduction}, ownership types 
-can be used to improve the expressibility of the concept of ownership. This 
-allows classes to restrict modification of their representation invariants by 
-external code.
+can be used to improve the expressibility of the concept of 
+ownership~\cite{clarke98ownership}. This allows classes to restrict 
+modification of their representation invariants by external code.
 
 Therefore, when programmers are given a new code base annotated with ownership 
 types, they can be ensured that no external code is able to modify the classes' 
@@ -396,12 +396,13 @@ analyses to scale with the size of the code base.
 If programs adhere to the \textbf{owners-as-dominators} encapsulation 
 discipline, then it is not possible to reference objects within another 
 object's representation invariant. Therefore, aliases would be restricted to 
-the scopes where references are allowed.
+the scopes where references are 
+allowed~\cite{clarke98ownership,boyapati04safejava}.
 
 If programs adhere to the \textbf{owners-as-modifiers} encapsulation 
 discipline, then there is not alias control; however, it is still not possible 
 to modify the representation invariant of an object if the current object is 
-not its owner.
+not its owner~\cite{cunningham08ut,dietl09gut}.
 
 In both cases, reasoning about side-effects are easy. In the former case, it is 
 possible to increase the precision of alias analyses because aliasing is 
