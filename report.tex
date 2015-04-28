@@ -393,10 +393,19 @@ analyses to scale with the size of the code base.
 \subsubsection{Alias/Access Control}
 \label{subsubsec:alias_control}
 
-Alias/access control
-This does not prevent aliases, but controls the scope in which aliases can exist
-Aliases existing outside the scope of the owner object would be read-only; 
-still easy to reason about
+If programs adhere to the \textbf{owners-as-dominators} encapsulation 
+discipline, then it is not possible to reference objects within another 
+object's representation invariant. Therefore, aliases would be restricted to 
+the scopes where references are allowed.
+
+If programs adhere to the \textbf{owners-as-modifiers} encapsulation 
+discipline, then there is not alias control; however, it is still not possible 
+to modify the representation invariant of an object if the current object is 
+not its owner.
+
+In both cases, reasoning about side-effects are easy. In the former case, it is 
+possible to increase the precision of alias analyses because aliasing is 
+restricted to scopes where the reference is valid.
 
 \subsubsection{Data Race/Deadlock Prevention}
 \label{subsubsec:data_race_prevention}
