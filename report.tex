@@ -43,7 +43,7 @@
 	commentstyle=\color{greencomments},
 	keywordstyle=\color{bluekeywords},
 	stringstyle=\color{redstrings},
-	basicstyle=\ttfamily\scriptsize,
+	basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi,
 	morekeywords={
 		rep,norep,owner,world,any,peer,
 		where,reads,writes,pure,impure,
@@ -56,6 +56,8 @@
 \PassOptionsToPackage{pdfpagelabels=false}{hyperref}
 \usepackage{hyperref}
 \usepackage{cleveref}
+
+\setlength{\parindent}{15pt}
 
 \begin{document}
 
@@ -92,7 +94,6 @@ likely that ownership types will only be used for safety-critical programs.
 \section{Introduction}
 \label{sec:introduction}
 
-% Problem, motivation, and Breadth goes here
 The advent of Object-Oriented Programming has allowed programmers to write and 
 maintain larger components and programs, owing to the modularisation brought 
 about by encapsulation. This increased modularisation of programs ought to 
@@ -468,45 +469,65 @@ paper~\cite{clarke98ownership} with the motivation of mitigating the problems
 of uncontrolled aliasing in Object-Oriented languages. This was a refinement of
 a similar idea proposed by Clarke's thesis advisors called \emph{flexible alias
 protection}~\cite{noble98alias} which, in turn, took inspiration from
-Islands~\cite{hogg91islands} and Balloons~\cite{almeida97balloons}. The latter
-works were early attempts at (essentially) solving the same problem but did not
-provide sufficient expressivity and ease of use to be practical. In particular,
-objects could not play multiple roles in both Islands and Balloons, and
-Balloons required the programmer to deal with complex abstract
-interpretation~\cite{noble98alias}.
+Islands~\cite{hogg91islands} and Balloons~\cite{almeida97balloons}.
 
+Islands and Balloons were early attempts at solving the same problem but did
+not provide sufficient expressivity and ease-of-use to be practical. For
+example, an object cannot be stored in two fully-encapsulated containers
+simultaneously since a stored object would be considered a part of the
+container's island/balloon and cannot be externally aliased. To mitigate this
+problem, dynamic aliases (i.e.\ temporary stack-based references) into a
+representation are permitted in both these works. Such aliases are read-only in
+Islands, but have no restrictions in Balloons. Thus, while this ``escape
+mechanism'' solves the problem, it can also expose the representation of the
+container itself (e.g.\ nodes in a link-list) and provide no encapsulation in
+the case of Balloons. Moreover, the authors of~\cite{noble98alias} argue that
+it would be hard for programmers to use Balloons because of the complex
+abstract interpretation required.
 
+Ownership types solve the problem by providing a more flexible/intuitive syntax
+to the programmer for defining a hierarchical topology over objects without
+sacrificing encapsulation. The idea is to annotate types with modifiers
+that define which context (i.e.\ owner) each reference belongs to, which
+include: \vspace{-1ex}
+\begin{itemize}
+	\setlength\itemsep{-0.2ex}
+	\item \textbf{\lstinline|norep|}:
+		Not part of the representation of any object.
+	\item \textbf{\lstinline|rep|}:
+		Owned by \lstinline|this| object and is part of its representation.
+	\item \textbf{\lstinline|owner|}:
+		Owned by the owner of \lstinline|this| object.
+	\item \textbf{$v$}:
+		A context parameter.
+\end{itemize} \vspace{-1ex}
 
-% islands of objects - guarantee that an object is not aliased.
-%
-%
-% balloons - controlling shared state.
-%
-%
-% flexiable alias protection - limiting where an alias could propgate and limiting changes observable through an alias.
-%
-% ownership is a formalism of flexible alias protection.
-%
-% objects can play different roles in flexible alias protection.
-% for example, containers can hold refs to value objects that it doesn't own
-%   . In balloon/islands, everything refererenced by ta container must be part of the rep??? (confirm this)
-%
-%
-%
-%
-% balloon types = complex abstract interpretation, not intuitive for programmers
+Context parameters are declared on classes with a syntax similar to Java's
+generics, e.g. \lstinline|class List<t> { ... }|, and are similarly applied on
+types, e.g. \lstinline|rep List<norep> list;|. They allow owners higher in the
+hierarchy to declare their ownership of references held by descendants in their
+contexts. In the case of the previous \lstinline|list| example, the
+\lstinline|list| is declared to be part of the client object's context, but the
+elements it contains has no owner. Parameterized ownership is the key
+innovation that (partially) solves the container problem and also enables
+different roles for different references of the same object class.
 
+These declarations and parameters describe a hierarchical structure of object
+representations that can be easily verified at compile-time. If well-typed, the
+programmer can be assured of that there can be no external aliases to any of
+the objects within a particular context, guaranteeing encapsulation. In
+particular, Clarke's ownership types enforces the \emph{owners-as-dominators}
+discipline, which ensures that all paths to an object must pass through its
+owner.
 
+However, ownership types as originally presented in~\cite{clarke98ownership}
+still had limitations. For example, rules for inheritance/subtyping were yet to
+be developed and the encapsulation discipline was still too strict to be of
+practical use (e.g.\ iterators are not possible). Addressing these and other
+limitations was the main focus of subsequent work on the subject, a few of
+which are covered in the following sections~\cite{boyapati04safejava,
+boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 
-
-% Ownership types was first proposed by Clarke et al. in 1998 to mitigate the
-% aliasing problem in the analysis of object-oriented programs. Since then it
-% has been used for a variety of program verification applications.
-%
-% Uses modifiers rep, norep and owner along with parameterized classes for
-% generic ownership specification (syntax conflicts with Java/C#’s generics,
-% similar to C++’s templates).
-%
 % Iterators not possible (too strict because of owners-as-dominators discipline)
 % - In XStack example, iterator modification has to go through stack
 %
@@ -539,6 +560,8 @@ interpretation~\cite{noble98alias}.
 
 \subsection{Boyapati's SafeJava}
 \label{subsec:boyapati}
+
+
 
 % For solving the iterator problem
 %
