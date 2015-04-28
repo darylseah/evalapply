@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="506.002px" height="188.8px" viewBox="0 0 506.002 188.8" enable-background="new 0 0 506.002 188.8" xml:space="preserve">
+<g>
+	<g>
+		
+			<rect x="10" y="88.8" fill="#D2D2D2" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="477.003" height="36"/>
+		
+			<rect x="10" y="43.8" fill="#D2D2D2" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="477.003" height="36"/>
+		
+			<rect x="10" y="133.8" fill="#D2D2D2" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="477.003" height="36"/>
+		
+			<rect x="73" y="25.8" fill="#D2D2D2" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="126" height="153.001"/>
+		
+			<rect x="208.001" y="25.8" fill="#D2D2D2" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="126" height="153.001"/>
+		
+			<rect x="343.001" y="25.8" fill="#D2D2D2" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="126" height="153.001"/>
+		<text transform="matrix(1 0 0 1 380.417 39.1543)" fill="#010101" font-family="'Calibri'" font-size="7.0002">3</text>
+		<text transform="matrix(1 0 0 1 351.6152 36.2139)" fill="#010101" font-family="'Calibri'" font-size="9">Worker</text>
+		<text transform="matrix(1 0 0 1 218.4146 35.7334)" fill="#010101" font-family="'Calibri'" font-size="9">Worker</text>
+		<text transform="matrix(1 0 0 1 247.2153 38.6748)" fill="#010101" font-family="'Calibri'" font-size="7.0002">2</text>
+		<text transform="matrix(1 0 0 1 111.314 38.2539)" fill="#010101" font-family="'Calibri'" font-size="7.0002">1</text>
+		<text transform="matrix(1 0 0 1 82.5142 35.3135)" fill="#010101" font-family="'Calibri'" font-size="9">Worker</text>
+		<rect x="118" y="142.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36" height="18"/>
+		<text transform="matrix(1 0 0 1 122.5342 154.0557)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 139.6348 156.9951)" fill="#010101" font-family="'Calibri'" font-size="7.0002">3</text>
+		<rect x="253" y="142.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36" height="18"/>
+		<text transform="matrix(1 0 0 1 257.5356 154.0557)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 274.6353 156.9951)" fill="#010101" font-family="'Calibri'" font-size="7.0002">6</text>
+		<rect x="118" y="97.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36" height="18"/>
+		<text transform="matrix(1 0 0 1 122.5342 109.0547)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 139.6343 111.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">2</text>
+		<rect x="118" y="52.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36" height="18"/>
+		<text transform="matrix(1 0 0 1 122.5342 64.0537)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 139.6343 66.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">1</text>
+		<rect x="226.001" y="52.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36" height="18"/>
+		<text transform="matrix(1 0 0 1 230.5352 64.0537)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 247.6353 66.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">4</text>
+		<rect x="280" y="52.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36" height="18"/>
+		<text transform="matrix(1 0 0 1 284.5352 64.0537)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 301.6348 66.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">5</text>
+		
+			<rect x="388.001" y="52.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36.001" height="18"/>
+		<text transform="matrix(1 0 0 1 392.5361 64.0537)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 409.6357 66.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">7</text>
+		
+			<rect x="388.001" y="97.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36.001" height="18"/>
+		<text transform="matrix(1 0 0 1 392.5361 109.0547)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 409.6357 111.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">8</text>
+		
+			<rect x="388.001" y="142.8" fill="#FFFFFF" stroke="#010101" stroke-width="0.45" stroke-miterlimit="10" width="36.001" height="18"/>
+		<text transform="matrix(1 0 0 1 392.5361 154.0557)" fill="#010101" font-family="'Calibri'" font-size="9">Task</text>
+		<text transform="matrix(1 0 0 1 409.6357 156.9951)" fill="#010101" font-family="'Calibri'" font-size="7.0002">9</text>
+		<text transform="matrix(1 0 0 1 19.0327 64.0537)" fill="#010101" font-family="'Calibri'" font-size="9">Project</text>
+		<text transform="matrix(1 0 0 1 46.0327 66.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">1</text>
+		<text transform="matrix(1 0 0 1 46.0327 111.9941)" fill="#010101" font-family="'Calibri'" font-size="7.0002">2</text>
+		<text transform="matrix(1 0 0 1 19.0327 109.0547)" fill="#010101" font-family="'Calibri'" font-size="9">Project</text>
+		<text transform="matrix(1 0 0 1 19.0327 154.0557)" fill="#010101" font-family="'Calibri'" font-size="9">Project</text>
+		<text transform="matrix(1 0 0 1 46.0327 156.9951)" fill="#010101" font-family="'Calibri'" font-size="7.0002">3</text>
+		<g>
+			<g>
+				<polyline fill="none" stroke="#010101" stroke-miterlimit="10" points="1,185.8 1,187.8 3,187.8 				"/>
+				<line fill="none" stroke="#010101" stroke-miterlimit="10" stroke-dasharray="4,4" x1="7" y1="187.8" x2="501.002" y2="187.8"/>
+				<polyline fill="none" stroke="#010101" stroke-miterlimit="10" points="503.002,187.8 505.002,187.8 505.002,185.8 				"/>
+				
+					<line fill="none" stroke="#010101" stroke-miterlimit="10" stroke-dasharray="3.9111,3.9111" x1="505.002" y1="181.889" x2="505.002" y2="11.755"/>
+				<polyline fill="none" stroke="#010101" stroke-miterlimit="10" points="505.002,9.8 505.002,7.8 503.002,7.8 				"/>
+				<line fill="none" stroke="#010101" stroke-miterlimit="10" stroke-dasharray="4,4" x1="499.002" y1="7.8" x2="5" y2="7.8"/>
+				<polyline fill="none" stroke="#010101" stroke-miterlimit="10" points="3,7.8 1,7.8 1,9.8 				"/>
+				
+					<line fill="none" stroke="#010101" stroke-miterlimit="10" stroke-dasharray="3.9111,3.9111" x1="1" y1="13.711" x2="1" y2="183.845"/>
+			</g>
+		</g>
+		<g>
+			<rect x="234.574" y="0.3" fill="#FFFFFF" stroke="#010101" stroke-miterlimit="10" width="40.028" height="15"/>
+			<text transform="matrix(1 0 0 1 245.7607 10.666)" fill="#010101" font-family="'Calibri'" font-size="9">Root</text>
+		</g>
+		
+			<rect x="10" y="88.8" fill="none" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="477.003" height="36"/>
+		
+			<rect x="10" y="133.8" fill="none" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="477.003" height="36"/>
+		
+			<rect x="10" y="43.8" fill="none" stroke="#010101" stroke-width="0.75" stroke-miterlimit="10" stroke-dasharray="4" width="477.003" height="36"/>
+	</g>
+</g>
+</svg>
