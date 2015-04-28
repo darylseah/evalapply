@@ -431,16 +431,22 @@ same.
 \subsubsection{Persisted Object Upgrades}
 \label{subsubsec:object_upgrades}
 
-Persisted object upgrades e.g. Stored program state Typically handled by
-transform functions, but that works well only for simple object graphs Complex
-graphs might be hard to upgrade Which order to run the transform functions?
-Ownership types make explicit who owns what, making explicit the order to run
-the transforms When a transform function is applied transactionally, the
-correct old state can be returned until all objects in the graph are upgraded
-This can be guaranteed to be safe statically!
+Very often programs need to persist state to disk. The structure of this state 
+might vary between versions of the same program. A problem is presented to the 
+programmer: how to use the data (in the old format) in the updated program? 
+Typically programmers will write transform functions which accept the old 
+program state as input, and produces the corresponding new program state. This 
+works well for simple objects; however, when the object graph is large, or 
+contains cycles, the order to execute these transform functions may not be 
+obvious.
 
-
-
+Ownership types enforces a constraint on the structure object graph. This 
+allows the programmer to write isolated transform functions that transforms 
+only one type in the object graph. When used together with a transactional 
+memory store, it is possible to individually transform objects in any order, so 
+long all objects in the graph are eventually transformed. When the transaction 
+is committed, it would be guaranteed that the new object graph would be 
+valid statically~\cite{boyapati04safejava}.
 
 \section{Variants}
 \label{sec:variants}
