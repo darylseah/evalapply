@@ -373,13 +373,22 @@ mutate the state of the object being referenced.
 \subsubsection{Object Encapsulation}
 \label{subsubsec:object_encapsulation}
 
-Object encapsulation
-Preventing modifications to the representation invariants of objects by 
-external classes
-Direct consequence of the motivating problem discussed earlier
-A nice effect of this property is that analysis on such programs can deduce or 
-verify a property with only local knowledge
-This allows scalability and parallelisation of any analyses
+Deriving directly from the example problem given in our 
+\hyperref[code:modular_reasoning_car_engine_1]{introduction}, ownership types 
+can be used to improve the expressibility of the concept of ownership. This 
+allows classes to restrict modification of their representation invariants by 
+external code.
+
+Therefore, when programmers are given a new code base annotated with ownership 
+types, they can be ensured that no external code is able to modify the classes' 
+invariants when they are understanding the code. This would allow them to 
+locally reason about the function and behaviour of the module.
+
+The same benefit would also apply for static analysis tools. Because changes 
+can be effected only from one part of the program, a tool need only reason 
+locally to form sound conclusions from the input. This would allow such tools 
+to run in parallel on different parts of the program, allowing even complex 
+analyses to scale with the size of the code base.
 
 \subsubsection{Alias/Access Control}
 \label{subsubsec:alias_control}
