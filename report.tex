@@ -372,19 +372,50 @@ references cannot be used to mutate the state of the object being referenced.
 
 \subsubsection{Object Encapsulation}
 \label{subsubsec:object_encapsulation}
-\lipsum[2]
+
+Object encapsulation
+Preventing modifications to the representation invariants of objects by 
+external classes
+Direct consequence of the motivating problem discussed earlier
+A nice effect of this property is that analysis on such programs can deduce or 
+verify a property with only local knowledge
+This allows scalability and parallelisation of any analyses
 
 \subsubsection{Alias/Access Control}
 \label{subsubsec:alias_control}
-\lipsum[3]
+
+Alias/access control
+This does not prevent aliases, but controls the scope in which aliases can exist
+Aliases existing outside the scope of the owner object would be read-only; 
+still easy to reason about
 
 \subsubsection{Data Race/Deadlock Prevention}
 \label{subsubsec:data_race_prevention}
-\lipsum[4]
+
+Prevent data races/deadlocks
+Ownership types make the object graph explicit
+The earlier papers simplify the object graph into an ownership tree
+Races can be prevented by ensuring that when a piece of data needs to be 
+read/written to, the entire subtree is locked
+Deadlocks can be prevented by ensuring that when locks are acquired, the locks 
+are acquired using a tree traversal of the ownership tree
+
 
 \subsubsection{Persisted Object Upgrades}
 \label{subsubsec:object_upgrades}
-\lipsum[5]
+
+Persisted object upgrades
+e.g. Stored program state
+Typically handled by transform functions, but that works well only for simple 
+object graphs
+Complex graphs might be hard to upgrade
+Which order to run the transform functions?
+Ownership types make explicit who owns what, making explicit the order to run 
+the transforms
+When a transform function is applied transactionally, the correct old state can 
+be returned until all objects in the graph are upgraded
+This can be guaranteed to be safe statically!
+
 
 
 
