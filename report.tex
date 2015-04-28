@@ -456,6 +456,13 @@ with a full cross-comparison provided only in \cref{sec:eval}.
 \subsection{Clarke's Ownership Types}
 \label{subsec:clarke}
 
+The concept of ``ownership'' was first introduced by Clarke et al. in a 1998
+paper~\cite{clarke98ownership} with the motivation of mitigating the problems
+of uncontrolled aliasing in Object-Oriented languages. Clarke took inspiration
+from Islands~\cite{hogg91islands} and Balloons~\cite{almeida97balloons}, which
+were early attempts at solving the same problem but did not provide sufficient
+expressivity to be practical.
+
 
 % Ownership types was first proposed by Clarke et al. in 1998 to mitigate the
 % aliasing problem in the analysis of object-oriented programs. Since then it
@@ -494,7 +501,6 @@ with a full cross-comparison provided only in \cref{sec:eval}.
 % - e.g. getter functions which return references to objects within the
 %	 invariant, allowing internals to be modified outside the owner.
 
-\lipsum[7]
 
 \subsection{Boyapati's SafeJava}
 \label{subsec:boyapati}
@@ -530,7 +536,6 @@ with a full cross-comparison provided only in \cref{sec:eval}.
 % the primary owner due to the encapsulation barrier.
 
 
-\lipsum[8]
 
 
 \subsection{Dietl and M\"{u}ller's Universe Types}
@@ -560,7 +565,6 @@ with a full cross-comparison provided only in \cref{sec:eval}.
 % Iterators can be more efficient because they can have direct access to the
 % representation of the container for reading and writing.
 
-\lipsum[9]
 
 \subsection{Cameron's Multiple Ownership}
 \label{subsec:cameron}
