@@ -1012,16 +1012,16 @@
 % 12 Jan 2000 gkmt
 \def\section{%
     \@startsection{section}{1}{\z@}{-10\p@ \@plus -4\p@ \@minus -2\p@}%
-    {2.5pt}{\baselineskip=14pt\secfnt\@ucheadtrue}%
+    {13pt}{\baselineskip=14pt\secfnt\@ucheadtrue}%
 }
 
 \def\subsection{%
     \@startsection{subsection}{2}{\z@}{-10\p@ \@plus -4\p@ \@minus -2\p@}
-    {2pt}{\baselineskip=14pt\secfnt}%
+    {12pt}{\baselineskip=14pt\secfnt}%
 }
 \def\subsubsection{%
     \@startsection{subsubsection}{3}{\z@}{-10\p@ \@plus -4\p@ \@minus -2\p@}%
-    {1.5pt}{\baselineskip=14pt\subsecfnt}%
+    {11pt}{\baselineskip=14pt\subsecfnt}%
 }
 
 %\def\paragraph{%
@@ -1077,7 +1077,7 @@
     \def\@svsechd{#4{\hskip #1\relax #5}}%
   \fi
   \vskip -10.5pt  %gkmt, 7 jan 00 -- had been -14pt, now set to parskip
-  \@xsect{#3}\parskip=10.5pt} % within the starred section, parskip = leading 12 Jan 2000 gkmt
+  \@xsect{#3}\parskip=1pt plus 3pt} % within the starred section, parskip = leading 12 Jan 2000 gkmt
 
 
 \def\@sect#1#2#3#4#5#6[#7]#8{%
@@ -1137,7 +1137,7 @@
             }%
         }%
     \fi
-    \@xsect{#5}\parskip=10.5pt% within the section, parskip = leading 12 Jan 2000 gkmt
+    \@xsect{#5}\parskip=1pt plus 3pt% within the section, parskip = leading 12 Jan 2000 gkmt
 }
 \def\@xsect#1{%
     \@tempskipa #1\relax
