@@ -426,7 +426,7 @@ deadlock to occur~\cite{silberschatz2006osprinciples}. Regardless of topology,
 locking objects using depth-first or breadth-first traversal guarantees that 
 all objects which are reachable will be locked, and because the traversal is 
 deterministic, will guarantee that the order of lock acquisition is always the 
-same.
+same~\cite{boyapati02races}.
 
 \subsubsection{Persisted Object Upgrades}
 \label{subsubsec:object_upgrades}
@@ -446,7 +446,7 @@ only one type in the object graph. When used together with a transactional
 memory store, it is possible to individually transform objects in any order, so 
 long all objects in the graph are eventually transformed. When the transaction 
 is committed, it would be guaranteed that the new object graph would be 
-valid statically~\cite{boyapati04safejava}.
+valid statically~\cite{boyapati04safejava,boyapati03innerclass}.
 
 \section{Variants}
 \label{sec:variants}
