@@ -423,7 +423,7 @@ data races can be prevented.
 In the same vein, it is possible to prevent deadlocks from occurring by always 
 locking a set of locks in the same order. Locking multiple locks in the same 
 order prevents a circular wait condition, which is a necessary condition for a 
-deadlock to occur~\cite{silberschatz2006osprinciples}. Regardless of topology, 
+deadlock to occur~\cite{silberschatz08os}. Regardless of topology, 
 locking objects using depth-first or breadth-first traversal guarantees that 
 all objects which are reachable will be locked, and because the traversal is 
 deterministic, will guarantee that the order of lock acquisition is always the 
@@ -455,7 +455,7 @@ valid statically~\cite{boyapati04safejava,boyapati03innerclass}.
 In this section we give an overview of the four ownership type systems that we
 have investigated in depth. The papers covered are by no means the entirety of
 the work in the area. There are numerous other papers on extensions,
-improvements and related developments. However we choose these systems because
+improvements and related developments~\cite{}. However we choose these systems because
 they contributed important ideas and are (more or less) representative of the
 gamut of work in ownership types. Each system will be presented individually
 with a full cross-comparison provided only in \cref{sec:eval}.
