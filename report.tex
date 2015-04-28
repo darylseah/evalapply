@@ -323,10 +323,10 @@ object store. In this paper, two topologies are examined:
 
 \begin{description}
 	\item[Hierarchical \emph{a.k.a. Tree}] This is a single ownership topology, 
-	where every object as one owner.
-	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership topology, 
-	where an object can have multiple owners. All owners of the object can 
-	modify its invariant.
+	wh\-ere every object as one owner.
+	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership 
+	to\-pology, where an object can have multiple owners. All owners of the 
+	object can modify its invariant.
 \end{description}
 
 \subsection{Encapsulation Disciplines}
@@ -360,12 +360,12 @@ difference between both encapsulation disciplines. References between objects
 are represented by arrows. The owner of an object is the class at the top of 
 the dashed box the object is in.
 
-If the \textbf{owner-as-dominator} discipline 
-is adhered to, then only the solid arrows are allowed. The dashed arrows are 
-references which do not pass through the object's owner, and as such are only 
-allowed in the \textbf{owner-as-modifier} discipline. In the 
-\textbf{owner-as-modifier} discipline, while such a reference is legal, these 
-references cannot be used to mutate the state of the object being referenced.
+If the \textbf{owner-as-dominator} discipline is adhered to, then only the 
+solid arrows are allowed. The dashed arrows are references which do not pass 
+through the object's owner, and as such are only allowed in the 
+\textbf{owner-as-modifier} discipline. In the \textbf{owner-as-mod\-ifier} 
+discipline, while such a reference is legal, these references cannot be used to 
+mutate the state of the object being referenced.
 
 \subsection{Applications}
 \label{subsec:applications}
