@@ -410,14 +410,23 @@ restricted to scopes where the reference is valid.
 \subsubsection{Data Race/Deadlock Prevention}
 \label{subsubsec:data_race_prevention}
 
-Prevent data races/deadlocks
-Ownership types make the object graph explicit
-The earlier papers simplify the object graph into an ownership tree
-Races can be prevented by ensuring that when a piece of data needs to be 
-read/written to, the entire subtree is locked
-Deadlocks can be prevented by ensuring that when locks are acquired, the locks 
-are acquired using a tree traversal of the ownership tree
+Because ownership types impose a structure on the object store, it is possible 
+to prevent data races. Typically, when an object A needs to be locked for an 
+update, it is not obvious which dependent objects (references which A 
+maintains) needs to be locked as well. Since there is an ownership topology 
+imposed on the object store, it would be possible to know at compile-time which 
+objects need to be locked as well, as part of locking A. This prevents data 
+from being accessed, while accidentally forgetting to lock the object. Thus, 
+data races can be prevented.
 
+In the same vein, it is possible to prevent deadlocks from occurring by always 
+locking a set of locks in the same order. Locking multiple locks in the same 
+order prevents a circular wait condition, which is a necessary condition for a 
+deadlock to occur~\cite{silberschatz2006osprinciples}. Regardless of topology, 
+locking objects using depth-first or breadth-first traversal guarantees that 
+all objects which are reachable will be locked, and because the traversal is 
+deterministic, will guarantee that the order of lock acquisition is always the 
+same.
 
 \subsubsection{Persisted Object Upgrades}
 \label{subsubsec:object_upgrades}
