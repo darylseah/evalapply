@@ -802,7 +802,35 @@ limitations:
 \section{Evaluation}
 \label{sec:eval}
 
-\lipsum[11]
+As mentioned earlier, we have chosen to measure expressivity in terms of the
+design patterns and object structures that the different type systems support.
+Our findings are listed in the table below. Here are a few highlights.
+
+\begin{itemize}
+
+    \item The \textit{Mutable View} and \textit{Immutable View} examples expore
+        the concept of a \textit{view} over data, the most realisation of which
+        being an iterator for a generic collection. The iterator itself has
+        sufficient access to the collection for a client to be able to read its
+        data, and possibly mutate the collection to remove elements. This is an
+        interesting example because the common \textbf{owners-as-dominators}
+        discipline is generally too strict for the notion of an object that is
+        able to explore the innards of another, albeit in a controlled way. It
+        is only overcome with special privileged access
+        \cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}.
+
+    \item The \textit{Binary Operators} example concerns objects with a peer
+        \cite{dietl11gut} relationship that are able to explore each other's
+        representations. This is interesting to guage the varying levels of
+        access given to peers in the different type systems.
+
+    \item A number of the examples contain unique features that aren't found in
+        more than one type system, for example multiple ownership, ownership
+        transfer, and accomodation of generics. Because they have no analogue
+        these features can't really be compared. The situation is similar for
+        ownership parameters and constraints.
+
+\end{itemize}
 
 \section{Conclusion}
 \label{sec:conclude}
