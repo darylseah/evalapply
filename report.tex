@@ -64,7 +64,7 @@
 \title{Ownership Types for Local Reasoning}
 \subtitle{CS5218: AY2014/2015 Semester 2, Final Project}
 
-\numberofauthors{3} 
+\numberofauthors{3}
 
 \author{
 \alignauthor
@@ -82,34 +82,34 @@ Joel Low\\
 
 \maketitle
 \begin{abstract}
-The use of ownership types improves local reasoning, allowing both programmers 
-and program analysis tools to reason about the correctness and behaviour of 
-programs. This would improve the scalability of program analysis tools. This 
-paper examines five variations of ownership types, and compares their 
-expressiveness as well as their ability to ach\-ieve the goal of improving 
-local reasoning. However, owing to the difficulty of annotating programs, it is 
+The use of ownership types improves local reasoning, allowing both programmers
+and program analysis tools to reason about the correctness and behaviour of
+programs. This would improve the scalability of program analysis tools. This
+paper examines five variations of ownership types, and compares their
+expressiveness as well as their ability to ach\-ieve the goal of improving
+local reasoning. However, owing to the difficulty of annotating programs, it is
 likely that ownership types will only be used for safety-critical programs.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
 
-The advent of Object-Oriented Programming has allowed programmers to write and 
-maintain larger components and programs, owing to the modularisation brought 
-about by encapsulation. This increased modularisation of programs ought to 
-result in a corresponding ease of comprehension for programmers, since 
-programmers are now able to reason about programs at a modular level. 
-Likewise, it should follow that static program analysis tools be able to 
-improve the speed at which analyses can be completed, especially when analysing 
+The advent of Object-Oriented Programming has allowed programmers to write and
+maintain larger components and programs, owing to the modularisation brought
+about by encapsulation. This increased modularisation of programs ought to
+result in a corresponding ease of comprehension for programmers, since
+programmers are now able to reason about programs at a modular level.
+Likewise, it should follow that static program analysis tools be able to
+improve the speed at which analyses can be completed, especially when analysing
 a large program.
 
 \subsection{Limits of Traditional Mechanisms}
 \label{subsec:traditional_mechanism_limits}
-In practice, many escape mechanisms which break the encapsulation of an object 
-are used. These mechanisms, while allowing expressiveness in programs, prevent 
-the programmer from reaping the benefits of being able to isolate a module and 
-reason about its behaviour and effects. We present an example in 
-\cref{code:modular_reasoning_car_engine_1}, originally 
+In practice, many escape mechanisms which break the encapsulation of an object
+are used. These mechanisms, while allowing expressiveness in programs, prevent
+the programmer from reaping the benefits of being able to isolate a module and
+reason about its behaviour and effects. We present an example in
+\cref{code:modular_reasoning_car_engine_1}, originally
 described in~\cite{clarke98ownership}.
 
 \begin{lstlisting}[
@@ -142,20 +142,20 @@ class Main {
 }
 \end{lstlisting}
 
-Here we present a car with a driver and an engine. The car defines a 
+Here we present a car with a driver and an engine. The car defines a
 \lstinline|start| method which will start the engine, but only if a driver is
 present. However, due to the lack of encapsulation,
 \cref{code:modular_reasoning_car_engine_1_engine_start} the car's engine can be
 started directly, bypassing the check. This should not be allowed because
 it breaks encapsulation.
 
-The traditional approach to preventing this is to utilise access specifiers: 
-using Java's syntax, there would be four levels of access: \lstinline|public|, 
-\lstinline|protected|, \lstinline|private|, and default (package-level) access. 
-These access specifiers are annotations on types and variables, limiting 
-\emph{visibility} of the identifiers of said types and variables to the 
-appropriate scope. \Cref{code:modular_reasoning_car_engine_2}, modified from 
-\cref{code:modular_reasoning_car_engine_1}, demonstrates that enforcing 
+The traditional approach to preventing this is to utilise access specifiers:
+using Java's syntax, there would be four levels of access: \lstinline|public|,
+\lstinline|protected|, \lstinline|private|, and default (package-level) access.
+These access specifiers are annotations on types and variables, limiting
+\emph{visibility} of the identifiers of said types and variables to the
+appropriate scope. \Cref{code:modular_reasoning_car_engine_2}, modified from
+\cref{code:modular_reasoning_car_engine_1}, demonstrates that enforcing
 encapsulation using access specifiers alone is insufficient.
 
 \begin{lstlisting}[
@@ -171,7 +171,7 @@ class Engine {
 
 class Car {
 	private Engine engine; private Person driver;
-	
+
 	public void start() {
 		if (driver != null) {
 			engine.start();
@@ -191,42 +191,42 @@ class Main {
 
 \end{lstlisting}
 
-In Listing~\ref{code:modular_reasoning_car_engine_2} we annotate each method 
-and member variable with an appropriate access specifier. We also define an 
-additional \emph{accessor} method, for the situation where a property of the 
-car's engine must be accessed outside of the car (an instrument attached to the 
-car's electronics to measure performance, for example). However, as seen on 
-line~\ref{code:modular_reasoning_car_engine_2_engine_start} the original 
-problem has not been resolved: the engine can still be started externally. 
-There is no way to reconcile access to parts of an object based on who `owns' 
-the object, and who is accessing the object. Thus, access specifiers alone are 
+In Listing~\ref{code:modular_reasoning_car_engine_2} we annotate each method
+and member variable with an appropriate access specifier. We also define an
+additional \emph{accessor} method, for the situation where a property of the
+car's engine must be accessed outside of the car (an instrument attached to the
+car's electronics to measure performance, for example). However, as seen on
+line~\ref{code:modular_reasoning_car_engine_2_engine_start} the original
+problem has not been resolved: the engine can still be started externally.
+There is no way to reconcile access to parts of an object based on who `owns'
+the object, and who is accessing the object. Thus, access specifiers alone are
 not expressive enough.
 
-While access specifiers can be modified to support such a 
-scenario\footnote{Read-only and mutable interfaces can be extracted from the 
-class, and the appropriate interface returned from methods. This is not common 
-practice; however, the Cocoa runtime for Objective-C is notable for doing 
-this.}, the resulting API is clumsy because every time a type is defined, 
-programmers must manually define the behaviours allowed by mutable and 
-immutable references to the object. There would consequently be an explosion of 
+While access specifiers can be modified to support such a
+scenario\footnote{Read-only and mutable interfaces can be extracted from the
+class, and the appropriate interface returned from methods. This is not common
+practice; however, the Cocoa runtime for Objective-C is notable for doing
+this.}, the resulting API is clumsy because every time a type is defined,
+programmers must manually define the behaviours allowed by mutable and
+immutable references to the object. There would consequently be an explosion of
 types, making reasoning about the program more difficult.
 
 \section{Ownership Types}
 \label{sec:ownership}
 
 % terminology and the basics
-Ownership Types is an addition to the type system to encode ownership 
-information. This directly overcomes the limitations of only using access 
-specifiers. Using SafeJava's\,\cite{boyapati04safejava} syntax, the Car example 
-can be expressed as per \cref{code:ownership_types_car_engine_1} 
+Ownership Types is an addition to the type system to encode ownership
+information. This directly overcomes the limitations of only using access
+specifiers. Using SafeJava's\,\cite{boyapati04safejava} syntax, the Car example
+can be expressed as per \cref{code:ownership_types_car_engine_1}
 \vpageref[above]{code:ownership_types_car_engine_1}.
 
-\Cref{code:ownership_types_car_engine_1} introduces the notion of an ownership 
-\emph{type}. Just like generics, this is information which is created and 
-enforced statically. All types are now parameterised by an ownership type, 
-preventing objects with different owners from being assigned (and indeed, 
-referenced). Furthermore, it is not possible to express the ownership type of 
-an object belonging to another object, preventing the encapsulation violation 
+\Cref{code:ownership_types_car_engine_1} introduces the notion of an ownership
+\emph{type}. Just like generics, this is information which is created and
+enforced statically. All types are now parameterised by an ownership type,
+preventing objects with different owners from being assigned (and indeed,
+referenced). Furthermore, it is not possible to express the ownership type of
+an object belonging to another object, preventing the encapsulation violation
 on \cref{code:ownership_types_car_engine_1_engine_start}.
 
 \begin{lstlisting}[
@@ -243,7 +243,7 @@ class Engine<EngineOwner> {
 class Car<CarOwner, DriverOwner> {
 	Engine<this> engine; Person<DriverOwner> driver; /*@
 		\label{code:ownership_types_car_engine_1_parametric_owner} @*/
-	
+
 	void start() {
 		if (driver != null) {
 			getEngine().start();
@@ -262,56 +262,56 @@ class Main {
 }
 \end{lstlisting}
 
-Ownership parameters can also be used within the class declaration, as shown on 
-\cref{code:ownership_types_car_engine_1_parametric_owner}. Special keywords 
-have been introduced: \lstinline|world| indicating that the value is not owned 
-by any object (i.e. it is owned by the system), and \lstinline|this| has been 
+Ownership parameters can also be used within the class declaration, as shown on
+\cref{code:ownership_types_car_engine_1_parametric_owner}. Special keywords
+have been introduced: \lstinline|world| indicating that the value is not owned
+by any object (i.e. it is owned by the system), and \lstinline|this| has been
 overloaded to mean the current object's ownership context.
 
-Type-checking this program results in a type-check failure because it is not 
-possible to express the ownership context of the car outside of the class. 
-However, it is possible to express the car's ownership to objects used by it, 
+Type-checking this program results in a type-check failure because it is not
+possible to express the ownership context of the car outside of the class.
+However, it is possible to express the car's ownership to objects used by it,
 through the ownership parameter mechanism.
 
-This is one of the few approaches that we have examined. The other approaches 
-are conceptually similar; the difference among them lies mainly in their 
+This is one of the few approaches that we have examined. The other approaches
+are conceptually similar; the difference among them lies mainly in their
 expressivity.
 
 \subsection{Definitions}
 \label{subsec:definitions}
 
-In this paper, we try to make our definitions as generic as possible, allowing 
+In this paper, we try to make our definitions as generic as possible, allowing
 a consistent set of terms to be used across the different systems proposed.
 
 \begin{description}
-	\item[Expressivity] How complex a notion of ownership a system can allow a 
-	programmer to express. We have designed various use cases, which encompass 
-	a variety of design patterns which can be found in programs used today, and 
-	analysed each system for its ability to express such a design pattern. Our 
+	\item[Expressivity] How complex a notion of ownership a system can allow a
+	programmer to express. We have designed various use cases, which encompass
+	a variety of design patterns which can be found in programs used today, and
+	analysed each system for its ability to express such a design pattern. Our
 	use cases can be broadly categorised as such:
-	
+
 	\begin{itemize}
 		\item \textbf{Abstract Data Types}: We modified a Queue example
 		from~\cite{boyapati04safejava}, and added iterators, which can be seen
 		as a view over the data stored in the data type.
-		\item \textbf{Inheritance}: A recurring pattern in Object-Ori\-ented 	
+		\item \textbf{Inheritance}: A recurring pattern in Object-Ori\-ented
 		Programming where behaviour is augme\-nted onto existing classes.
-		\item \textbf{Generics}: Building upon the ADT use case, Gen\-erics 
+		\item \textbf{Generics}: Building upon the ADT use case, Gen\-erics
 		allow programmers to write reusable components.
-		\item \textbf{Cardinality of Ownership}: Having multiple owners of an 
+		\item \textbf{Cardinality of Ownership}: Having multiple owners of an
 		object is useful for writing parallel/distributed algorithms.
-		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership 
-		from 
+		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership
+		from
 		one object to another is useful for producer-consumer pattern.
-		
+
 	\end{itemize}
-	
-	\item[Representation Invariant] A constraint on the state of the object, 
+
+	\item[Representation Invariant] A constraint on the state of the object,
 	maintained throughout its lifetime
-	\item[Owner] An object or objects responsible for maintaining  the 
+	\item[Owner] An object or objects responsible for maintaining  the
 	representation invariant of an object.
-	\item[Context \emph{a.k.a. Universe, Box}] A nested partition of the object 
-	store containing all the objects constituting the representation of 
+	\item[Context \emph{a.k.a. Universe, Box}] A nested partition of the object
+	store containing all the objects constituting the representation of
 	a particular object.
 
 \end{description}
@@ -319,33 +319,33 @@ a consistent set of terms to be used across the different systems proposed.
 \subsection{Ownership Topologies}
 \label{subsec:topologies}
 
-An ownership topology is a description of the structure and organisation of the 
+An ownership topology is a description of the structure and organisation of the
 object store. In this paper, two topologies are examined:
 
 \begin{description}
-	\item[Hierarchical \emph{a.k.a. Tree}] This is a single ownership topology, 
+	\item[Hierarchical \emph{a.k.a. Tree}] This is a single ownership topology,
 	wh\-ere every object as one owner.
-	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership 
-	to\-pology, where an object can have multiple owners. All owners of the 
+	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership
+	to\-pology, where an object can have multiple owners. All owners of the
 	object can modify its invariant.
 \end{description}
 
 \subsection{Encapsulation Disciplines}
 \label{subsec:encapsulation}
 
-Where an ownership topology \emph{describes} the structure of the object store, 
-an encapsulation discipline \emph{prescribes} the structure of the object 
-store. They can thus be seen as related ideas. In this paper, two main 
+Where an ownership topology \emph{describes} the structure of the object store,
+an encapsulation discipline \emph{prescribes} the structure of the object
+store. They can thus be seen as related ideas. In this paper, two main
 encapsulation disciplines are discussed:
 
 \begin{description}
-	\item[Owners-as-Dominators] Objects can only be modified by following a 
-	reference chain from the root context thr\-ough the object's owner. 
-	Aliasing is restricted, because no aliases to an object B owned by an 
+	\item[Owners-as-Dominators] Objects can only be modified by following a
+	reference chain from the root context thr\-ough the object's owner.
+	Aliasing is restricted, because no aliases to an object B owned by an
 	object A can exist outside of the ownership context of object A.
-	\item[Owners-as-Modifiers] Objects can only be modified by following a 
-	reference chain from the root context thr\-ough the object's owner. 
-	However, read-only access is granted in all other contexts. Aliasing is 
+	\item[Owners-as-Modifiers] Objects can only be modified by following a
+	reference chain from the root context thr\-ough the object's owner.
+	However, read-only access is granted in all other contexts. Aliasing is
 	\emph{not} restricted.
 \end{description}
 
@@ -356,16 +356,16 @@ encapsulation disciplines are discussed:
 	\label{fig:ownership-dominator-vs-modifier}
 \end{figure}
 
-\Cref{fig:ownership-dominator-vs-modifier}~\cite{dietl09gut} illustrates the 
-difference between both encapsulation disciplines. References between objects 
-are represented by arrows. The owner of an object is the class at the top of 
+\Cref{fig:ownership-dominator-vs-modifier}~\cite{dietl09gut} illustrates the
+difference between both encapsulation disciplines. References between objects
+are represented by arrows. The owner of an object is the class at the top of
 the dashed box the object is in.
 
-If the \textbf{owners-as-dominators} discipline is adhered to, then only the 
-solid arrows are allowed. The dashed arrows are references which do not pass 
-through the object's owner, and as such are only allowed in the 
-\textbf{owners-as-modifiers} discipline. In the \textbf{owners-as-modifiers} 
-discipline, while such a reference is legal, these references cannot be used to 
+If the \textbf{owners-as-dominators} discipline is adhered to, then only the
+solid arrows are allowed. The dashed arrows are references which do not pass
+through the object's owner, and as such are only allowed in the
+\textbf{owners-as-modifiers} discipline. In the \textbf{owners-as-modifiers}
+discipline, while such a reference is legal, these references cannot be used to
 mutate the state of the object being referenced.
 
 \subsection{Applications}
@@ -374,80 +374,80 @@ mutate the state of the object being referenced.
 \subsubsection{Object Encapsulation}
 \label{subsubsec:object_encapsulation}
 
-Deriving directly from the example problem given in our 
-\hyperref[code:modular_reasoning_car_engine_1]{introduction}, ownership types 
-can be used to improve the expressibility of the concept of 
-ownership~\cite{clarke98ownership}. This allows classes to restrict 
+Deriving directly from the example problem given in our
+\hyperref[code:modular_reasoning_car_engine_1]{introduction}, ownership types
+can be used to improve the expressibility of the concept of
+ownership~\cite{clarke98ownership}. This allows classes to restrict
 modification of their representation invariants by external code.
 
-Therefore, when programmers are given a new code base annotated with ownership 
-types, they can be ensured that no external code is able to modify the classes' 
-invariants when they are understanding the code. This would allow them to 
+Therefore, when programmers are given a new code base annotated with ownership
+types, they can be ensured that no external code is able to modify the classes'
+invariants when they are understanding the code. This would allow them to
 locally reason about the function and behaviour of the module.
 
-The same benefit would also apply for static analysis tools. Because changes 
-can be effected only from one part of the program, a tool need only reason 
-locally to form sound conclusions from the input. This would allow such tools 
-to run in parallel on different parts of the program, allowing even complex 
+The same benefit would also apply for static analysis tools. Because changes
+can be effected only from one part of the program, a tool need only reason
+locally to form sound conclusions from the input. This would allow such tools
+to run in parallel on different parts of the program, allowing even complex
 analyses to scale with the size of the code base.
 
 \subsubsection{Alias/Access Control}
 \label{subsubsec:alias_control}
 
-If programs adhere to the \textbf{owners-as-dominators} encapsulation 
-discipline, then it is not possible to reference objects within another 
-object's representation invariant. Therefore, aliases would be restricted to 
-the scopes where references are 
+If programs adhere to the \textbf{owners-as-dominators} encapsulation
+discipline, then it is not possible to reference objects within another
+object's representation invariant. Therefore, aliases would be restricted to
+the scopes where references are
 allowed~\cite{clarke98ownership,boyapati04safejava,cameron07mojo}.
 
-If programs adhere to the \textbf{owners-as-modifiers} encapsulation 
-discipline, then there is not alias control; however, it is still not possible 
-to modify the representation invariant of an object if the current object is 
+If programs adhere to the \textbf{owners-as-modifiers} encapsulation
+discipline, then there is not alias control; however, it is still not possible
+to modify the representation invariant of an object if the current object is
 not its owner~\cite{cunningham08ut,dietl09gut}.
 
-In both cases, reasoning about side-effects are easy. In the former case, it is 
-possible to increase the precision of alias analyses because aliasing is 
+In both cases, reasoning about side-effects are easy. In the former case, it is
+possible to increase the precision of alias analyses because aliasing is
 restricted to scopes where the reference is valid.
 
 \subsubsection{Data Race/Deadlock Prevention}
 \label{subsubsec:data_race_prevention}
 
-Because ownership types impose a structure on the object store, it is possible 
-to prevent data races. Typically, when an object A needs to be locked for an 
-update, it is not obvious which dependent objects (references which A 
-maintains) needs to be locked as well. Since there is an ownership topology 
-imposed on the object store, it would be possible to know at compile-time which 
-objects need to be locked as well, as part of locking A. This prevents data 
-from being accessed, while accidentally forgetting to lock the object. Thus, 
+Because ownership types impose a structure on the object store, it is possible
+to prevent data races. Typically, when an object A needs to be locked for an
+update, it is not obvious which dependent objects (references which A
+maintains) needs to be locked as well. Since there is an ownership topology
+imposed on the object store, it would be possible to know at compile-time which
+objects need to be locked as well, as part of locking A. This prevents data
+from being accessed, while accidentally forgetting to lock the object. Thus,
 data races can be prevented.
 
-In the same vein, it is possible to prevent deadlocks from occurring by always 
-locking a set of locks in the same order. Locking multiple locks in the same 
-order prevents a circular wait condition, which is a necessary condition for a 
-deadlock to occur~\cite{silberschatz08os}. Regardless of topology, 
-locking objects using depth-first or breadth-first traversal guarantees that 
-all objects which are reachable will be locked, and because the traversal is 
-deterministic, will guarantee that the order of lock acquisition is always the 
+In the same vein, it is possible to prevent deadlocks from occurring by always
+locking a set of locks in the same order. Locking multiple locks in the same
+order prevents a circular wait condition, which is a necessary condition for a
+deadlock to occur~\cite{silberschatz08os}. Regardless of topology,
+locking objects using depth-first or breadth-first traversal guarantees that
+all objects which are reachable will be locked, and because the traversal is
+deterministic, will guarantee that the order of lock acquisition is always the
 same~\cite{boyapati02races}.
 
 \subsubsection{Persisted Object Upgrades}
 \label{subsubsec:object_upgrades}
 
-Very often programs need to persist state to disk. The structure of this state 
-might vary between versions of the same program. A problem is presented to the 
-programmer: how to use the data (in the old format) in the updated program? 
-Typically programmers will write transform functions which accept the old 
-program state as input, and produces the corresponding new program state. This 
-works well for simple objects; however, when the object graph is large, or 
-contains cycles, the order to execute these transform functions may not be 
+Very often programs need to persist state to disk. The structure of this state
+might vary between versions of the same program. A problem is presented to the
+programmer: how to use the data (in the old format) in the updated program?
+Typically programmers will write transform functions which accept the old
+program state as input, and produces the corresponding new program state. This
+works well for simple objects; however, when the object graph is large, or
+contains cycles, the order to execute these transform functions may not be
 obvious.
 
-Ownership types enforces a constraint on the structure object graph. This 
-allows the programmer to write isolated transform functions that transforms 
-only one type in the object graph. When used together with a transactional 
-memory store, it is possible to individually transform objects in any order, so 
-long all objects in the graph are eventually transformed. When the transaction 
-is committed, it would be guaranteed that the new object graph would be 
+Ownership types enforces a constraint on the structure object graph. This
+allows the programmer to write isolated transform functions that transforms
+only one type in the object graph. When used together with a transactional
+memory store, it is possible to individually transform objects in any order, so
+long all objects in the graph are eventually transformed. When the transaction
+is committed, it would be guaranteed that the new object graph would be
 valid statically~\cite{boyapati04safejava,boyapati03innerclass}.
 
 \section{Variants}
@@ -534,7 +534,7 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 % - Iterator is only usable in the context of the owner of both the iterator and
 %	 stack
 %
-% - Boyapati: A type system that strictly enforces object encapsulation is 
+% - Boyapati: A type system that strictly enforces object encapsulation is
 %	 too constraining [113]: it does not allow efficient implementation of
 %	 important constructs like iterators [104, 71]. Consider, for example, an
 %	 iterator over the above-mentioned Stack object s. If the iterator is
@@ -602,7 +602,7 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 % Uses modifiers rep, peer, any on references, and pure/impure on methods.
 %
 % Additional modifiers self and lost are never used when annotating source code,
-% but are required in the type system for checking. 
+% but are required in the type system for checking.
 % - lost is denotable but not expressible, more information than any (that’s why
 %	  we can cast lost -> any). Assigning to lost fields is a type error.
 % - any is denotable and expressible. Fields of type any can be assigned to
@@ -867,7 +867,7 @@ Our findings are listed in the table below. Here are a few highlights.
 \begin{tabular}{rllllllllllllll}
 	\scriptsize
 	\begin{tabular}[b]{|rl|} \hline
-		\Yes & Supported \\	
+		\Yes & Supported \\
 		\Limited & Partially Supported \\
 		\No & Not Supported   \\
 		\Maybe & Not Discussed \\
@@ -890,7 +890,7 @@ Our findings are listed in the table below. Here are a few highlights.
 Ownership Types~\cite{clarke98ownership}&
 	& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
 	& \Yes & \Maybe & \Yes
-\\ 
+\\
 SafeJava~\cite{boyapati04safejava}&
 	& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
 	& \Yes & \Yes & \Yes
@@ -939,7 +939,7 @@ class Engine<any engineOwner> {
 class Car<carOwner, driverOwner> {
   rep Engine<this> engine;
 	norep Person<a & ?> driver;
-    
+
   impure void start() {
     if (driver != null) getEngine().start();
   }
@@ -962,7 +962,7 @@ class Car<carOwner, driverOwner> {
 \label{fig:iterator-outside-test}
 \end{figure}
 
-Reference to \cref{code:car_eng_test}, \cref{sec:test} and 
+Reference to \cref{code:car_eng_test}, \cref{sec:test} and
 \cref{fig:iterator-inside-test,fig:iterator-outside-test}.
 
 % Citations
