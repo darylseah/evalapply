@@ -868,7 +868,8 @@ language that they target, Java, does not have such a type system. Notably Java
 has runtime polymorphism, reflective features, and relies on dynamic casts to
 cope with certain situations (for example, casting a collection of abstract
 objects to subtypes for use). As such, in practice compile-time checking alone
-is insufficient \cite{boyapati04safejava} and runtime checks are required.
+is insufficient \cite{boyapati04safejava} and runtime checks are required,
+especially if Java interoperability is a requirement.
 
 Annotations are also a burden on programmers. Ownership inference
 \cite{boyapati04safejava} is possible to an extent but cannot be done in
