@@ -631,6 +631,21 @@ The previous type systems impose rigid object topologies well, but suffer in
 expressivity: the hierarchical model of ownership cannot accomodate certain
 common object structures. The following example is impossible to express:
 
+diagram here
+
+class Task { /* … */ }
+class TaskList { /* … */ }
+
+class Project {
+    TaskList tasks;
+    void delay() { for (Task t : tasks) { t.delay(); } }
+}
+
+class Worker { // Symmetric
+    TaskList tasks;
+    void delay() { for (Task t : tasks) { t.delay(); } }
+}
+
 The code expressing such a structure is given as well.
 
 The object topology presented here is a DAG instead of a tree: both Projects and
@@ -649,29 +664,79 @@ an ownership type system.
 
 These deficiencies motivated Cameron et al.'s work, which generalises the notion
 of single ownership. It reimagines ownership contexts (called boxes in their
-terminology) as sets; multiple or joint ownership is then easily expressible via set
-intersection.
+terminology) as sets; multiple or joint ownership is then easily expressible via
+set intersection.
 
 The owner-as-dominator discipline is now too constraining as there are now
 multiple access paths to objects; it is thus relaxed. We are left with the
 owner-as-modifier discipline, which still applies, allowing any one of an
 object's multiple owners to modify it.
 
-% Key idea: dropping the owner-as-dominator requirement and allowing multiple
-% owners gives more expressiveness at the cost of the looser guarantees
-% - Classical ownership: owners-as-dominators/modifiers; solution is to flatten
-%   ownership structures
-% - DAG object topologies are more expressive than the traditional trees
-% - Guarantees now relate to computational effects, not encapsulation
-% - Modifier guarantee unchanged
-%
-% Ownership wildcards/basic existential quantification (one owner not knowing
-% details of others)
-%
-% intersects and disjoint (helps control effects as well) constraints which
-% limit possible multiple ownership
-%
-% where clauses for ownership parameters
+Multiple ownership is reified with a number of syntactic additions:
+
+Ownership parameters (as in SafeJava), are used to express secondary or child
+owners.
+
+An intersection operator (&) on ownership contexts is introduced. It specifies
+that an object's owner is the intersection of two existing ownership contexts:
+conceptually, if an object's owner is a & b, it means that the object is jointly
+owned by a and b.
+
+Wildcards (or existential owners) are also introduced. The idea is that as we
+parameterise types with owners, we only know about owners in scope; we know no
+more about other owners than that *there exist* other owners. Wildcards allow us
+to express exactly this. This is illustrated in an example.
+
+Footnote:
+
+Ownership parameters as specified in the paper *are* covariant; a notable
+difference from Java's generic type parameters. Task<a & b> is considered a
+subtype of both Task<a & ?> and Task<b & ?>, allowing it to be used wherever the
+latter two are expected.
+
+The ability to specifiy intersection and disjointness constraints is introduced
+in the form of the intersects and disjoints keywords.
+
+a intersects b is required for a & b to typecheck. This forces the programmer to
+specify upfront which ownership contexts intersect, reducing the chance of
+erroneous or invalid ownership parameterisation.
+
+a disjoint b guarantees effect-independence between a and b. This can be seen
+intuitively as we are sure that the ownership contexts of a and b do not
+intersect, and thus method calls on a and b cannot interfere. Data races, for
+example, are not possible on the of a and b.
+
+where clauses enable us to constrain ownership parameters to classes. Consider
+the following example.
+
+class C<owner, a, b> where a intersects owner, b disjoint owner {
+    Object<a & owner> o1; // legal: known intersection
+    Object<b & owner> o2; // illegal: known disjointness
+    Object<a & b> o3; // illegal: nothing known
+}
+void method() {
+    // ...
+    new C<a, b, c>(); // legal
+    new C<a, b, a>(); // illegal: disjointness is irreflexive
+}
+
+We are unable to take the intersections of disjoint ownership boxes, or boxes
+that we know nothing about. Another notable example is that disjoint boxes
+cannot be parameterised with identical elements as disjointness is irreflexive.
+
+Multiple ownership is a powerful notion but has a number of limitations.
+
+The owner-as-dominator discipline is lost. This admits more programs which
+violate encapsulation as access paths are no longer restricted to one dominator.
+
+Ownership constraints reflect the implementation of the ownership, which is
+sets. Their semantics are difficult to reason about without understanding of the
+view of ownership contexts as sets, and may not be as easy to use as the
+keywords of the other type systems.
+
+As multiple ownership is work in a new direction, it has also not been fully
+generalised. Notably, work on integrating it with generics and race detection is
+ongoing.
 
 \lipsum[10]
 
