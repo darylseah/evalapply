@@ -464,12 +464,13 @@ presented individually with a full cross-comparison provided in \cref{sec:eval}.
 \subsection{Clarke's Ownership Types}
 \label{subsec:clarke}
 
-The concept of ``ownership'' was first introduced by Clarke et al. in his 1998
-paper~\cite{clarke98ownership} with the motivation of mitigating the problems
-of uncontrolled aliasing in Object-Oriented languages. This was a refinement of
-a similar idea proposed by Clarke's thesis advisors called \emph{flexible alias
-protection}~\cite{noble98alias} which, in turn, took inspiration from
-Islands~\cite{hogg91islands} and Balloons~\cite{almeida97balloons}.
+The concept of ``ownership'' was first introduced by Clarke et
+al.~\cite{clarke98ownership,clarke01ownership} with the motivation of
+mitigating the problems of uncontrolled aliasing in Object-Oriented languages.
+This was a refinement of a similar idea proposed by Clarke's thesis advisors
+called \emph{flexible alias protection}~\cite{noble98alias} which, in turn,
+took inspiration from Islands~\cite{hogg91islands} and
+Balloons~\cite{almeida97balloons}.
 
 Islands and Balloons were early attempts at solving the same problem but did
 not provide sufficient expressivity and ease-of-use to be practical. For
@@ -489,7 +490,7 @@ Ownership types solve the problem by providing a more flexible/intuitive syntax
 to the programmer for defining a hierarchical topology over objects without
 sacrificing encapsulation. The idea is to annotate types with modifiers
 that define which context (i.e.\ owner) each reference belongs to, which
-include: \vspace{-1ex}
+include: \vspace{-0.5ex}
 \begin{itemize}
 	\setlength\itemsep{-0.2ex}
 	\item \textbf{\lstinline|norep|}:
@@ -500,17 +501,17 @@ include: \vspace{-1ex}
 		Owned by the owner of \lstinline|this| object.
 	\item \textbf{$v$}:
 		A context parameter.
-\end{itemize} \vspace{-1ex}
+\end{itemize} \vspace{-0.5ex}
 
 Context parameters are declared on classes with a syntax similar to Java's
-generics, e.g. \lstinline|class List<t> { ... }|, and are similarly applied on
-types, e.g. \lstinline|rep List<norep> list;|. They allow owners higher in the
-hierarchy to declare their ownership of references held by descendants in their
-contexts. In the case of the previous \lstinline|list| example, the
-\lstinline|list| is declared to be part of the client object's context, but the
-elements it contains has no owner. Parameterized ownership is the key
-innovation that (partially) solves the container problem and also enables
-different roles for different references of the same object class.
+generics, e.g. \lstinline|class List<elementOwner> { ... }|, and are similarly
+applied on types, e.g. \lstinline|rep List<norep> list;|. They allow owners
+higher in the hierarchy to declare their ownership of references held by
+descendants in their contexts. In the case of the previous \lstinline|list|
+example, the \lstinline|list| is declared to be part of the client object's
+context, but the elements it contains has no owner. Parameterized ownership is
+the key innovation that (partially) solves the container problem and also
+enables different roles for different references of the same object class.
 
 These declarations and parameters describe a hierarchical structure of object
 representations that can be easily verified at compile-time. If well-typed, the
@@ -530,10 +531,74 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 
 % Iterators not possible (too strict because of owners-as-dominators discipline)
 % - In XStack example, iterator modification has to go through stack
-%
-% - Iterator is only usable in the context of the owner of both the iterator and
-%	 stack
-%
+% Multiple owners not possible
+% - Cannot append two XStacks together because an append() function would have
+% to be declared rep. The other xstack would have a problem to be passed to the
+% first xstack because the contexts are different
+% Not possible to transfer ownership
+% - Example?
+
+
+\subsection{Boyapati's SafeJava}
+\label{subsec:boyapati}
+
+Boyapati et al.\ tackled the expressivity problem with the motivation of making
+ownership types a practical solution for local reasoning and software upgrades
+in persistent object stores~\cite{boyapati03innerclass}. His idea was to simply
+provide an exception for inner-classes (which iterators are often implemented
+with) to directly access and manipulate the representation of their outer-class
+regardless of ownership, while retaining the owners-as-dominators discipline in
+all other cases\footnote{Clarke actually proposed a similar idea in his
+thesis~\cite{clarke03ownership} but with a discipline that is not as useful for
+local reasoning~\cite{boyapati03innerclass}.}.
+
+The declarations and keywords used are also slightly different, but are no less
+expressive than Clarke's. The first context parameter of a type is taken to be
+primary owner, eliminating the need for separate \lstinline|norep|,
+\lstinline|rep| or \lstinline|owner| modifiers and making the syntax more
+consistent. Context arguments can be one of the following: \vspace{-0.5ex}
+\begin{itemize}
+	\setlength\itemsep{-0.2ex}
+	\item \textbf{\lstinline|this|}:
+		Referencing \lstinline|this| object as the owner.
+	\item \textbf{\lstinline|world|}:
+		Referencing the root context as the owner.
+	\item \textbf{$v$}:
+		A parameterized owner.
+\end{itemize} \vspace{-0.5ex}
+
+For example, the \lstinline|list| in \cref{subsec:clarke} would be declared
+as\linebreak\lstinline|class List<listOwner, elementOwner> { ... }|
+and\linebreak\lstinline|List<this, world> list;|~~in Boyapati's syntax.
+
+Boyapati eventually developed his version of ownership types into a system
+called SafeJava~\cite{boyapati04safejava} with additional features supporting
+not just software upgrades and local reasoning but also data race/deadlock
+prevention and memory safety. These include: \vspace{-0.5ex}
+\begin{itemize}
+	\setlength\itemsep{-0.2ex}
+	\item \textbf{Inheritance} and subtyping rules for ownership.	
+	\item \textbf{Constraints} on classes and methods with \lstinline|where|
+clauses,\linebreak e.g.~~\lstinline|class Container<o, a, b, c, d> where b <= c { /* b must be an ancestor of c */ }|.
+	\item \textbf{Effects} clauses with the \lstinline|reads| and
+\lstinline|writes| keywords declaring which variables are read and written by a
+method.
+	\item \textbf{Transfer} of ownership from one context to another, enabled by
+declaring such references to be \lstinline|unique|.	
+\end{itemize} \vspace{-0.5ex}
+
+While impressive overall, we find the ``principled violation of encapsulation''
+(as the authors call it) for inner-classes to be not a particularly elegant
+solution. Binary operations such as \linebreak\lstinline|list1.addAll(list2)|
+and other patterns are also still problematic to express in both Clarke's and
+Boyapati's systems.
+
+% ● Limitations:
+% ○ Inner-class exception not particularly elegant
+% ○ Binary operations problematic
+% ■ Example: list1.addAll(list2)
+
+
 % - Boyapati: A type system that strictly enforces object encapsulation is 
 %	 too constraining [113]: it does not allow efficient implementation of
 %	 important constructs like iterators [104, 71]. Consider, for example, an
@@ -541,59 +606,11 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 %	 encapsulated within s, it cannot be used outside s. If the iterator is not
 %	 encapsulated within s, it cannot directly access the list nodes in s, and
 %	 hence cannot run efficiently. [SafeJava, pg 25]
-%
-% Multiple owners not possible
-% - Cannot append two XStacks together because an append() function would have
-% to be declared rep. The other xstack would have a problem to be passed to the
-% first xstack because the contexts are different
-%
-% Not possible to transfer ownership
-% - Example?
-%
-% No inheritance; Inheritance not supported (or just not discussed)
-%
-% Key Idea: Ownership types impose structural invariants on the object graphs of
-% well-typed programs that limit the kinds of aliasing possible
-% - e.g. getter functions which return references to objects within the
-%	 invariant, allowing internals to be modified outside the owner.
 
-
-\subsection{Boyapati's SafeJava}
-\label{subsec:boyapati}
-
-
-
-% For solving the iterator problem
-%
-% Fully parametized ownership type system (conflicts with Java’s generics
-% syntax) with constraints (e.g. where sOwner <= tOwner)
-%
-% Does not have rep or norep keywords → uses this and world on first parameter
-% of object reference to denote primary owner.
-%
-% Supports effects clauses and constraints.
-%
-% Supports inheritance
-%
-% Support ownership transfer
-% only for unique references. unique references can be ‘borrowed’ so that in
-% a local scope an alias exists. Not completely static. (p54) Leaves null
-% pointers at runtime.
-%
-% Key Idea: Inner-classes (or classes in the same ‘module’) have privileged
-% access to the representation of the enclosing class -- ownership structure
-% unchanged, only access rules modified with an exception for inner-classes. The
-% concept of a peer in Universes seems to generalize this.
 %
 % - Ownership types can be mostly verified at compile time, but dynamic casts
 % are allowed in Java and so he proposes a complementary runtime system that
 % checks casts.
-%
-% Secondary owners must necessarily be ancestors of the primary owner. This is
-% because users parameterising the class would not know of any descendents of
-% the primary owner due to the encapsulation barrier.
-
-
 
 
 \subsection{Dietl and M\"{u}ller's Universe Types}
