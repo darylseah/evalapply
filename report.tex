@@ -83,12 +83,13 @@ Joel Low\\
 \maketitle
 \begin{abstract}
 The use of ownership types improves local reasoning, allowing both programmers
-and program analysis tools to reason about the correctness and behaviour of
-programs. This would improve the scalability of program analysis tools. This
-paper examines five variations of ownership types, and compares their
-expressiveness as well as their ability to ach\-ieve the goal of improving
-local reasoning. However, owing to the difficulty of annotating programs, it is
-likely that ownership types will only be used for safety-critical programs.
+and program analysis tools to reason more comprehensively about the correctness
+and behaviour of programs. This would improve the scalability of program
+analysis tools. This paper examines five variations of ownership types, and
+compares their expressiveness as well as their ability to achieve the goal of
+improving local reasoning. However, owing to the difficulty of annotating
+programs, it is likely that ownership types will only be used in
+safety-critical programs.
 \end{abstract}
 
 \section{Introduction}
@@ -144,19 +145,19 @@ class Main {
 
 Here we present a car with a driver and an engine. The car defines a
 \lstinline|start| method which will start the engine, but only if a driver is
-present. However, due to the lack of encapsulation,
-\cref{code:modular_reasoning_car_engine_1_engine_start} the car's engine can be
-started directly, bypassing the check. This should not be allowed because
-it breaks encapsulation.
+present. However, due to the lack of encapsulation, the car's engine can be
+started directly in \cref{code:modular_reasoning_car_engine_1_engine_start},
+bypassing the check.  This should not be allowed because it breaks
+encapsulation.
 
-The traditional approach to preventing this is to utilise access specifiers:
-using Java's syntax, there would be four levels of access: \lstinline|public|,
+The traditional means of preventing this is to utilise access specifiers: using
+Java's syntax, there would be four levels of access: \lstinline|public|,
 \lstinline|protected|, \lstinline|private|, and default (package-level) access.
 These access specifiers are annotations on types and variables, limiting
 \emph{visibility} of the identifiers of said types and variables to the
 appropriate scope. \Cref{code:modular_reasoning_car_engine_2}, modified from
-\cref{code:modular_reasoning_car_engine_1}, demonstrates that enforcing
-encapsulation using access specifiers alone is insufficient.
+\cref{code:modular_reasoning_car_engine_1}, demonstrates their use, but also
+that enforcing encapsulation using access specifiers alone is insufficient.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -196,7 +197,7 @@ and member variable with an appropriate access specifier. We also define an
 additional \emph{accessor} method, for the situation where a property of the
 car's engine must be accessed outside of the car (an instrument attached to the
 car's electronics to measure performance, for example). However, as seen on
-line~\ref{code:modular_reasoning_car_engine_2_engine_start} the original
+line~\ref{code:modular_reasoning_car_engine_2_engine_start}, the original
 problem has not been resolved: the engine can still be started externally.
 There is no way to reconcile access to parts of an object based on who `owns'
 the object, and who is accessing the object. Thus, access specifiers alone are
@@ -215,10 +216,10 @@ types, making reasoning about the program more difficult.
 \label{sec:ownership}
 
 % terminology and the basics
-Ownership Types is an addition to the type system to encode ownership
-information. This directly overcomes the limitations of only using access
-specifiers. Using SafeJava's\,\cite{boyapati04safejava} syntax, the Car example
-can be expressed as per \cref{code:ownership_types_car_engine_1}
+Ownership Types enhance the type system, encoding ownership information within.
+This directly overcomes the limitations of only using access specifiers. Using
+SafeJava's\,\cite{boyapati04safejava} syntax, the Car example can be expressed
+as per \cref{code:ownership_types_car_engine_1}
 \vpageref[above]{code:ownership_types_car_engine_1}.
 
 \Cref{code:ownership_types_car_engine_1} introduces the notion of an ownership
@@ -266,11 +267,11 @@ Ownership parameters can also be used within the class declaration, as shown on
 \cref{code:ownership_types_car_engine_1_parametric_owner}. Special keywords
 have been introduced: \lstinline|world| indicating that the value is not owned
 by any object (i.e. it is owned by the system), and \lstinline|this| has been
-overloaded to mean the current object's ownership context.
+overloaded to refer to the current object's ownership context.
 
 Type-checking this program results in a type-check failure because it is not
 possible to express the ownership context of the car outside of the class.
-However, it is possible to express the car's ownership to objects used by it,
+However, it is possible to express the car's ownership of objects used by it
 through the ownership parameter mechanism.
 
 This is one of the few approaches that we have examined. The other approaches
@@ -285,30 +286,31 @@ a consistent set of terms to be used across the different systems proposed.
 
 \begin{description}
 	\item[Expressivity] How complex a notion of ownership a system can allow a
-	programmer to express. We have designed various use cases, which encompass
-	a variety of design patterns which can be found in programs used today, and
-	analysed each system for its ability to express such a design pattern. Our
-	use cases can be broadly categorised as such:
+		programmer to express. We have designed various use cases which
+		encompass a variety of design patterns found in programs used today, and
+		analysed each system for its ability to express such a design pattern.
+		Our use cases can be broadly categorised as such:
 
 	\begin{itemize}
 		\item \textbf{Abstract Data Types}: We modified a Queue example
-		from~\cite{boyapati04safejava}, and added iterators, which can be seen
+		from~\cite{boyapati04safejava} and added iterators, which can be seen
 		as a view over the data stored in the data type.
-		\item \textbf{Inheritance}: A recurring pattern in Object-Ori\-ented
-		Programming where behaviour is augme\-nted onto existing classes.
-		\item \textbf{Generics}: Building upon the ADT use case, Gen\-erics
-		allow programmers to write reusable components.
-		\item \textbf{Cardinality of Ownership}: Having multiple owners of an
+		\item \textbf{Inheritance}: A recurring pattern in Object-Oriented
+		Programming where new classes are augmented with behaviour from existing
+		classes.
+		\item \textbf{Generics}: Building upon the ADT use case, Generics
+		allow programmers to take advantage of parametric polymorphism to write
+		reusable components.
+		\item \textbf{Cardinality of Ownership}: Having multiple owners for an
 		object is useful for writing parallel/distributed algorithms.
 		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership
-		from
-		one object to another is useful for producer-consumer pattern.
+		from one object to another is useful in the producer-consumer pattern.
 
 	\end{itemize}
 
-	\item[Representation Invariant] A constraint on the state of the object,
-	maintained throughout its lifetime
-	\item[Owner] An object or objects responsible for maintaining  the
+	\item[Representation Invariant] A constraint on the state of an object,
+	maintained throughout its lifetime.
+	\item[Owner] An object or set of objects responsible for maintaining the
 	representation invariant of an object.
 	\item[Context \emph{a.k.a. Universe, Box}] A nested partition of the object
 	store containing all the objects constituting the representation of
@@ -385,25 +387,25 @@ types, they can be ensured that no external code is able to modify the classes'
 invariants when they are understanding the code. This would allow them to
 locally reason about the function and behaviour of the module.
 
-The same benefit would also apply for static analysis tools. Because changes
-can be effected only from one part of the program, a tool need only reason
-locally to form sound conclusions from the input. This would allow such tools
-to run in parallel on different parts of the program, allowing even complex
-analyses to scale with the size of the code base.
+The same benefit would also apply for static analysis tools. Because changes can
+be effected only from one part of the program, a tool need only reason locally
+to form sound conclusions. This would allow such tools to run in parallel on
+different parts of the program, allowing even complex analyses to scale with the
+size of the code base.
 
 \subsubsection{Alias/Access Control}
 \label{subsubsec:alias_control}
 
 If programs adhere to the \textbf{owners-as-dominators} encapsulation
 discipline, then it is not possible to reference objects within another
-object's representation invariant. Therefore, aliases would be restricted to
+object's representation. Therefore, aliases would be restricted to
 the scopes where references are
 allowed~\cite{clarke98ownership,boyapati04safejava,cameron07mojo}.
 
 If programs adhere to the \textbf{owners-as-modifiers} encapsulation
-discipline, then there is not alias control; however, it is still not possible
-to modify the representation invariant of an object if the current object is
-not its owner~\cite{cunningham08ut,dietl09gut}.
+discipline, then there is no alias control; however, it is still not possible
+to modify the representation of an object if the current object is not its
+owner~\cite{cunningham08ut,dietl09gut}.
 
 In both cases, reasoning about side-effects are easy. In the former case, it is
 possible to increase the precision of alias analyses because aliasing is
@@ -415,14 +417,14 @@ restricted to scopes where the reference is valid.
 Because ownership types impose a structure on the object store, it is possible
 to prevent data races. Typically, when an object A needs to be locked for an
 update, it is not obvious which dependent objects (references which A
-maintains) needs to be locked as well. Since there is an ownership topology
+maintains) need to be locked as well. Since there is an ownership topology
 imposed on the object store, it would be possible to know at compile-time which
-objects need to be locked as well, as part of locking A. This prevents data
-from being accessed, while accidentally forgetting to lock the object. Thus,
-data races can be prevented.
+objects need to be locked as part of locking A. This prevents data from being
+accessed if an object is left unlocked by human error. Thus data races can be
+prevented.
 
 In the same vein, it is possible to prevent deadlocks from occurring by always
-locking a set of locks in the same order. Locking multiple locks in the same
+acquiring a set of locks in the same order. Acquiring multiple locks in the same
 order prevents a circular wait condition, which is a necessary condition for a
 deadlock to occur~\cite{silberschatz08os}. Regardless of topology,
 locking objects using depth-first or breadth-first traversal guarantees that
@@ -442,19 +444,19 @@ works well for simple objects; however, when the object graph is large, or
 contains cycles, the order to execute these transform functions may not be
 obvious.
 
-Ownership types enforces a constraint on the structure object graph. This
-allows the programmer to write isolated transform functions that transforms
-only one type in the object graph. When used together with a transactional
-memory store, it is possible to individually transform objects in any order, so
-long all objects in the graph are eventually transformed. When the transaction
-is committed, it would be guaranteed that the new object graph would be
-valid statically~\cite{boyapati04safejava,boyapati03innerclass}.
+Ownership types enforce constraints on the structure of the object graph. This
+allows the programmer to write isolated transform functions that transforms only
+one type in the object graph. When used together with a transactional memory
+store, it is possible to individually transform objects in any order, so long as
+all objects in the graph are eventually transformed. When the transaction is
+committed, it may be statically guaranteed that the new object graph would be
+valid~\cite{boyapati04safejava,boyapati03innerclass}.
 
 \section{Variants}
 \label{sec:variants}
 
 In this section we give an overview of the four ownership type systems that we
-have investigated in depth. The papers covered are by no means the entirety of
+have investigated in-depth. The papers covered are by no means the entirety of
 the work in the area. There are numerous other papers on extensions,
 improvements and related developments~\cite{clarke13survey}. However we choose
 these systems because they contributed important ideas and are (more or less)
@@ -464,7 +466,7 @@ presented individually with a full cross-comparison provided in \cref{sec:eval}.
 \subsection{Clarke's Ownership Types}
 \label{subsec:clarke}
 
-The concept of ``ownership'' was first introduced by Clarke et al. in his 1998
+The concept of ``ownership'' was first introduced by Clarke et al. in their 1998
 paper~\cite{clarke98ownership} with the motivation of mitigating the problems
 of uncontrolled aliasing in Object-Oriented languages. This was a refinement of
 a similar idea proposed by Clarke's thesis advisors called \emph{flexible alias
@@ -523,7 +525,7 @@ owner.
 However, ownership types as originally presented in~\cite{clarke98ownership}
 still had limitations. For example, rules for inheritance/subtyping were yet to
 be developed and the encapsulation discipline was still too strict to be of
-practical use (e.g.\ iterators are not possible). Addressing these and other
+practical use (e.g.\ iterators were not possible). Addressing these and other
 limitations was the main focus of subsequent work on the subject, a few of
 which are covered in the following sections~\cite{boyapati04safejava,
 boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
@@ -644,21 +646,25 @@ class TaskList { /* ... */ }
 
 class Project {
 	TaskList tasks;
-	void delay() { for (Task t : tasks) { t.delay(); } }
+	void delay() {
+		for (Task t : tasks) { t.delay(); }
+	}
 }
 
 class Worker { // Symmetric
 	TaskList tasks;
-	void delay() { for (Task t : tasks) { t.delay(); } }
+	void delay() {
+		for (Task t : tasks) { t.delay(); }
+	}
 }
 \end{lstlisting}
 
 The object topology presented here is a DAG instead of a tree: both Projects and
 Workers may conceptually own Tasks and accordingly modify them. In other words,
-the axis of organisation is flexible.
+the axis of organisation is flexible and may be either Projects or Workers.
 
 The \textbf{owners-as-dominators} discipline prevents this, as it requires that
-the object topology be tree-like: only one owner may dominate access paths to
+the object topology be a tree: only one owner may dominate access paths to
 Tasks. The \textbf{owners-as-modifier} discipline also causes problems as is:
 only one of Projects and Workers may own tasks, so only one would be able to
 modify them.
@@ -723,7 +729,7 @@ introduced in the form of the \textbf{\lstinline|intersects|} and
 \begin{itemize}
 
     \item \lstinline{a} \textbf{\lstinline|intersects|} \lstinline{b} is
-        required for \lstinline|a & b| to typecheck. This forces the programmer
+        required for \lstinline|a & b| to type-check. This forces the programmer
         to specify upfront which ownership contexts intersect, reducing the
         chance of erroneous or invalid ownership parameterisation.
 
@@ -731,15 +737,13 @@ introduced in the form of the \textbf{\lstinline|intersects|} and
         effect-independence between \lstinline{a} and \lstinline{b}. This can be
         seen intuitively as we are sure that the ownership contexts of a and b
         do not intersect, and thus method calls on a and b cannot interfere.
-        Data races, for example, are not possible on the of \lstinline{a} and
-        \lstinline{b}.
 
     \item \textbf{\lstinline|where|} clauses enable us to constrain ownership
         parameters to classes. This is illustrated in
-        \cref{code:ownership_types_multiple_constraints}. We are unable to take
+        \cref{code:ownership_types_multiple_constraints}: we are unable to take
         the intersections of disjoint ownership boxes, or boxes that we know
-        nothing about. Another notable example is that disjoint boxes cannot be
-        parameterised with identical elements as disjointness is irreflexive.
+        nothing about. Another notable constraint is that disjoint boxes cannot
+		be parameterised with identical elements as disjointness is irreflexive.
 
 \end{itemize}
 
@@ -780,20 +784,20 @@ limitations:
     \item \textbf{The owner-as-dominator discipline is lost}. This admits more
         programs which violate encapsulation as access paths are no longer
         restricted to one dominator. Unfortunately this is a necessary tradeoff
-        between guarantees and flexibility.
+        between discipline and flexibility.
 
     \item \textbf{Ease of use may suffer}. Ownership constraints reflect their
         implementation, which in this case is in the form of sets. Their
-        semantics are difficult to reason about without a decent understanding
+        semantics are difficult to reason about without a working understanding
         of the view of ownership contexts as sets, and may not be as easy to use
-        as other type systems.
+        as the other type systems.
 
-    \item \textbf{Multiple ownership has not been fully generalised} to solve
-        other problems that ownership types are known for, or have solutions
-        for. More specifically, work on integrating it with generics and race
-        detection is ongoing.  This is understandable as it is work in a new
-        direction, being the first implementation to relax the
-        \textbf{owners-as-dominators} constraint and admit multiple owners.
+	\item \textbf{Multiple ownership has not been fully generalised} to solve
+		other problems that ownership types are known for, or already have
+		solutions for. More specifically, work on integrating it with generics
+		and race detection is ongoing. This is understandable as it is work in
+		a new direction, being the first implementation to relax the
+		\textbf{owners-as-dominators} discipline and admit multiple owners.
 
 \end{itemize}
 
@@ -806,27 +810,27 @@ Our findings are listed in the table below. Here are a few highlights.
 
 \begin{itemize}
 
-    \item The \textit{Mutable View} and \textit{Immutable View} examples expore
-        the concept of a \textit{view} over data, the most realisation of which
-        being an iterator for a generic collection. The iterator itself has
-        sufficient access to the collection for a client to be able to read its
-        data, and possibly mutate the collection to remove elements. This is an
-        interesting example because the common \textbf{owners-as-dominators}
-        discipline is generally too strict for the notion of an object that is
-        able to explore the innards of another, albeit in a controlled way. It
-        is only overcome with special privileged access
-        \cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}.
+	\item The \textit{Mutable View} and \textit{Immutable View} examples expore
+		the concept of a \textit{view} over data, the most common implementation
+		of which being an iterator for a generic collection. The iterator itself
+		has sufficient access to the collection for a client to be able to read
+		its data, and possibly mutate the collection to remove elements. This is
+		an interesting example because the common \textbf{owners-as-dominators}
+		discipline is generally too strict for the notion of an object that is
+		able to explore the innards of another, albeit in a controlled way. It
+		is only overcome with special privileged access
+		\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}.
 
     \item The \textit{Binary Operators} example concerns objects with a peer
         \cite{dietl11gut} relationship that are able to explore each other's
-        representations. This is interesting to guage the varying levels of
-        access given to peers in the different type systems.
+        representations. This is useful to guage the varying levels of access
+		given to peers in the different type systems.
 
     \item A number of the examples contain unique features that aren't found in
-        more than one type system, for example multiple ownership, ownership
+        more than one type system, for example: multiple ownership, ownership
         transfer, and accomodation of generics. Because they have no analogue
-        these features can't really be compared. The situation is similar for
-        ownership parameters and constraints.
+        these features can't be compared. The situation is similar for ownership
+		parameters and constraints.
 
 \end{itemize}
 
@@ -836,13 +840,12 @@ Our findings are listed in the table below. Here are a few highlights.
 Our exploration of the various type systems here surfaced a number of issues and
 caveats which may limit their use or hinder mainstream adoption.
 
-The type systems presented are all pure, static type systems, but the language
-that they target, Java, does not have such a type system. Notably Java has
-runtime polymorphism, reflective features, and relies on dynamic casts to cope
-with certain situations (for example, casting a collection of
-abstract objects to subtypes for use). As such, in practice compile-time
-checking alone is insufficient \cite{boyapati04safejava} and runtime checks are
-required.
+For one, the type systems presented are all pure, static type systems, but the
+language that they target, Java, does not have such a type system. Notably Java
+has runtime polymorphism, reflective features, and relies on dynamic casts to
+cope with certain situations (for example, casting a collection of abstract
+objects to subtypes for use). As such, in practice compile-time checking alone
+is insufficient \cite{boyapati04safejava} and runtime checks are required.
 
 Annotations are also a burden on programmers. Ownership inference
 \cite{boyapati04safejava} is possible to an extent but cannot be done in
