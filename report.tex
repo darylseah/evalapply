@@ -630,11 +630,9 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 The previous type systems impose rigid object topologies well, but suffer in
 expressivity: the hierarchical model of ownership cannot accomodate certain
 common object structures. For example,
-\cref{code:ownership_types_multiple}, visualised in DIAGRAM REF
-MISSING, originally described in
-\cite{cameron07mojo}, is impossible to express:
-
-DIAGRAM MISSING
+\cref{code:ownership_types_multiple} (visualised in
+\cref{fig:multiple-ownership}), originally described in
+\cite{cameron07mojo}, is impossible to express.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -976,6 +974,13 @@ class Car<carOwner, driverOwner> {
 \includegraphics{iterator-fail-outside.eps}
 \caption{List Iterator outside representation.}
 \label{fig:iterator-outside-test}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics{multiple-ownership.eps}
+\caption{Multiple Ownership}
+\label{fig:multiple-ownership}
 \end{figure}
 
 Reference to \cref{code:car_eng_test}, \cref{sec:test} and
