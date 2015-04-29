@@ -743,7 +743,6 @@ introduced in the form of the \textbf{\lstinline|intersects|} and
         nothing about. Another notable example is that disjoint boxes cannot be
         parameterised with identical elements as disjointness is irreflexive.
 
-
 \end{itemize}
 
 \begin{lstlisting}[
@@ -782,16 +781,21 @@ limitations:
 
     \item \textbf{The owner-as-dominator discipline is lost}. This admits more
         programs which violate encapsulation as access paths are no longer
-        restricted to one dominator.
+        restricted to one dominator. Unfortunately this is a necessary tradeoff
+        between guarantees and flexibility.
 
-    \item \textbf{Ownership constraints reflect the implementation} of ownership
-        in the form of sets. Their semantics are difficult to reason about
-        without understanding of the view of ownership contexts as sets, and may
-        not be as easy to use as other type systems.
+    \item \textbf{Ease of use may suffer}. Ownership constraints reflect their
+        implementation, which in this case is in the form of sets. Their
+        semantics are difficult to reason about without a decent understanding
+        of the view of ownership contexts as sets, and may not be as easy to use
+        as other type systems.
 
-    \item \textbf{Multiple ownership has not been fully generalised}, seeing as
-        it is work in a new direction. Notably, work on integrating it with
-        generics and race detection is ongoing.
+    \item \textbf{Multiple ownership has not been fully generalised} to solve
+        other problems that ownership types are known for, or have solutions
+        for. More specifically, work on integrating it with generics and race
+        detection is ongoing.  This is understandable as it is work in a new
+        direction, being the first implementation to relax the
+        \textbf{owners-as-dominators} constraint and admit multiple owners.
 
 \end{itemize}
 
