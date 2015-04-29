@@ -591,14 +591,14 @@ not just software upgrades and local reasoning but also data race/deadlock
 prevention and memory safety. These include: \vspace{-0.5ex}
 \begin{itemize}
 	\setlength\itemsep{-0.2ex}
-	\item \textbf{Inheritance} and subtyping rules for ownership.	
+	\item \textbf{Inheritance} and subtyping rules for ownership.
 	\item \textbf{Constraints} on classes and methods with \lstinline|where|
 clauses,\linebreak e.g.~~\lstinline|class Container<o, a, b, c, d> where b <= c { /* b must be an ancestor of c */ }|.
 	\item \textbf{Effects} clauses with the \lstinline|reads| and
 \lstinline|writes| keywords declaring which variables are read and written by a
 method.
 	\item \textbf{Transfer} of ownership from one context to another, enabled by
-declaring such references to be \lstinline|unique|.	
+declaring such references to be \lstinline|unique|.
 \end{itemize} \vspace{-0.5ex}
 
 While impressive overall, we find the ``principled violation of encapsulation''
@@ -607,7 +607,7 @@ solution. Binary operations such as \linebreak\lstinline|list1.addAll(list2)|
 and other patterns are also still problematic to express in both Clarke's and
 Boyapati's systems.
 
-% - Boyapati: A type system that strictly enforces object encapsulation is 
+% - Boyapati: A type system that strictly enforces object encapsulation is
 %	 too constraining [113]: it does not allow efficient implementation of
 %	 important constructs like iterators [104, 71]. Consider, for example, an
 %	 iterator over the above-mentioned Stack object s. If the iterator is
@@ -747,7 +747,7 @@ new Project().add(new Task<p1 & w1>());
 
 The ability to specifiy intersection and disjointness constraints is
 introduced in the form of the \textbf{\lstinline|intersects|} and
-\textbf{\lstinline|intersects|} keywords.
+\textbf{\lstinline|disjoint|} keywords.
 
 \begin{itemize}
 
