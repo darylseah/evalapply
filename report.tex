@@ -142,21 +142,21 @@ class Main {
 }
 \end{lstlisting}
 
-Here, we present a car, with a driver and an engine. The car defines a 
-\lstinline|start| method, which will start the engine; the engine can 
-only be started if a driver is present. However, on 
-\cref{code:modular_reasoning_car_engine_1_engine_start} the car's engine 
-was started, bypassing that check. This should not have been allowed because it 
-has broken the encapsulation discipline.
+Here we present a car with a driver and an engine. The car defines a 
+\lstinline|start| method which will start the engine, but only if a driver is
+present. However, due to the lack of encapsulation,
+\cref{code:modular_reasoning_car_engine_1_engine_start} the car's engine can be
+started directly, bypassing the check. This should not be allowed because
+it breaks encapsulation.
 
-The traditional approach to preventing this is to utilise access specifiers; 
+The traditional approach to preventing this is to utilise access specifiers: 
 using Java's syntax, there would be four levels of access: \lstinline|public|, 
 \lstinline|protected|, \lstinline|private|, and default (package-level) access. 
 These access specifiers are annotations on types and variables, limiting 
 \emph{visibility} of the identifiers of said types and variables to the 
 appropriate scope. \Cref{code:modular_reasoning_car_engine_2}, modified from 
 \cref{code:modular_reasoning_car_engine_1}, demonstrates that enforcing 
-encapsulation using access specifiers alone are insufficient.
+encapsulation using access specifiers alone is insufficient.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
