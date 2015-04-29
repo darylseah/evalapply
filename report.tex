@@ -627,6 +627,36 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 \subsection{Cameron's Multiple Ownership}
 \label{subsec:cameron}
 
+The previous type systems impose rigid object topologies well, but suffer in
+expressivity: the hierarchical model of ownership cannot accomodate certain
+common object structures. The following example is impossible to express:
+
+The code expressing such a structure is given as well.
+
+The object topology presented here is a DAG instead of a tree: both Projects and
+Workers may conceptually own Tasks and accordingly modify them. In other words,
+the axis of organisation is flexible.
+
+The owner-as-dominator discipline prevents this, as it requires that the object
+topology be tree-like: only one owner may dominate access paths to Tasks. The
+owner-as-modifier discipline also causes problems as is: only one of Projects
+and Workers may own tasks, so only one would be able to modify them.
+
+To rectify this with single ownership, we would have to flatten the object
+structure, making all the objects involved peers of each other. This would solve
+the problem, but would remove all encapsulation and defeat the purpose of having
+an ownership type system.
+
+These deficiencies motivated Cameron et al.'s work, which generalises the notion
+of single ownership. It reimagines ownership contexts (called boxes in their
+terminology) as sets; multiple or joint ownership is then easily expressible via set
+intersection.
+
+The owner-as-dominator discipline is now too constraining as there are now
+multiple access paths to objects; it is thus relaxed. We are left with the
+owner-as-modifier discipline, which still applies, allowing any one of an
+object's multiple owners to modify it.
+
 % Key idea: dropping the owner-as-dominator requirement and allowing multiple
 % owners gives more expressiveness at the cost of the looser guarantees
 % - Classical ownership: owners-as-dominators/modifiers; solution is to flatten
