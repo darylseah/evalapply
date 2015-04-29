@@ -645,13 +645,13 @@ class Task { /* ... */ }
 class TaskList { /* ... */ }
 
 class Project {
-    TaskList tasks;
-    void delay() { for (Task t : tasks) { t.delay(); } }
+	TaskList tasks;
+	void delay() { for (Task t : tasks) { t.delay(); } }
 }
 
 class Worker { // Symmetric
-    TaskList tasks;
-    void delay() { for (Task t : tasks) { t.delay(); } }
+	TaskList tasks;
+	void delay() { for (Task t : tasks) { t.delay(); } }
 }
 \end{lstlisting}
 
@@ -711,7 +711,7 @@ Multiple ownership is reified with a number of syntactic additions:
             label=code:ownership_types_multiple_wildcards
         ]
 class Project {
-    void add(Task<this & ?> t) { /* ... */ }
+	void add(Task<this & ?> t) { /* ... */ }
 }
 new Project().add(new Task<p1 & w1>());
         \end{lstlisting}
@@ -751,26 +751,26 @@ introduced in the form of the \textbf{\lstinline|intersects|} and
 	label=code:ownership_types_multiple_constraints
 ]
 class C<owner, a, b> where
-    a intersects owner,
-    b disjoint owner
+	a intersects owner,
+	b disjoint owner
 {
-    // legal: known intersection
-    Object<a & owner> o1;
+	// legal: known intersection
+	Object<a & owner> o1;
 
-    // illegal: known disjointness
-    Object<b & owner> o2;
+	// illegal: known disjointness
+	Object<b & owner> o2;
 
-    // illegal: nothing known
-    Object<a & b> o3;
+	// illegal: nothing known
+	Object<a & b> o3;
 }
 
 class Example {
-    void method(Object a, Object b, Object c) {
-        // legal
-        new C<a, b, c>();
-        // illegal: disjointness is irreflexive
-        new C<a, b, a>();
-    }
+	void method(Object a, Object b, Object c) {
+		// legal
+		new C<a, b, c>();
+		// illegal: disjointness is irreflexive
+		new C<a, b, a>();
+	}
 }
 \end{lstlisting}
 
