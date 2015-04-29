@@ -516,7 +516,7 @@ These declarations and parameters describe a hierarchical structure of object
 representations that can be easily verified at compile-time. If well-typed, the
 programmer can be assured of that there can be no external aliases to any of
 the objects within a particular context, guaranteeing encapsulation. In
-particular, Clarke's ownership types enforces the \emph{owners-as-dominators}
+particular, Clarke's ownership types enforces the \textbf{owners-as-dominators}
 discipline, which ensures that all paths to an object must pass through its
 owner.
 
@@ -629,12 +629,20 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 
 The previous type systems impose rigid object topologies well, but suffer in
 expressivity: the hierarchical model of ownership cannot accomodate certain
-common object structures. The following example is impossible to express:
+common object structures. For example,
+\cref{code:ownership_types_multiple}, visualised in DIAGRAM REF
+MISSING, originally described in
+\cite{cameron07mojo}, is impossible to express:
 
-diagram here
+DIAGRAM MISSING
 
-class Task { /* … */ }
-class TaskList { /* … */ }
+\begin{lstlisting}[
+	float, floatplacement=t,
+	caption={Multiple Ownership},
+	label=code:ownership_types_multiple
+]
+class Task { /* ... */ }
+class TaskList { /* ... */ }
 
 class Project {
     TaskList tasks;
@@ -645,98 +653,147 @@ class Worker { // Symmetric
     TaskList tasks;
     void delay() { for (Task t : tasks) { t.delay(); } }
 }
-
-The code expressing such a structure is given as well.
+\end{lstlisting}
 
 The object topology presented here is a DAG instead of a tree: both Projects and
 Workers may conceptually own Tasks and accordingly modify them. In other words,
 the axis of organisation is flexible.
 
-The owner-as-dominator discipline prevents this, as it requires that the object
-topology be tree-like: only one owner may dominate access paths to Tasks. The
-owner-as-modifier discipline also causes problems as is: only one of Projects
-and Workers may own tasks, so only one would be able to modify them.
+The \textbf{owners-as-dominators} discipline prevents this, as it requires that
+the object topology be tree-like: only one owner may dominate access paths to
+Tasks. The \textbf{owners-as-modifier} discipline also causes problems as is:
+only one of Projects and Workers may own tasks, so only one would be able to
+modify them.
 
 To rectify this with single ownership, we would have to flatten the object
 structure, making all the objects involved peers of each other. This would solve
 the problem, but would remove all encapsulation and defeat the purpose of having
-an ownership type system.
+an ownership type system in the first place.
 
-These deficiencies motivated Cameron et al.'s work, which generalises the notion
-of single ownership. It reimagines ownership contexts (called boxes in their
+These deficiencies motivated \cite{cameron07mojo}, which generalises the notion
+of single ownership by reimagining ownership contexts (called boxes in their
 terminology) as sets; multiple or joint ownership is then easily expressible via
 set intersection.
 
-The owner-as-dominator discipline is now too constraining as there are now
-multiple access paths to objects; it is thus relaxed. We are left with the
-owner-as-modifier discipline, which still applies, allowing any one of an
-object's multiple owners to modify it.
+The \textbf{owners-as-dominators} discipline is now too constraining as there
+are now multiple access paths to objects; it is thus relaxed. We are left with
+the \textbf{owners-as-modifiers} discipline, which still applies, allowing any
+one of an object's multiple owners to modify it.
 
 Multiple ownership is reified with a number of syntactic additions:
 
-Ownership parameters (as in SafeJava), are used to express secondary or child
-owners.
+\begin{itemize}
 
-An intersection operator (&) on ownership contexts is introduced. It specifies
-that an object's owner is the intersection of two existing ownership contexts:
-conceptually, if an object's owner is a & b, it means that the object is jointly
-owned by a and b.
+    \item \textbf{Ownership parameters} (as in \cite{boyapati04safejava}), are
+        used to express secondary or child owners.
 
-Wildcards (or existential owners) are also introduced. The idea is that as we
-parameterise types with owners, we only know about owners in scope; we know no
-more about other owners than that *there exist* other owners. Wildcards allow us
-to express exactly this. This is illustrated in an example.
+    \item \textbf{An intersection operator} (\lstinline|&|) on ownership
+        contexts is introduced. It specifies that an object's owner is the
+        intersection of two existing ownership contexts: conceptually, if an
+        object's owner is \lstinline|a & b|, it means that the object is jointly
+        owned by a and b.
 
-Footnote:
+    \item \textbf{Wildcards} (or \textit{existential owners}) are also
+        introduced. The idea is that as we parameterise types with owners, we
+        only know about owners in scope; we know no more about other owners than
+        that \textit{there exist} other owners. Wildcards allow us to express
+        exactly this. This is illustrated in
+        \cref{code:ownership_types_multiple_wildcards}. \footnote{Ownership
+        parameters as specified in the paper \textit{are} covariant; a
+        notable difference from Java's generic type parameters.
+        \lstinline|Task<a & b>| is considered a subtype of both
+        \lstinline|Task<a & ?>| and \lstinline|Task<b & ?>|, allowing it to be
+        used wherever the latter two are expected.}
 
-Ownership parameters as specified in the paper *are* covariant; a notable
-difference from Java's generic type parameters. Task<a & b> is considered a
-subtype of both Task<a & ?> and Task<b & ?>, allowing it to be used wherever the
-latter two are expected.
-
-The ability to specifiy intersection and disjointness constraints is introduced
-in the form of the intersects and disjoints keywords.
-
-a intersects b is required for a & b to typecheck. This forces the programmer to
-specify upfront which ownership contexts intersect, reducing the chance of
-erroneous or invalid ownership parameterisation.
-
-a disjoint b guarantees effect-independence between a and b. This can be seen
-intuitively as we are sure that the ownership contexts of a and b do not
-intersect, and thus method calls on a and b cannot interfere. Data races, for
-example, are not possible on the of a and b.
-
-where clauses enable us to constrain ownership parameters to classes. Consider
-the following example.
-
-class C<owner, a, b> where a intersects owner, b disjoint owner {
-    Object<a & owner> o1; // legal: known intersection
-    Object<b & owner> o2; // illegal: known disjointness
-    Object<a & b> o3; // illegal: nothing known
+        \begin{lstlisting}[
+            float, floatplacement=t,
+            caption={Multiple Ownership},
+            label=code:ownership_types_multiple_wildcards
+        ]
+class Project {
+    void add(Task<this & ?> t) { /* ... */ }
 }
-void method() {
-    // ...
-    new C<a, b, c>(); // legal
-    new C<a, b, a>(); // illegal: disjointness is irreflexive
+new Project().add(new Task<p1 & w1>());
+        \end{lstlisting}
+
+\end{itemize}
+
+The ability to specifiy intersection and disjointness constraints is
+introduced in the form of the \textbf{\lstinline|intersects|} and
+\textbf{\lstinline|intersects|} keywords.
+
+\begin{itemize}
+
+    \item \lstinline{a} \textbf{\lstinline|intersects|} \lstinline{b} is
+        required for \lstinline|a & b| to typecheck. This forces the programmer
+        to specify upfront which ownership contexts intersect, reducing the
+        chance of erroneous or invalid ownership parameterisation.
+
+    \item \lstinline{a} \textbf{\lstinline|disjoint|} \lstinline{b} guarantees
+        effect-independence between \lstinline{a} and \lstinline{b}. This can be
+        seen intuitively as we are sure that the ownership contexts of a and b
+        do not intersect, and thus method calls on a and b cannot interfere.
+        Data races, for example, are not possible on the of \lstinline{a} and
+        \lstinline{b}.
+
+    \item \textbf{\lstinline|where|} clauses enable us to constrain ownership
+        parameters to classes. This is illustrated in
+        \cref{code:ownership_types_multiple_constraints}. We are unable to take
+        the intersections of disjoint ownership boxes, or boxes that we know
+        nothing about. Another notable example is that disjoint boxes cannot be
+        parameterised with identical elements as disjointness is irreflexive.
+
+
+\end{itemize}
+
+\begin{lstlisting}[
+	float, floatplacement=t,
+	caption={Multiple Ownership Constraints},
+	label=code:ownership_types_multiple_constraints
+]
+class C<owner, a, b> where
+    a intersects owner,
+    b disjoint owner
+{
+    // legal: known intersection
+    Object<a & owner> o1;
+
+    // illegal: known disjointness
+    Object<b & owner> o2;
+
+    // illegal: nothing known
+    Object<a & b> o3;
 }
 
-We are unable to take the intersections of disjoint ownership boxes, or boxes
-that we know nothing about. Another notable example is that disjoint boxes
-cannot be parameterised with identical elements as disjointness is irreflexive.
+class Example {
+    void method(Object a, Object b, Object c) {
+        // legal
+        new C<a, b, c>();
+        // illegal: disjointness is irreflexive
+        new C<a, b, a>();
+    }
+}
+\end{lstlisting}
 
-Multiple ownership is a powerful notion but has a number of limitations.
+Multiple ownership as described is a powerful notion but has a number of
+limitations.
 
-The owner-as-dominator discipline is lost. This admits more programs which
-violate encapsulation as access paths are no longer restricted to one dominator.
+\begin{itemize}
 
-Ownership constraints reflect the implementation of the ownership, which is
-sets. Their semantics are difficult to reason about without understanding of the
-view of ownership contexts as sets, and may not be as easy to use as the
-keywords of the other type systems.
+    \item The owner-as-dominator discipline is lost. This admits more programs
+        which violate encapsulation as access paths are no longer restricted to
+        one dominator.
 
-As multiple ownership is work in a new direction, it has also not been fully
-generalised. Notably, work on integrating it with generics and race detection is
-ongoing.
+    \item Ownership constraints reflect the implementation of ownership in the
+        form of sets. Their semantics are difficult to reason about without
+        understanding of the view of ownership contexts as sets, and may not be
+        as easy to use as other type systems.
+
+    \item As multiple ownership is work in a new direction, it has also not been
+        fully generalised. Notably, work on integrating it with generics and
+        race detection is ongoing.
+
+\end{itemize}
 
 \lipsum[10]
 
