@@ -833,32 +833,34 @@ Our findings are listed in the table below. Here are a few highlights.
 \section{Conclusion}
 \label{sec:conclude}
 
-Our exploration of the various type systems here surfaced a number of issues
-and caveats which
+Our exploration of the various type systems here surfaced a number of issues and
+caveats which may limit their use or hinder mainstream adoption.
 
 The type systems presented are all pure, static type systems, but the language
 that they target, Java, does not have such a type system. Notably Java has
-runtime polymorphism, reflective features, relies on dynamic casts to cope with
-certain situations that may arise (for example, casting a collection of abstract
-objects to subtypes for use). As such, in practice compile-time checking alone
-is insufficient \cite{boyapati04safejava} and runtime checks are required.
+runtime polymorphism, reflective features, and relies on dynamic casts to cope
+with certain situations (for example, casting a collection of
+abstract objects to subtypes for use). As such, in practice compile-time
+checking alone is insufficient \cite{boyapati04safejava} and runtime checks are
+required.
 
-Annotations are also a burden on programmers. Inference of ownership cannot be
-done in general, as there are complex ownership scenarios (iterators being the
-prime example) that cannot possibly be inferred from source code. The
-implication is that programmers need to provide some amount of annotation: the
-amount varies amongst the type systems, but adds significant cognitive burden
-due to the sheer number of new constructs \cite{boyapati04safejava} or heavily
-utilities concepts which are not immediately evident from source code
+Annotations are also a burden on programmers. Ownership inference
+\cite{boyapati04safejava} is possible to an extent but cannot be done in
+general, as there are complex ownership scenarios (iterators being the prime
+example) that cannot possibly be inferred from source code. The implication is
+that programmers will need to provide some amount of annotations. This amount
+varies with the type systems, but may adds significant cognitive burden due to
+the sheer number of new constructs \cite{boyapati04safejava} or heavily utilise
+concepts which are not immediately evident from source code
 \cite{cameron07mojo}. It is also easy to misuse annotations: for example,
 trivially letting ownership checks pass by declaring everything as owned by
 \lstinline|world|.
 
-In summary, while benefits of ownership types are undeniable, and they provide
+In summary, while benefits of ownership types are undeniable and they provide
 an unprecedented amount of safety and encapsulation, they can also be cumbersome
 to work with. We postulate that they will see most use in safety-critical
 applications, where their strengths in ensuring the correctness of programs can
-outweigh the cost of putting them to use.
+outweigh the costs of putting them to use.
 
 \begin{table*}[t]
 \caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
