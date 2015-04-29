@@ -776,36 +776,29 @@ class Example {
 \end{lstlisting}
 
 Multiple ownership as described is a powerful notion but has a number of
-limitations.
+limitations:
 
 \begin{itemize}
 
-    \item The owner-as-dominator discipline is lost. This admits more programs
-        which violate encapsulation as access paths are no longer restricted to
-        one dominator.
+    \item \textbf{The owner-as-dominator discipline is lost}. This admits more
+        programs which violate encapsulation as access paths are no longer
+        restricted to one dominator.
 
-    \item Ownership constraints reflect the implementation of ownership in the
-        form of sets. Their semantics are difficult to reason about without
-        understanding of the view of ownership contexts as sets, and may not be
-        as easy to use as other type systems.
+    \item \textbf{Ownership constraints reflect the implementation} of ownership
+        in the form of sets. Their semantics are difficult to reason about
+        without understanding of the view of ownership contexts as sets, and may
+        not be as easy to use as other type systems.
 
-    \item As multiple ownership is work in a new direction, it has also not been
-        fully generalised. Notably, work on integrating it with generics and
-        race detection is ongoing.
+    \item \textbf{Multiple ownership has not been fully generalised}, seeing as
+        it is work in a new direction. Notably, work on integrating it with
+        generics and race detection is ongoing.
 
 \end{itemize}
-
-\lipsum[10]
-
-
 
 \section{Evaluation}
 \label{sec:eval}
 
 \lipsum[11]
-
-
-
 
 \section{Conclusion}
 \label{sec:conclude}
