@@ -1,0 +1,6 @@
+// Restricted Java-subset:
+// No inner classes
+// No generics
+// No access modifiers -- final, static, public, private, protected
+// No exceptions
+// No concurrency
