@@ -192,12 +192,12 @@ class Main {
 
 \end{lstlisting}
 
-In Listing~\ref{code:modular_reasoning_car_engine_2} we annotate each method
+In \cref{code:modular_reasoning_car_engine_2} we annotate each method
 and member variable with an appropriate access specifier. We also define an
 additional \emph{accessor} method, for the situation where a property of the
-car's engine must be accessed outside of the car (an instrument attached to the
-car's electronics to measure performance, for example). However, as seen on
-line~\ref{code:modular_reasoning_car_engine_2_engine_start}, the original
+car's engine must be accessed outside of the car (such as an instrument 
+attached to the car's electronics to measure performance.) However, as seen on
+\cref{code:modular_reasoning_car_engine_2_engine_start}, the original
 problem has not been resolved: the engine can still be started externally.
 There is no way to reconcile access to parts of an object based on who `owns'
 the object, and who is accessing the object. Thus, access specifiers alone are
@@ -216,10 +216,11 @@ types, making reasoning about the program more difficult.
 \label{sec:ownership}
 
 % terminology and the basics
-Ownership Types enhance the type system, encoding ownership information within.
-This directly overcomes the limitations of only using access specifiers. Using
-SafeJava's\,\cite{boyapati04safejava} syntax, the Car example can be expressed
-as per \cref{code:ownership_types_car_engine_1}
+Ownership Types enhance the type system by allowing ownership information to be 
+stored together with type information; this directly overcomes the limitations 
+of only using access specifiers. Using SafeJava's~\cite{boyapati04safejava} 
+syntax, the Car example can be expressed as per 
+\cref{code:ownership_types_car_engine_1} 
 \vpageref[above]{code:ownership_types_car_engine_1}.
 
 \Cref{code:ownership_types_car_engine_1} introduces the notion of an ownership
@@ -293,29 +294,28 @@ a consistent set of terms to be used across the different systems proposed.
 
 	\begin{itemize}
 		\item \textbf{Abstract Data Types}: We modified a Queue example
-		from~\cite{boyapati04safejava} and added iterators, which can be seen
-		as a view over the data stored in the data type.
+			from~\cite{boyapati04safejava} and added iterators, which can be 
+			seen as a view over the data stored in the data type.
 		\item \textbf{Inheritance}: A recurring pattern in Object-Oriented
-		Programming where new classes are augmented with behaviour from existing
-		classes.
+			Programming where new classes are augmented with behaviour from 
+			existing classes.
 		\item \textbf{Generics}: Building upon the ADT use case, Generics
-		allow programmers to take advantage of parametric polymorphism to write
-		reusable components.
+			allow programmers to take advantage of parametric polymorphism to
+			write reusable components.
 		\item \textbf{Cardinality of Ownership}: Having multiple owners for an
-		object is useful for writing parallel/distributed algorithms.
+			object is useful for writing parallel/distributed algorithms.
 		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership
-		from one object to another is useful in the producer-consumer pattern.
-
+			from one object to another is useful in the \linebreak 
+			producer-consumer pattern.
 	\end{itemize}
 
 	\item[Representation Invariant] A constraint on the state of an object,
-	maintained throughout its lifetime.
+		maintained throughout its lifetime.
 	\item[Owner] An object or set of objects responsible for maintaining the
-	representation invariant of an object.
+		representation invariant of an object.
 	\item[Context \emph{a.k.a. Universe, Box}] A nested partition of the object
-	store containing all the objects constituting the representation of
-	a particular object.
-
+		store containing all the objects constituting the representation of
+		a particular object.
 \end{description}
 
 \subsection{Ownership Topologies}
@@ -326,10 +326,10 @@ object store. In this paper, two topologies are examined:
 
 \begin{description}
 	\item[Hierarchical \emph{a.k.a. Tree}] This is a single ownership topology,
-	wh\-ere every object as one owner.
-	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership
-	to\-pology, where an object can have multiple owners. All owners of the
-	object can modify its invariant.
+		\linebreak where every object as one owner.
+	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership \linebreak
+		topology, where an object can have multiple owners. All owners of the
+		object can modify its invariant.
 \end{description}
 
 \subsection{Encapsulation Disciplines}
@@ -342,13 +342,13 @@ encapsulation disciplines are discussed:
 
 \begin{description}
 	\item[Owners-as-Dominators] Objects can only be modified by following a
-	reference chain from the root context thr\-ough the object's owner.
-	Aliasing is restricted, because no aliases to an object B owned by an
-	object A can exist outside of the ownership context of object A.
+		reference chain from the root context through the object's owner.
+		Aliasing is restricted, because no aliases to an object B owned by an
+		object A can exist outside of the ownership context of object A.
 	\item[Owners-as-Modifiers] Objects can only be modified by following a
-	reference chain from the root context thr\-ough the object's owner.
-	However, read-only access is granted in all other contexts. Aliasing is
-	\emph{not} restricted.
+		reference chain from the root context through the object's owner.
+		However, read-only access is granted in all other contexts. Aliasing is
+		\emph{not} restricted.
 \end{description}
 
 \begin{figure}[t]
@@ -363,9 +363,9 @@ difference between both encapsulation disciplines. References between objects
 are represented by arrows. The owner of an object is the class at the top of
 the dashed box the object is in.
 
-If the \textbf{owners-as-dominators} discipline is adhered to, then only the
-solid arrows are allowed. The dashed arrows are references which do not pass
-through the object's owner, and as such are only allowed in the
+If the \textbf{owners-as-dominators} discipline is adhered to, then \linebreak
+only the solid arrows are allowed. The dashed arrows are references which do
+not pass through the object's owner, and as such are only allowed in the
 \textbf{owners-as-modifiers} discipline. In the \textbf{owners-as-modifiers}
 discipline, while such a reference is legal, these references cannot be used to
 mutate the state of the object being referenced.
@@ -455,18 +455,18 @@ valid~\cite{boyapati04safejava,boyapati03innerclass}.
 \section{Variants}
 \label{sec:variants}
 
-In this section we give an overview of the four ownership type systems that we
+In this section we give an overview of the five ownership type systems that we
 have investigated in-depth. The papers covered are by no means the entirety of
 the work in the area. There are numerous other papers on extensions,
-improvements and related developments~\cite{clarke13survey}. However we choose
-these systems because they contributed important ideas and are (more or less)
+improvements and related developments~\cite{clarke13survey}. However, we chose
+these systems because they contributed important ideas and are
 representative of the gamut of work in ownership types. Each system will be
 presented individually with a full cross-comparison provided in \cref{sec:eval}.
 
 \subsection{Clarke's Ownership Types}
 \label{subsec:clarke}
 
-The concept of ``ownership'' was first introduced by Clarke et
+The concept of ownership was first introduced by Clarke et
 al.~\cite{clarke98ownership,clarke01ownership} with the motivation of
 mitigating the problems of uncontrolled aliasing in Object-Oriented languages.
 This was a refinement of a similar idea proposed by Clarke's thesis advisors
@@ -517,16 +517,16 @@ enables different roles for different references of the same object class.
 
 These declarations and parameters describe a hierarchical structure of object
 representations that can be easily verified at compile-time. If well-typed, the
-programmer can be assured of that there can be no external aliases to any of
-the objects within a particular context, guaranteeing encapsulation. In
-particular, Clarke's ownership types enforces the \textbf{owners-as-dominators}
-discipline, which ensures that all paths to an object must pass through its
-owner.
+programmer can be assured of that \linebreak there can be no external aliases
+to any of the objects within a particular context, guaranteeing encapsulation.
+In particular, Clarke's ownership types enforces the
+\textbf{owners-as-dominators} discipline, which ensures that all paths to an
+object must pass through its owner.
 
 However, ownership types as originally presented in~\cite{clarke98ownership}
 still had limitations. For example, rules for inheritance/subtyping were yet to
 be developed and the encapsulation discipline was still too strict to be of
-practical use (e.g.\ iterators were not possible). Addressing these and other
+practical use (e.g.\ iterators were not possible.) Addressing these and other
 limitations was the main focus of subsequent work on the subject, a few of
 which are covered in the following sections~\cite{boyapati04safejava,
 boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
@@ -588,7 +588,7 @@ and\linebreak\lstinline|List<this, world> list;|~~in Boyapati's syntax.
 Boyapati eventually developed his version of ownership types into a system
 called SafeJava~\cite{boyapati04safejava} with additional features supporting
 not just software upgrades and local reasoning but also data race/deadlock
-prevention and memory safety. These include: \vspace{-0.5ex}
+prevention and region-based memory. These include: \vspace{-0.5ex}
 \begin{itemize}
 	\setlength\itemsep{-0.2ex}
 	\item \textbf{Inheritance} and subtyping rules for ownership.
@@ -602,7 +602,7 @@ declaring such references to be \lstinline|unique|.
 \end{itemize} \vspace{-0.5ex}
 
 While impressive overall, we find the ``principled violation of encapsulation''
-(as the authors call it) for inner-classes to be not a particularly elegant
+(as the authors call it) for inner-classes to not be a particularly elegant
 solution. Binary operations such as \linebreak\lstinline|list1.addAll(list2)|
 and other patterns are also still problematic to express in both Clarke's and
 Boyapati's systems.
@@ -653,7 +653,7 @@ Boyapati's systems.
 \label{subsec:cameron}
 
 The previous type systems impose rigid object topologies well, but suffer in
-expressivity: the hierarchical model of ownership cannot accomodate certain
+expressivity: the hierarchical model of ownership cannot accommodate certain
 common object structures. For example,
 \cref{code:ownership_types_multiple} (visualised in
 \cref{fig:multiple-ownership}), originally described in
@@ -692,7 +692,7 @@ Tasks. The \textbf{owners-as-modifier} discipline also causes problems as is:
 only one of Projects and Workers may own tasks, so only one would be able to
 modify them.
 
-To rectify this with single ownership, we would have to flatten the object
+To work around this with single ownership, we would have to flatten the object
 structure, making all the objects involved peers of each other. This would solve
 the problem, but would remove all encapsulation and defeat the purpose of having
 an ownership type system in the first place.
@@ -874,15 +874,15 @@ objects to subtypes for use). As such, in practice compile-time checking alone
 is insufficient \cite{boyapati04safejava} and runtime checks are required,
 especially if Java interoperability is a requirement.
 
-Annotations are also a burden on programmers. Ownership inference
-\cite{boyapati04safejava} is possible to an extent but cannot be done in
-general, as there are complex ownership scenarios (iterators being the prime
+Annotations are also a burden on programmers. Ownership 
+inference~\cite{boyapati04safejava} is possible to an extent but cannot be done 
+in general, as there are complex ownership scenarios (iterators being the prime
 example) that cannot possibly be inferred from source code. The implication is
 that programmers will need to provide some amount of annotations. This amount
-varies with the type systems, but may adds significant cognitive burden due to
-the sheer number of new constructs \cite{boyapati04safejava} or heavily utilise
-concepts which are not immediately evident from source code
-\cite{cameron07mojo}. It is also easy to misuse annotations: for example,
+varies with the various systems, but adds significant cognitive burden due to
+the sheer number of new constructs~\cite{boyapati04safejava} or heavily utilise
+concepts which are not immediately evident from source 
+code~\cite{cameron07mojo}. It is also easy to misuse annotations: for example,
 trivially letting ownership checks pass by declaring everything as owned by
 \lstinline|world|.
 
@@ -890,7 +890,7 @@ In summary, while benefits of ownership types are undeniable and they provide
 an unprecedented amount of safety and encapsulation, they can also be cumbersome
 to work with. We postulate that they will see most use in safety-critical
 applications, where their strengths in ensuring the correctness of programs can
-outweigh the costs of putting them to use.
+outweigh the costs of using them.
 
 \begin{table*}[t]
 \caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
