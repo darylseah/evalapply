@@ -305,8 +305,8 @@ a consistent set of terms to be used across the different systems proposed.
 		\item \textbf{Cardinality of Ownership}: Having multiple owners for an
 			object is useful for writing parallel/distributed algorithms.
 		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership
-			from one object to another is useful in the producer-consumer 
-			pattern.
+			from one object to another is useful in the \linebreak 
+			producer-consumer pattern.
 	\end{itemize}
 
 	\item[Representation Invariant] A constraint on the state of an object,
@@ -326,9 +326,9 @@ object store. In this paper, two topologies are examined:
 
 \begin{description}
 	\item[Hierarchical \emph{a.k.a. Tree}] This is a single ownership topology,
-		wh\-ere every object as one owner.
-	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership
-		to\-pology, where an object can have multiple owners. All owners of the
+		\linebreak where every object as one owner.
+	\item[Directed Acyclic Graph (DAG)] This is a multiple ownership \linebreak
+		topology, where an object can have multiple owners. All owners of the
 		object can modify its invariant.
 \end{description}
 
@@ -342,11 +342,11 @@ encapsulation disciplines are discussed:
 
 \begin{description}
 	\item[Owners-as-Dominators] Objects can only be modified by following a
-		reference chain from the root context thr\-ough the object's owner.
+		reference chain from the root context through the object's owner.
 		Aliasing is restricted, because no aliases to an object B owned by an
 		object A can exist outside of the ownership context of object A.
 	\item[Owners-as-Modifiers] Objects can only be modified by following a
-		reference chain from the root context thr\-ough the object's owner.
+		reference chain from the root context through the object's owner.
 		However, read-only access is granted in all other contexts. Aliasing is
 		\emph{not} restricted.
 \end{description}
@@ -363,9 +363,9 @@ difference between both encapsulation disciplines. References between objects
 are represented by arrows. The owner of an object is the class at the top of
 the dashed box the object is in.
 
-If the \textbf{owners-as-dominators} discipline is adhered to, then only the
-solid arrows are allowed. The dashed arrows are references which do not pass
-through the object's owner, and as such are only allowed in the
+If the \textbf{owners-as-dominators} discipline is adhered to, then \linebreak
+only the solid arrows are allowed. The dashed arrows are references which do
+not pass through the object's owner, and as such are only allowed in the
 \textbf{owners-as-modifiers} discipline. In the \textbf{owners-as-modifiers}
 discipline, while such a reference is legal, these references cannot be used to
 mutate the state of the object being referenced.
@@ -455,18 +455,18 @@ valid~\cite{boyapati04safejava,boyapati03innerclass}.
 \section{Variants}
 \label{sec:variants}
 
-In this section we give an overview of the four ownership type systems that we
+In this section we give an overview of the five ownership type systems that we
 have investigated in-depth. The papers covered are by no means the entirety of
 the work in the area. There are numerous other papers on extensions,
-improvements and related developments~\cite{clarke13survey}. However we choose
-these systems because they contributed important ideas and are (more or less)
+improvements and related developments~\cite{clarke13survey}. However, we chose
+these systems because they contributed important ideas and are
 representative of the gamut of work in ownership types. Each system will be
 presented individually with a full cross-comparison provided in \cref{sec:eval}.
 
 \subsection{Clarke's Ownership Types}
 \label{subsec:clarke}
 
-The concept of ``ownership'' was first introduced by Clarke et
+The concept of ownership was first introduced by Clarke et
 al.~\cite{clarke98ownership,clarke01ownership} with the motivation of
 mitigating the problems of uncontrolled aliasing in Object-Oriented languages.
 This was a refinement of a similar idea proposed by Clarke's thesis advisors
@@ -517,11 +517,11 @@ enables different roles for different references of the same object class.
 
 These declarations and parameters describe a hierarchical structure of object
 representations that can be easily verified at compile-time. If well-typed, the
-programmer can be assured of that there can be no external aliases to any of
-the objects within a particular context, guaranteeing encapsulation. In
-particular, Clarke's ownership types enforces the \textbf{owners-as-dominators}
-discipline, which ensures that all paths to an object must pass through its
-owner.
+programmer can be assured of that \linebreak there can be no external aliases
+to any of the objects within a particular context, guaranteeing encapsulation.
+In particular, Clarke's ownership types enforces the
+\textbf{owners-as-dominators} discipline, which ensures that all paths to an
+object must pass through its owner.
 
 However, ownership types as originally presented in~\cite{clarke98ownership}
 still had limitations. For example, rules for inheritance/subtyping were yet to
