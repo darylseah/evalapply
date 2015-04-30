@@ -526,7 +526,7 @@ object must pass through its owner.
 However, ownership types as originally presented in~\cite{clarke98ownership}
 still had limitations. For example, rules for inheritance/subtyping were yet to
 be developed and the encapsulation discipline was still too strict to be of
-practical use (e.g.\ iterators were not possible). Addressing these and other
+practical use (e.g.\ iterators were not possible.) Addressing these and other
 limitations was the main focus of subsequent work on the subject, a few of
 which are covered in the following sections~\cite{boyapati04safejava,
 boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
@@ -588,7 +588,7 @@ and\linebreak\lstinline|List<this, world> list;|~~in Boyapati's syntax.
 Boyapati eventually developed his version of ownership types into a system
 called SafeJava~\cite{boyapati04safejava} with additional features supporting
 not just software upgrades and local reasoning but also data race/deadlock
-prevention and memory safety. These include: \vspace{-0.5ex}
+prevention and region-based memory. These include: \vspace{-0.5ex}
 \begin{itemize}
 	\setlength\itemsep{-0.2ex}
 	\item \textbf{Inheritance} and subtyping rules for ownership.
@@ -602,7 +602,7 @@ declaring such references to be \lstinline|unique|.
 \end{itemize} \vspace{-0.5ex}
 
 While impressive overall, we find the ``principled violation of encapsulation''
-(as the authors call it) for inner-classes to be not a particularly elegant
+(as the authors call it) for inner-classes to not be a particularly elegant
 solution. Binary operations such as \linebreak\lstinline|list1.addAll(list2)|
 and other patterns are also still problematic to express in both Clarke's and
 Boyapati's systems.
@@ -653,7 +653,7 @@ Boyapati's systems.
 \label{subsec:cameron}
 
 The previous type systems impose rigid object topologies well, but suffer in
-expressivity: the hierarchical model of ownership cannot accomodate certain
+expressivity: the hierarchical model of ownership cannot accommodate certain
 common object structures. For example,
 \cref{code:ownership_types_multiple} (visualised in
 \cref{fig:multiple-ownership}), originally described in
@@ -692,7 +692,7 @@ Tasks. The \textbf{owners-as-modifier} discipline also causes problems as is:
 only one of Projects and Workers may own tasks, so only one would be able to
 modify them.
 
-To rectify this with single ownership, we would have to flatten the object
+To work around this with single ownership, we would have to flatten the object
 structure, making all the objects involved peers of each other. This would solve
 the problem, but would remove all encapsulation and defeat the purpose of having
 an ownership type system in the first place.
@@ -871,15 +871,15 @@ objects to subtypes for use). As such, in practice compile-time checking alone
 is insufficient \cite{boyapati04safejava} and runtime checks are required,
 especially if Java interoperability is a requirement.
 
-Annotations are also a burden on programmers. Ownership inference
-\cite{boyapati04safejava} is possible to an extent but cannot be done in
-general, as there are complex ownership scenarios (iterators being the prime
+Annotations are also a burden on programmers. Ownership 
+inference~\cite{boyapati04safejava} is possible to an extent but cannot be done 
+in general, as there are complex ownership scenarios (iterators being the prime
 example) that cannot possibly be inferred from source code. The implication is
 that programmers will need to provide some amount of annotations. This amount
-varies with the type systems, but may adds significant cognitive burden due to
-the sheer number of new constructs \cite{boyapati04safejava} or heavily utilise
-concepts which are not immediately evident from source code
-\cite{cameron07mojo}. It is also easy to misuse annotations: for example,
+varies with the various systems, but adds significant cognitive burden due to
+the sheer number of new constructs~\cite{boyapati04safejava} or heavily utilise
+concepts which are not immediately evident from source 
+code~\cite{cameron07mojo}. It is also easy to misuse annotations: for example,
 trivially letting ownership checks pass by declaring everything as owned by
 \lstinline|world|.
 
@@ -887,7 +887,7 @@ In summary, while benefits of ownership types are undeniable and they provide
 an unprecedented amount of safety and encapsulation, they can also be cumbersome
 to work with. We postulate that they will see most use in safety-critical
 applications, where their strengths in ensuring the correctness of programs can
-outweigh the costs of putting them to use.
+outweigh the costs of using them.
 
 \begin{table*}[t]
 \caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
