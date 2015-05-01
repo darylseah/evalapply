@@ -321,7 +321,7 @@ a consistent set of terms to be used across the different systems proposed.
 \subsection{Ownership Topologies}
 \label{subsec:topologies}
 
-An ownership topology is a description of the structure and organisation of the
+An ownership topology describes the structure and organisation of the
 object store. In this paper, two topologies are examined:
 
 \begin{description}
@@ -516,11 +516,10 @@ enables different roles for different references of the same object class.
 
 These declarations and parameters describe a hierarchical structure of object
 representations that can be easily verified at compile-time. If well-typed, the
-programmer can be assured of that \linebreak there can be no external aliases
-to any of the objects within a particular context, guaranteeing encapsulation.
-In particular, Clarke's ownership types enforces the
-\textbf{owners-as-dominators} discipline, which ensures that all paths to an
-object must pass through its owner.
+programmer can be assured that there are no external aliases to any of the
+objects within a particular context, guaranteeing encapsulation. In particular,
+Clarke's ownership types enforces the \textbf{owners-as-dominators} discipline,
+which ensures that all paths to an object must pass through its owner.
 
 However, ownership types as originally presented in~\cite{clarke98ownership}
 still had limitations. For example, rules for inheritance/subtyping were yet to
@@ -621,7 +620,6 @@ Boyapati's systems.
 \subsection{Dietl and M\"{u}ller's Universe Types}
 \label{subsec:dietl}
 
-\lipsum
 
 % Uses modifiers rep, peer, any on references, and pure/impure on methods.
 %
@@ -660,10 +658,9 @@ Boyapati's systems.
 
 The previous type systems impose rigid object topologies well, but suffer in
 expressivity: the hierarchical model of ownership cannot accommodate certain
-common object structures. For example,
-\cref{code:ownership_types_multiple} (visualised in
-\cref{fig:multiple-ownership}), originally described in
-\cite{cameron07mojo}, is impossible to express.
+object structures. For example, \cref{code:ownership_types_multiple}
+(visualised in \cref{fig:multiple-ownership}), which is originally described
+in~\cite{cameron07mojo}, is impossible to express.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -708,13 +705,13 @@ of single ownership by reimagining ownership contexts (called boxes in their
 terminology) as sets; multiple or joint ownership is then easily expressible via
 set intersection.
 
-The \textbf{owners-as-dominators} discipline is now too constraining as there
-are now multiple access paths to objects; it is thus relaxed. We are left with
-the \textbf{owners-as-modifiers} discipline, which still applies, allowing any
-one of an object's multiple owners to modify it.
+The \textbf{owners-as-dominators} discipline is too constraining as there are
+multiple access paths to objects; it is thus relaxed. We are left with the
+\textbf{owners-as-modifiers} discipline, which still applies, allowing any one
+of an object's multiple owners to modify it.
 
-Multiple ownership is reified with a number of syntactic additions:
-
+\vspace{1ex}
+Multiple ownership is reified with several syntactic additions:
 \begin{itemize}
 
     \item \textbf{Ownership parameters} (as in \cite{boyapati04safejava}), are
@@ -731,7 +728,7 @@ Multiple ownership is reified with a number of syntactic additions:
         only know about owners in scope; we know no more about other owners than
         that \textit{there exist} other owners. Wildcards allow us to express
         exactly this. This is illustrated in
-        \cref{code:ownership_types_multiple_wildcards}. \footnote{Ownership
+        \cref{code:ownership_types_multiple_wildcards}.\footnote{Ownership
         parameters as specified in the paper \textit{are} covariant; a
         notable difference from Java's generic type parameters.
         \lstinline|Task<a & b>| is considered a subtype of both
@@ -751,9 +748,9 @@ new Project().add(new Task<p1 & w1>());
 
 \end{itemize}
 
-The ability to specifiy intersection and disjointness constraints is
-introduced in the form of the \textbf{\lstinline|intersects|} and
-\textbf{\lstinline|disjoint|} keywords.
+The ability to specify intersection and disjointness constraints is supported
+by the \textbf{\lstinline|intersects|} and \textbf{\lstinline|disjoint|}
+keywords.
 
 \begin{itemize}
 
