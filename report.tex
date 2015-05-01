@@ -651,6 +651,13 @@ Boyapati's systems.
 \subsection{Cameron's Multiple Ownership}
 \label{subsec:cameron}
 
+\begin{figure}[t]
+\centering
+\includegraphics{multiple-ownership.eps}
+\caption{Multiple Ownership}
+\label{fig:multiple-ownership}
+\end{figure}
+
 The previous type systems impose rigid object topologies well, but suffer in
 expressivity: the hierarchical model of ownership cannot accommodate certain
 common object structures. For example,
@@ -829,67 +836,6 @@ limitations:
 \section{Evaluation}
 \label{sec:eval}
 
-As mentioned earlier, we have chosen to measure expressivity in terms of the
-design patterns and object structures that the different type systems support.
-Our findings are listed in the table below. Here are a few highlights.
-
-\begin{itemize}
-
-	\item The \textit{Mutable View} and \textit{Immutable View} examples expore
-		the concept of a \textit{view} over data, the most common implementation
-		of which being an iterator for a generic collection. The iterator itself
-		has sufficient access to the collection for a client to be able to read
-		its data, and possibly mutate the collection to remove elements. This is
-		an interesting example because the common \textbf{owners-as-dominators}
-		discipline is generally too strict for the notion of an object that is
-		able to explore the innards of another, albeit in a controlled way. It
-		is only overcome with special privileged access
-		\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}.
-
-    \item The \textit{Binary Operators} example concerns objects with a peer
-        \cite{dietl11gut} relationship that are able to explore each other's
-        representations. This is useful to guage the varying levels of access
-		given to peers in the different type systems.
-
-    \item A number of the examples contain unique features that aren't found in
-        more than one type system, for example: multiple ownership, ownership
-        transfer, and accomodation of generics. Because they have no analogue
-        these features can't be compared. The situation is similar for ownership
-		parameters and constraints.
-
-\end{itemize}
-
-\section{Conclusion}
-\label{sec:conclude}
-
-Our exploration of the various type systems here surfaced a number of issues and
-caveats which may limit their use or hinder mainstream adoption.
-
-For one, the type systems presented are all pure, static type systems, but the
-language that they target, Java, does not have such a type system. Notably Java
-has runtime polymorphism, reflective features, and relies on dynamic casts to
-cope with certain situations (for example, casting a collection of abstract
-objects to subtypes for use). As such, in practice compile-time checking alone
-is insufficient \cite{boyapati04safejava} and runtime checks are required,
-especially if Java interoperability is a requirement.
-
-Annotations are also a burden on programmers. Ownership 
-inference~\cite{boyapati04safejava} is possible to an extent but cannot be done 
-in general, as there are complex ownership scenarios (iterators being the prime
-example) that cannot possibly be inferred from source code. The implication is
-that programmers will need to provide some amount of annotations. This amount
-varies with the various systems, but adds significant cognitive burden due to
-the sheer number of new constructs~\cite{boyapati04safejava} or heavily utilise
-concepts which are not immediately evident from source 
-code~\cite{cameron07mojo}. It is also easy to misuse annotations: for example,
-trivially letting ownership checks pass by declaring everything as owned by
-\lstinline|world|.
-
-In summary, while benefits of ownership types are undeniable and they provide
-an unprecedented amount of safety and encapsulation, they can also be cumbersome
-to work with. We postulate that they will see most use in safety-critical
-applications, where their strengths in ensuring the correctness of programs can
-outweigh the costs of using them.
 
 \begin{table*}[t]
 \caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
@@ -963,87 +909,115 @@ Multiple Ownership~\cite{cameron07mojo}&
 \end{table*}
 
 
+As mentioned earlier, we have chosen to measure expressivity in terms of the
+design patterns and object structures that the different type systems support.
+Our findings are listed in the table below. Here are a few highlights.
 
+\begin{itemize}
 
+	\item The \textit{Mutable View} and \textit{Immutable View} examples expore
+		the concept of a \textit{view} over data, the most common implementation
+		of which being an iterator for a generic collection. The iterator itself
+		has sufficient access to the collection for a client to be able to read
+		its data, and possibly mutate the collection to remove elements. This is
+		an interesting example because the common \textbf{owners-as-dominators}
+		discipline is generally too strict for the notion of an object that is
+		able to explore the innards of another, albeit in a controlled way. It
+		is only overcome with special privileged access
+		\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}.
 
+    \item The \textit{Binary Operators} example concerns objects with a peer
+        \cite{dietl11gut} relationship that are able to explore each other's
+        representations. This is useful to guage the varying levels of access
+		given to peers in the different type systems.
 
-\section{Testing}
-\label{sec:test}
+    \item A number of the examples contain unique features that aren't found in
+        more than one type system, for example: multiple ownership, ownership
+        transfer, and accomodation of generics. Because they have no analogue
+        these features can't be compared. The situation is similar for ownership
+		parameters and constraints.
 
-% Code Snippets
-\begin{lstlisting}[
-	float, floatplacement=t,
-	caption={Car Engine Example},
-	label=code:car_eng_test
-]
-class Person {}
-class Engine<any engineOwner> {
-  pure void start() { /* ... */ }
-}
+\end{itemize}
 
-class Car<carOwner, driverOwner> {
-  rep Engine<this> engine;
-	norep Person<a & ?> driver;
+\section{Conclusion}
+\label{sec:conclude}
 
-  impure void start() {
-    if (driver != null) getEngine().start();
-  }
-  Engine<world> getEngine() reads { return engine; }
-}
-\end{lstlisting}
+Our exploration of the various type systems here surfaced a number of issues and
+caveats which may limit their use or hinder mainstream adoption.
+
+For one, the type systems presented are all pure, static type systems, but the
+language that they target, Java, does not have such a type system. Notably Java
+has runtime polymorphism, reflective features, and relies on dynamic casts to
+cope with certain situations (for example, casting a collection of abstract
+objects to subtypes for use). As such, in practice compile-time checking alone
+is insufficient \cite{boyapati04safejava} and runtime checks are required,
+especially if Java interoperability is a requirement.
+
+Annotations are also a burden on programmers. Ownership 
+inference~\cite{boyapati04safejava} is possible to an extent but cannot be done 
+in general, as there are complex ownership scenarios (iterators being the prime
+example) that cannot possibly be inferred from source code. The implication is
+that programmers will need to provide some amount of annotations. This amount
+varies with the various systems, but adds significant cognitive burden due to
+the sheer number of new constructs~\cite{boyapati04safejava} or heavily utilise
+concepts which are not immediately evident from source 
+code~\cite{cameron07mojo}. It is also easy to misuse annotations: for example,
+trivially letting ownership checks pass by declaring everything as owned by
+\lstinline|world|.
+
+In summary, while benefits of ownership types are undeniable and they provide
+an unprecedented amount of safety and encapsulation, they can also be cumbersome
+to work with. We postulate that they will see most use in safety-critical
+applications, where their strengths in ensuring the correctness of programs can
+outweigh the costs of using them.
+
 
 % Figures
-\begin{figure}[t]
-\centering
-\includegraphics{iterator-fail-inside.eps}
-\caption{List Iterator inside representation.}
-\label{fig:iterator-inside-test}
-\end{figure}
+% \begin{figure}[t]
+% \centering
+% \includegraphics{iterator-fail-inside.eps}
+% \caption{List Iterator inside representation.}
+% \label{fig:iterator-inside-test}
+% \end{figure}
+%
+% \begin{figure}[t]
+% \centering
+% \includegraphics{iterator-fail-outside.eps}
+% \caption{List Iterator outside representation.}
+% \label{fig:iterator-outside-test}
+% \end{figure}
 
-\begin{figure}[t]
-\centering
-\includegraphics{iterator-fail-outside.eps}
-\caption{List Iterator outside representation.}
-\label{fig:iterator-outside-test}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics{multiple-ownership.eps}
-\caption{Multiple Ownership}
-\label{fig:multiple-ownership}
-\end{figure}
-
-Reference to \cref{code:car_eng_test}, \cref{sec:test} and
-\cref{fig:iterator-inside-test,fig:iterator-outside-test}.
-
-% Citations
-aldrich04domains~\cite{aldrich04domains},\newline
-aldrich02aliasjava~\cite{aldrich02aliasjava},\newline
-almeida97balloons~\cite{almeida97balloons},\newline
-boyapati04safejava~\cite{boyapati04safejava},\newline
-boyapati02races~\cite{boyapati02races},\newline
-boyapati03innerclass~\cite{boyapati03innerclass},\newline
-boyapati03rtsj~\cite{boyapati03rtsj},\newline
-cameron07mojo~\cite{cameron07mojo},\newline
-cameron10encoding~\cite{cameron10encoding},\newline
-clarke03ownership~\cite{clarke03ownership},\newline
-clarke02ownership~\cite{clarke02ownership},\newline
-clarke13aliasing~\cite{clarke13aliasing},\newline
-clarke98ownership~\cite{clarke98ownership},\newline
-cunningham08ut~\cite{cunningham08ut},\newline
-dietl09gut~\cite{dietl09gut},\newline
-dietl11gut~\cite{dietl11gut},\newline
-dietl07gut~\cite{dietl07gut},\newline
-dietl13ownership~\cite{dietl13ownership},\newline
-dietl08dependent~\cite{dietl08dependent},\newline
-dietl05jml~\cite{dietl05jml},\newline
-hogg91islands~\cite{hogg91islands},\newline
-muller02modular~\cite{muller02modular},\newline
-muller99universes~\cite{muller99universes},\newline
-noble98alias~\cite{noble98alias}, \newline
-clarke13survey~\cite{clarke13survey}
-
+%
+% Reference to \cref{code:car_eng_test}, \cref{sec:test} and
+% \cref{fig:iterator-inside-test,fig:iterator-outside-test}.
+%
+% % Citations
+% aldrich04domains~\cite{aldrich04domains},\newline
+% aldrich02aliasjava~\cite{aldrich02aliasjava},\newline
+% almeida97balloons~\cite{almeida97balloons},\newline
+% boyapati04safejava~\cite{boyapati04safejava},\newline
+% boyapati02races~\cite{boyapati02races},\newline
+% boyapati03innerclass~\cite{boyapati03innerclass},\newline
+% boyapati03rtsj~\cite{boyapati03rtsj},\newline
+% cameron07mojo~\cite{cameron07mojo},\newline
+% cameron10encoding~\cite{cameron10encoding},\newline
+% clarke03ownership~\cite{clarke03ownership},\newline
+% clarke02ownership~\cite{clarke02ownership},\newline
+% clarke13aliasing~\cite{clarke13aliasing},\newline
+% clarke98ownership~\cite{clarke98ownership},\newline
+% cunningham08ut~\cite{cunningham08ut},\newline
+% dietl09gut~\cite{dietl09gut},\newline
+% dietl11gut~\cite{dietl11gut},\newline
+% dietl07gut~\cite{dietl07gut},\newline
+% dietl13ownership~\cite{dietl13ownership},\newline
+% dietl08dependent~\cite{dietl08dependent},\newline
+% dietl05jml~\cite{dietl05jml},\newline
+% hogg91islands~\cite{hogg91islands},\newline
+% muller02modular~\cite{muller02modular},\newline
+% muller99universes~\cite{muller99universes},\newline
+% noble98alias~\cite{noble98alias}, \newline
+% clarke13survey~\cite{clarke13survey}
+%
 
 
 \bibliographystyle{abbrv}
