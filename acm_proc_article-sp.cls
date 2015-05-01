@@ -366,23 +366,23 @@
 \labelsep 4.5pt
 \labelwidth\leftmargini\advance\labelwidth-\labelsep
 
-\def\@listI{\leftmargin\leftmargini \parsep 3.6pt plus 2pt minus 1pt%
-\topsep 7.2pt plus 2pt minus 4pt%
-\itemsep 3.6pt plus 2pt minus 1pt}
+\def\@listI{\leftmargin\leftmargini \parsep 1.6pt plus 2pt minus 1pt%
+\topsep 4.5pt plus 1pt minus 3pt%
+\itemsep 1.5pt plus 1pt minus 1pt}
 
 \let\@listi\@listI
 \@listi
 
 \def\@listii{\leftmargin\leftmarginii
    \labelwidth\leftmarginii\advance\labelwidth-\labelsep
-   \topsep 3.6pt plus 2pt minus 1pt
-   \parsep 1.8pt plus 0.9pt minus 0.9pt
+   \topsep 3.5pt plus 1pt minus 2.5pt
+   \parsep 1pt plus 0.5pt minus 0.5pt
    \itemsep \parsep}
 
 \def\@listiii{\leftmargin\leftmarginiii
     \labelwidth\leftmarginiii\advance\labelwidth-\labelsep
-    \topsep 1.8pt plus 0.9pt minus 0.9pt
-    \parsep \z@ \partopsep 1pt plus 0pt minus 1pt
+    \topsep 2pt plus 0.5pt minus 1.5pt
+    \parsep \z@ \partopsep 1pt plus 0pt minus 0.5pt
     \itemsep \topsep}
 
 \def\@listiv{\leftmargin\leftmarginiv

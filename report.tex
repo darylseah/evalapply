@@ -492,9 +492,8 @@ Ownership types solve the problem by providing a more flexible/intuitive syntax
 to the programmer for defining a hierarchical topology over objects without
 sacrificing encapsulation. The idea is to annotate types with modifiers
 that define which context (i.e.\ owner) each reference belongs to, which
-include: \vspace{-0.5ex}
+include:
 \begin{itemize}
-	\setlength\itemsep{-0.2ex}
 	\item \textbf{\lstinline|norep|}:
 		Not part of the representation of any object.
 	\item \textbf{\lstinline|rep|}:
@@ -503,7 +502,7 @@ include: \vspace{-0.5ex}
 		Owned by the owner of \lstinline|this| object.
 	\item \textbf{$v$}:
 		A context parameter.
-\end{itemize} \vspace{-0.5ex}
+\end{itemize}
 
 Context parameters are declared on classes with a syntax similar to Java's
 generics, e.g. \lstinline|class List<elementOwner> { ... }|, and are similarly
@@ -570,16 +569,15 @@ The declarations and keywords used are also slightly different, but are no less
 expressive than Clarke's. The first context parameter of a type is taken to be
 primary owner, eliminating the need for separate \lstinline|norep|,
 \lstinline|rep| or \lstinline|owner| modifiers and making the syntax more
-consistent. Context arguments can be one of the following: \vspace{-0.5ex}
+consistent. Context arguments can be one of the following:
 \begin{itemize}
-	\setlength\itemsep{-0.2ex}
 	\item \textbf{\lstinline|this|}:
 		Referencing \lstinline|this| object as the owner.
 	\item \textbf{\lstinline|world|}:
 		Referencing the root context as the owner.
 	\item \textbf{$v$}:
 		A parameterized owner.
-\end{itemize} \vspace{-0.5ex}
+\end{itemize}
 
 For example, the \lstinline|list| in \cref{subsec:clarke} would be declared
 as\linebreak\lstinline|class List<listOwner, elementOwner> { ... }|
@@ -588,9 +586,8 @@ and\linebreak\lstinline|List<this, world> list;|~~in Boyapati's syntax.
 Boyapati eventually developed his version of ownership types into a system
 called SafeJava~\cite{boyapati04safejava} with additional features supporting
 not just software upgrades and local reasoning but also data race/deadlock
-prevention and region-based memory. These include: \vspace{-0.5ex}
+prevention and region-based memory. These include:
 \begin{itemize}
-	\setlength\itemsep{-0.2ex}
 	\item \textbf{Inheritance} and subtyping rules for ownership.
 	\item \textbf{Constraints} on classes and methods with \lstinline|where|
 clauses,\linebreak e.g.~~\lstinline|class Container<o, a, b, c, d> where b <= c { /* b must be an ancestor of c */ }|.
@@ -599,7 +596,7 @@ clauses,\linebreak e.g.~~\lstinline|class Container<o, a, b, c, d> where b <= c 
 method.
 	\item \textbf{Transfer} of ownership from one context to another, enabled by
 declaring such references to be \lstinline|unique|.
-\end{itemize} \vspace{-0.5ex}
+\end{itemize}
 
 While impressive overall, we find the ``principled violation of encapsulation''
 (as the authors call it) for inner-classes to not be a particularly elegant
@@ -623,6 +620,8 @@ Boyapati's systems.
 
 \subsection{Dietl and M\"{u}ller's Universe Types}
 \label{subsec:dietl}
+
+\lipsum
 
 % Uses modifiers rep, peer, any on references, and pure/impure on methods.
 %
