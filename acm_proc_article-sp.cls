@@ -355,8 +355,8 @@
  \def\thesection{\Alph{section}} }
 
 
-\leftmargini 22.5pt
-\leftmarginii 19.8pt    % > \labelsep + width of '(m)'
+\leftmargini 15pt
+\leftmarginii 13pt    % > \labelsep + width of '(m)'
 \leftmarginiii 16.8pt   % > \labelsep + width of 'vii.'
 \leftmarginiv 15.3pt    % > \labelsep + width of 'M.'
 \leftmarginv 9pt
