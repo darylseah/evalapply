@@ -158,9 +158,9 @@
 
 \skip\footins 8.1pt plus 4pt minus 2pt  % Space between last line of text and
                                         % top of first footnote.
-\floatsep 11pt plus 2pt minus 2pt       % Space between adjacent floats moved
+\floatsep 5pt plus 2pt minus 2pt       % Space between adjacent floats moved
                                         % to top or bottom of text page.
-\textfloatsep 18pt plus 2pt minus 4pt   % Space between main text and floats
+\textfloatsep 12pt plus 2pt minus 1pt   % Space between main text and floats
                                         % at top or bottom of page.
 \intextsep 11pt plus 2pt minus 2pt      % Space between in-text figures and
                                         % text.
