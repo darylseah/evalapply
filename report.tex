@@ -47,7 +47,7 @@
 	morekeywords={
 		rep,norep,owner,world,any,peer,
 		where,reads,writes,pure,impure,
-		intersects,disjoint,unique},
+		intersects,disjoint,unique,lost,self},
 	otherkeywords={&,?},
 	escapeinside={/*@}{@*/}
 }
@@ -559,10 +559,10 @@ ownership types a practical solution for local reasoning and software upgrades
 in persistent object stores~\cite{boyapati03innerclass}. His idea was to simply
 provide an exception for inner-classes (which iterators are often implemented
 with) to directly access and manipulate the representation of their outer-class
-regardless of ownership, while retaining the owners-as-dominators discipline in
-all other cases\footnote{Clarke actually proposed a similar idea in his
-thesis~\cite{clarke03ownership} but with a discipline that is not as useful for
-local reasoning~\cite{boyapati03innerclass}.}.
+regardless of ownership, while retaining the \textbf{owners-as-dominators}
+discipline in all other cases.\footnote{Clarke actually proposed a similar idea
+in his thesis~\cite{clarke03ownership} but with a discipline that is not as
+useful for local reasoning~\cite{boyapati03innerclass}.}
 
 The declarations and keywords used are also slightly different, but are no less
 expressive than Clarke's. The first context parameter of a type is taken to be
@@ -589,7 +589,7 @@ prevention and region-based memory. These include:
 \begin{itemize}
 	\item \textbf{Inheritance} and subtyping rules for ownership.
 	\item \textbf{Constraints} on classes and methods with \lstinline|where|
-clauses,\linebreak e.g.~~\lstinline|class Container<o, a, b, c, d> where b <= c { /* b must be an ancestor of c */ }|.
+clauses,\linebreak e.g.~~\lstinline|class Container<o, a, b, c, d> where b <= c { /* b must be identical to or an ancestor of c */ }|.
 	\item \textbf{Effects} clauses with the \lstinline|reads| and
 \lstinline|writes| keywords declaring which variables are read and written by a
 method.
@@ -620,20 +620,90 @@ Boyapati's systems.
 \subsection{Dietl and M\"{u}ller's Universe Types}
 \label{subsec:dietl}
 
+Universe Types~\cite{cunningham08ut} is an ownership system that takes a
+somewhat different approach to the problem. Influenced by Clarke's original
+work on ownership~\cite{clarke98ownership} and M\"{u}ller's concept of
+Universes~\cite{muller99universes}, Dietl et al.\ developed Universe Types for
+the purpose of local reasoning in program verification~\cite{cunningham08ut,
+dietl09gut, dietl11gut}.
 
-% Uses modifiers rep, peer, any on references, and pure/impure on methods.
-%
-% Additional modifiers self and lost are never used when annotating source code,
-% but are required in the type system for checking.
-% - lost is denotable but not expressible, more information than any (that’s why
-%	  we can cast lost -> any). Assigning to lost fields is a type error.
-% - any is denotable and expressible. Fields of type any can be assigned to
-%
-% The peer modifier is distinct from owner in the original paper. Peer means
-% that the referenced object is a co-owner of the representation, owner means
-% that the reference object has the same owner (but does not have representation
-% access). In this sense, universes allow primitive support for multiple owners,
-% as long as these ‘peers’ are declared in the same module.
+Their key insight is that restricting aliasing is not really necessary for
+program verification applications --- it is sufficient to simply restrict the
+references that may modify an object to those held by its
+owners~\cite{dietl11gut}. In other words, to enforce the
+\textbf{owners-as-modifiers} discipline instead of owners-as-dominators,
+thereby giving programmers greater expressibility. For example, read-only
+iterators and binary operations are not an issue in Universe
+Types.\footnote{Mutable iterators are still problematic. The full details are
+provided in \cref{sec:eval}.}
+
+Instead of the fully context parametric approach of
+Boyapati~\cite{boyapati04safejava}, which Clarke also
+adopted~\cite{clarke03ownership}, Dietl et al.\ proposed using type modifiers
+exclusively for the declaration of ownership. There are three
+programmer-expressible modifiers in Universe Types:
+\begin{itemize}
+	\item \textbf{\lstinline|any|}:
+		No restrictions on the owner. Similar to Clarke's \lstinline|norep|.
+	\item \textbf{\lstinline|rep|}:
+		Owned by \lstinline|this| object and is part of its representation.
+	\item \textbf{\lstinline|peer|}:
+		Owned by the owner of \lstinline|this| object. Similar to Clarke's 
+		\lstinline|owner|.
+\end{itemize}
+
+In addition, there are two non-expressible modifiers that are required for
+type-checking:
+\begin{itemize}
+	\item \textbf{\lstinline|lost|}:
+		There are constraints on the owner that cannot be expressed, i.e.\ the
+		identity of the owner has been lost.
+	\item \textbf{\lstinline|self|}:
+		Refers to \lstinline|this| object, which is a specialization of 
+		\lstinline|peer|.
+\end{itemize}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\linewidth]{ut-modifiers.eps}
+\caption{Ordering of Modifiers in Universe Types.}
+\label{fig:ut-modifiers}
+\end{figure}
+
+The modifier \lstinline|lost| can be the result of following a reference chain
+and attempting to adapt the declared modifiers of the references to the
+viewpoint of the current object. For example, following a 2-reference chain
+declared \lstinline|any.rep| would result in \lstinline|lost| because
+\lstinline|rep| requires a specific owner to type-check but the ownership of
+its parent object is not available.
+		
+These five modifiers form a hierarchy as shown in \cref{fig:ut-modifiers}. An
+object assignment (e.g.\ \lstinline|a = b;|) is legal if the ownership type of
+\lstinline|a| is expressible and is identical to or a generalization of the
+type of \lstinline|b|. Note that nothing can be assigned to a \lstinline|lost|
+reference since the ownership information required for verification is missing,
+but we can assign anything to \lstinline|any| (including \lstinline|lost|)
+since the ownership information will be ultimately discarded.
+
+Universe Types is clearly limited without some form of ownership
+parameterization similar to Clarke's~\cite{clarke03ownership} and
+Boyapati's~\cite{boyapati04safejava} work. However, when Clarke and Boyapati
+developed their ownership systems, Java had yet to introduce generic classes.
+Dietl et al.\ subsequently developed Generic Universe
+Types~\cite{dietl07gut,dietl09gut,dietl11gut}, which extended Universe Types to
+languages that have a generic type syntax similar to Java's. As it turns out,
+unlike~\cite{clarke03ownership} and~\cite{boyapati04safejava}, which conflict
+with the syntax of Java's generic classes, the approach taken with Universe
+Types (in applying modifiers to existing types) extends naturally to the
+generic type syntax of Java.
+
+% example of generic syntax
+
+% quite popular. relatively easy to understand. not that limited in expressibility. many implementations 
+
+
+%Generic Universe Types~\cite{dietl11gut}&
+
 %
 % Vanilla Universe Types requires runtime checking without parameterization. An
 % example is the use of any for references to values in a container class. This
