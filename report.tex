@@ -618,9 +618,13 @@ declaring such references to be \lstinline|unique|.
 
 While impressive overall, we find the ``principled violation of encapsulation''
 (as the authors call it) for inner-classes to not be a particularly elegant
-solution. Binary operations such as \linebreak\lstinline|list1.addAll(list2)|
-and other patterns are also still problematic to express in both Clarke's and
-Boyapati's systems.
+solution.\footnote{In fact, Aldrich and Chambers have generalized such an
+approach in their development of \emph{ownership
+domains}~\cite{aldrich04domains}. We did not have time to evaluate this system
+in depth, but it appears to be \emph{too} expressive for programmers to use in
+practice.} Moreover, binary operations such as
+\linebreak\lstinline|list1.addAll(list2)| and other patterns are also still
+problematic to express in both Clarke's and Boyapati's systems.
 
 % - Boyapati: A type system that strictly enforces object encapsulation is
 %	 too constraining [113]: it does not allow efficient implementation of
@@ -634,7 +638,6 @@ Boyapati's systems.
 % - Ownership types can be mostly verified at compile time, but dynamic casts
 % are allowed in Java and so he proposes a complementary runtime system that
 % checks casts.
-
 
 \subsection{Dietl and M\"{u}ller's Universe Types}
 \label{subsec:dietl}
@@ -653,14 +656,13 @@ context~\cite{dietl11gut}, and permit read-only access in all other cases. In
 other words, to enforce the \textbf{owners-as-modifiers} discipline instead of
 owners-as-dominators, thereby giving programmers greater expressibility. For
 example, read-only iterators and binary operations are not an issue in Universe
-Types.\footnote{Mutable iterators are still problematic. The full details are
-provided in \cref{sec:eval}.}
+Types.\footnote{Mutable iterators are still a problem.}
 
 Instead of the fully context parametric approach of
 Boyapati~\cite{boyapati04safejava}, which Clarke also
 adopted~\cite{clarke03ownership}, Dietl et al.\ proposed using type modifiers
 exclusively for the declaration of ownership. There are three
-programmer-expressible modifiers in Universe Types:
+programmer-expressible modifiers in Universe Types: \newpage
 \begin{itemize}
 	\item \textbf{\lstinline|any|}:
 		No restrictions on the owner. Similar to Clarke's \lstinline|norep|.
