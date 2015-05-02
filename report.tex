@@ -125,7 +125,8 @@ class Engine {
 }
 
 class Car {
-	Engine engine; Person driver;
+	Engine engine;
+	Person driver;
 
 	void start() {
 		if (driver != null) {
@@ -171,7 +172,8 @@ class Engine {
 }
 
 class Car {
-	private Engine engine; private Person driver;
+	private Engine engine;
+	private Person driver;
 
 	public void start() {
 		if (driver != null) {
@@ -179,7 +181,9 @@ class Car {
 		}
 	}
 
-	public Engine getEngine() { return engine; }
+	public Engine getEngine() {
+		return engine;
+	}
 }
 
 class Main {
@@ -242,9 +246,10 @@ class Engine<EngineOwner> {
 	void start() { /* ... */ }
 }
 
-class Car<CarOwner, DriverOwner> {
-	Engine<this> engine; Person<DriverOwner> driver; /*@
+class Car<CarOwner, DriverOwner> { /*@
 		\label{code:ownership_types_car_engine_1_parametric_owner} @*/
+	Engine<this> engine;
+	Person<DriverOwner> driver; 
 
 	void start() {
 		if (driver != null) {
@@ -252,7 +257,9 @@ class Car<CarOwner, DriverOwner> {
 		}
 	}
 
-	Engine<this> getEngine() { return engine; }
+	Engine<this> getEngine() {
+		return engine;
+	}
 }
 
 class Main {
