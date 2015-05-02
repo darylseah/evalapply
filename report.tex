@@ -104,8 +104,6 @@ Likewise, it should follow that static program analysis tools be able to
 improve the speed at which analyses can be completed, especially when analysing
 a large program.
 
-\subsection{Limits of Traditional Mechanisms}
-\label{subsec:traditional_mechanism_limits}
 In practice, many escape mechanisms which break the encapsulation of an object
 are used. These mechanisms, while allowing expressiveness in programs, prevent
 the programmer from reaping the benefits of being able to isolate a module and
@@ -215,6 +213,19 @@ this.}, the resulting API is clumsy because every time a type is defined,
 programmers must manually define the behaviours allowed by mutable and
 immutable references to the object. There would consequently be an explosion of
 types, making reasoning about the program more difficult.
+
+In this report, we describe and evaluate how ownership types can be leveraged
+for local reasoning in the analysis and verification of programs.
+\Cref{sec:ownership} provides an introduction to concept of ownership types,
+the core principles and terminology used, and its various applications in
+program analysis. \Cref{sec:systems} gives a detailed overview of each of the
+four ownership type systems that we have investigated in depth. \Cref{sec:eval}
+provides a comparative evaluation on the expressiveness of each system and
+their benefits for local reasoning/analysis. Finally, we conclude in
+\Cref{sec:conclusion} with a summary of the fundamental limitations of
+ownership types. Our coverage of the topic in breadth is spread over
+\cref{sec:ownership,sec:systems}.
+
 
 \section{Ownership Types}
 \label{sec:ownership}
@@ -459,10 +470,11 @@ all objects in the graph are eventually transformed. When the transaction is
 committed, it may be statically guaranteed that the new object graph would be
 valid~\cite{boyapati04safejava,boyapati03innerclass}.
 
-\section{Variants}
-\label{sec:variants}
+\section{Ownership Type Systems}
+\label{sec:systems}
 
-In this section we give an overview of the five ownership type systems that we
+% note: should be four systems. we just present UT and GUT separately in eval.
+In this section we give an overview of the four ownership type systems that we
 have investigated in-depth. The papers covered are by no means the entirety of
 the work in the area. There are numerous other papers on extensions,
 improvements and related developments~\cite{clarke13survey}. However, we chose
@@ -780,6 +792,12 @@ inference~\cite{dietl14checker} are available as well.
 \subsection{Cameron's Multiple Ownership}
 \label{subsec:cameron}
 
+The previous type systems impose rigid object topologies well, but suffer in
+expressivity: the hierarchical model of ownership cannot accommodate certain
+object structures. For example, \cref{code:ownership_types_multiple}
+(visualised in \cref{fig:multiple-ownership}), which is originally described
+in~\cite{cameron07mojo}, is impossible to express.
+
 \begin{figure}[t]
 \centering
 \includegraphics{multiple-ownership.eps}
@@ -787,11 +805,15 @@ inference~\cite{dietl14checker} are available as well.
 \label{fig:multiple-ownership}
 \end{figure}
 
-The previous type systems impose rigid object topologies well, but suffer in
-expressivity: the hierarchical model of ownership cannot accommodate certain
-object structures. For example, \cref{code:ownership_types_multiple}
-(visualised in \cref{fig:multiple-ownership}), which is originally described
-in~\cite{cameron07mojo}, is impossible to express.
+The object topology presented here is a DAG instead of a tree: both Projects and
+Workers may conceptually own Tasks and accordingly modify them. In other words,
+the axis of organisation is flexible and may be either Projects or Workers.
+
+The \textbf{owners-as-dominators} discipline prevents this, as it requires that
+the object topology be a tree: only one owner may dominate access paths to
+Tasks. The \textbf{owners-as-modifier} discipline also causes problems as is:
+only one of Projects and Workers may own tasks, so only one would be able to
+modify them.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -815,16 +837,6 @@ class Worker { // Symmetric
 	}
 }
 \end{lstlisting}
-
-The object topology presented here is a DAG instead of a tree: both Projects and
-Workers may conceptually own Tasks and accordingly modify them. In other words,
-the axis of organisation is flexible and may be either Projects or Workers.
-
-The \textbf{owners-as-dominators} discipline prevents this, as it requires that
-the object topology be a tree: only one owner may dominate access paths to
-Tasks. The \textbf{owners-as-modifier} discipline also causes problems as is:
-only one of Projects and Workers may own tasks, so only one would be able to
-modify them.
 
 To work around this with single ownership, we would have to flatten the object
 structure, making all the objects involved peers of each other. This would solve
@@ -1068,7 +1080,7 @@ Our findings are listed in the table below. Here are a few highlights.
 \end{itemize}
 
 \section{Conclusion}
-\label{sec:conclude}
+\label{sec:conclusion}
 
 Our exploration of the various type systems here surfaced a number of issues and
 caveats which may limit their use or hinder mainstream adoption.
