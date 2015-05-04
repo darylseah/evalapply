@@ -197,7 +197,7 @@ class Main {
 In \cref{code:modular_reasoning_car_engine_2} we annotate each method
 and member variable with an appropriate access specifier. We also define an
 additional \emph{accessor} method, for the situation where a property of the
-car's engine must be accessed outside of the car (such as an instrument 
+car's engine must be accessed outside of the car (such as an instrument
 attached to the car's electronics to measure performance.) However, as seen on
 \cref{code:modular_reasoning_car_engine_2_engine_start}, the original
 problem has not been resolved: the engine can still be started externally.
@@ -231,11 +231,11 @@ ownership types. Our coverage of the topic in breadth is spread over
 \label{sec:ownership}
 
 % terminology and the basics
-Ownership Types enhance the type system by allowing ownership information to be 
-stored together with type information; this directly overcomes the limitations 
-of only using access specifiers. Using SafeJava's~\cite{boyapati04safejava} 
-syntax, the Car example can be expressed as per 
-\cref{code:ownership_types_car_engine_1} 
+Ownership Types enhance the type system by allowing ownership information to be
+stored together with type information; this directly overcomes the limitations
+of only using access specifiers. Using SafeJava's~\cite{boyapati04safejava}
+syntax, the Car example can be expressed as per
+\cref{code:ownership_types_car_engine_1}
 \vpageref[above]{code:ownership_types_car_engine_1}.
 
 \Cref{code:ownership_types_car_engine_1} introduces the notion of an ownership
@@ -260,7 +260,7 @@ class Engine<EngineOwner> {
 class Car<CarOwner, DriverOwner> { /*@
 		\label{code:ownership_types_car_engine_1_parametric_owner} @*/
 	Engine<this> engine;
-	Person<DriverOwner> driver; 
+	Person<DriverOwner> driver;
 
 	void start() {
 		if (driver != null) {
@@ -312,10 +312,10 @@ a consistent set of terms to be used across the different systems proposed.
 
 	\begin{itemize}
 		\item \textbf{Abstract Data Types}: We modified a Queue example
-			from~\cite{boyapati04safejava} and added iterators, which can be 
+			from~\cite{boyapati04safejava} and added iterators, which can be
 			seen as a view over the data stored in the data type.
 		\item \textbf{Inheritance}: A recurring pattern in Object-Oriented
-			Programming where new classes are augmented with behaviour from 
+			Programming where new classes are augmented with behaviour from
 			existing classes.
 		\item \textbf{Generics}: Building upon the ADT use case, Generics
 			allow programmers to take advantage of parametric polymorphism to
@@ -323,7 +323,7 @@ a consistent set of terms to be used across the different systems proposed.
 		\item \textbf{Cardinality of Ownership}: Having multiple owners for an
 			object is useful for writing parallel/distributed algorithms.
 		\item \textbf{Ownership Transfer}: Allowing the transfer of ownership
-			from one object to another is useful in the \linebreak 
+			from one object to another is useful in the \linebreak
 			producer-consumer pattern.
 	\end{itemize}
 
@@ -433,12 +433,12 @@ restricted to scopes where the reference is valid.
 \label{subsubsec:data_race_prevention}
 
 Because ownership types impose a structure on the object store, it is possible
-to prevent data races. Typically, when an object \textbf{A} needs to be locked 
+to prevent data races. Typically, when an object \textbf{A} needs to be locked
 for an update, it is not obvious which dependent objects (references which
-\textbf{A} maintains) need to be locked as well. Since there is an ownership 
-topology imposed on the object store, it would be possible to know at 
-compile-time which objects need to be locked as part of locking \textbf{A}. 
-This prevents data from being accessed if an object is left unlocked by human 
+\textbf{A} maintains) need to be locked as well. Since there is an ownership
+topology imposed on the object store, it would be possible to know at
+compile-time which objects need to be locked as part of locking \textbf{A}.
+This prevents data from being accessed if an object is left unlocked by human
 error; data races can thus be prevented.
 
 In the same vein, it is possible to prevent deadlocks from occurring by always
@@ -446,8 +446,8 @@ acquiring a set of locks in the same order. Acquiring multiple locks in the same
 order prevents a circular wait condition, which is a necessary condition for a
 deadlock to occur~\cite{silberschatz08os}. Regardless of topology,
 locking objects using depth-first or breadth-first traversal guarantees that
-all objects which are reachable will be locked. Furthermore, because the 
-traversal is deterministic, it is guaranteed that the order of lock acquisition 
+all objects which are reachable will be locked. Furthermore, because the
+traversal is deterministic, it is guaranteed that the order of lock acquisition
 is always the same~\cite{boyapati02races}.
 
 \subsubsection{Persisted Object Upgrades}
@@ -616,9 +616,9 @@ method.
 declaring such references to be \lstinline|unique|.
 \end{itemize}
 
-While impressive overall, we find that the ``principled violation of 
-encapsulation'' as the authors call it) for inner-classes is not a particularly 
-elegant solution.\footnote{In fact, Aldrich and Chambers have generalized such 
+While impressive overall, we find that the ``principled violation of
+encapsulation'' as the authors call it) for inner-classes is not a particularly
+elegant solution.\footnote{In fact, Aldrich and Chambers have generalized such
 an approach in their development of \emph{ownership
 domains}~\cite{aldrich04domains}. We did not have time to evaluate this system
 in depth, but it appears to be \emph{too} expressive for programmers to use
@@ -669,7 +669,7 @@ programmer-expressible modifiers in Universe Types: \newpage
 	\item \textbf{\lstinline|rep|}:
 		Owned by \lstinline|this| object and is part of its representation.
 	\item \textbf{\lstinline|peer|}:
-		Owned by the owner of \lstinline|this| object. Similar to Clarke's 
+		Owned by the owner of \lstinline|this| object. Similar to Clarke's
 		\lstinline|owner|.
 \end{itemize}
 
@@ -680,7 +680,7 @@ type-checking:
 		There are constraints on the owner that cannot be expressed, i.e.\ the
 		identity of the owner has been lost.
 	\item \textbf{\lstinline|self|}:
-		Refers to \lstinline|this| object, which is a specialisation of 
+		Refers to \lstinline|this| object, which is a specialisation of
 		\lstinline|peer|.
 \end{itemize}
 
@@ -729,15 +729,15 @@ class Node<K, V> extends Link<peer Node<K, V>> {
 
 class Iterator<X extends any Link<X>> {
 	X current;
-	
+
 	Iterator(X first) {
 		current = first;
 	}
-	
+
 	pure boolean hasNext() {
 		return current != null;
 	}
-	
+
 	impure X next() {
 		X result = current;
 		current = current.next;
@@ -809,13 +809,13 @@ in~\cite{cameron07mojo}, is impossible to express.
 
 The object topology presented here is a DAG instead of a tree: both Projects and
 Workers may conceptually own Tasks and accordingly modify them. In other words,
-the axis of organisation is flexible and may be either organised by Projects or 
+the axis of organisation is flexible and may be either organised by Projects or
 by Workers.
 
 The \textbf{owners-as-dominators} discipline prevents this, as it requires that
 the object topology be a tree: only one owner may dominate access paths to
-Tasks. The \textbf{owners-as-modifiers} discipline also causes problems as 
-previously described: only either Projects or Workers may own tasks, so only 
+Tasks. The \textbf{owners-as-modifiers} discipline also causes problems as
+previously described: only either Projects or Workers may own tasks, so only
 one would be able to modify them.
 
 \begin{lstlisting}[
@@ -841,9 +841,9 @@ class Worker { // Symmetric
 }
 \end{lstlisting}
 
-To work around this problem with single ownership, the object structure would 
-have to be flattened, making all the objects involved peers of each other. This 
-would solve the immediate problem, but would remove all encapsulation and 
+To work around this problem with single ownership, the object structure would
+have to be flattened, making all the objects involved peers of each other. This
+would solve the immediate problem, but would remove all encapsulation and
 defeats the purpose of having an ownership type system in the first place.
 
 These deficiencies motivated \cite{cameron07mojo}, which generalises the notion
@@ -852,24 +852,24 @@ terminology) as sets; multiple or joint ownership is then easily expressible via
 set intersection.
 
 The \textbf{owners-as-dominators} discipline is too constraining as there are
-multiple access paths to objects -- it is therefore relaxed. The 
+multiple access paths to objects -- it is therefore relaxed. The
 \textbf{owners-as-modifiers} discipline still applies, allowing any one
-of an object's multiple owners to modify it. Multiple ownership is reified with 
+of an object's multiple owners to modify it. Multiple ownership is reified with
 several syntactic additions:
 
 \begin{itemize}
-	
+
 	\item \textbf{Ownership parameters} (as in \cite{boyapati04safejava}), are
 		used to express secondary or child owners.
-	
+
 	\item \textbf{An intersection operator} (\lstinline|&|) on ownership
 		contexts is introduced. It specifies that an object's owner is the
 		intersection of two existing ownership contexts: conceptually, if an
 		object's owner is \lstinline|a & b|, it means that the object is jointly
 		owned by a and b.
 
-	\item \textbf{Wildcards} (or \textit{existential owners}) allow programmers 
-		to express the notion of co-owners which the current scope does not 
+	\item \textbf{Wildcards} (or \textit{existential owners}) allow programmers
+		to express the notion of co-owners which the current scope does not
 		have access to. This is illustrated in
 		\cref{code:ownership_types_multiple_wildcards}.\footnote{Ownership
 		parameters as specified in the paper \textit{are} covariant; a
@@ -1094,14 +1094,14 @@ objects to subtypes for use). As such, in practice compile-time checking alone
 is insufficient \cite{boyapati04safejava} and runtime checks are required,
 especially if Java interoperability is a requirement.
 
-Annotations are also a burden on programmers. Ownership 
-inference~\cite{boyapati04safejava} is possible to an extent but cannot be done 
+Annotations are also a burden on programmers. Ownership
+inference~\cite{boyapati04safejava} is possible to an extent but cannot be done
 in general, as there are complex ownership scenarios (iterators being the prime
 example) that cannot possibly be inferred from source code. The implication is
 that programmers will need to provide some amount of annotations. This amount
 varies with the various systems, but adds significant cognitive burden due to
 the sheer number of new constructs~\cite{boyapati04safejava} or heavily utilise
-concepts which are not immediately evident from source 
+concepts which are not immediately evident from source
 code~\cite{cameron07mojo}. It is also easy to misuse annotations: for example,
 trivially letting ownership checks pass by declaring everything as owned by
 \lstinline|world|.
