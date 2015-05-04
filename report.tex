@@ -486,7 +486,7 @@ presented individually with a full cross-comparison provided in \cref{sec:eval}.
 \label{subsec:clarke}
 
 The concept of ownership was first introduced by Clarke et
-al.~\cite{clarke98ownership,clarke01ownership} with the motivation of
+al.~\cite{clarke98ownership,clarke01ownership} with the intention of
 mitigating the problems of uncontrolled aliasing in Object-Oriented languages.
 This was a refinement of a similar idea proposed by Clarke's thesis advisors
 called \emph{flexible alias protection}~\cite{noble98alias} which, in turn,
@@ -500,8 +500,8 @@ simultaneously since a stored object would be considered a part of the
 container's island/balloon and cannot be externally aliased. To mitigate this
 problem, dynamic aliases (i.e.\ temporary stack-based references) into a
 representation are permitted in both these works. Such aliases are read-only in
-Islands, but have no restrictions in Balloons. Thus, while this ``escape
-mechanism'' solves the problem, it can also expose the representation of the
+Islands, but have no restrictions in Balloons. Thus, while this escape
+mechanism solves the problem, it can also expose the representation of the
 container itself (e.g.\ nodes in a link-list) and provide no encapsulation in
 the case of Balloons. Moreover, the authors of~\cite{noble98alias} argue that
 it would be hard for programmers to use Balloons because of the complex
@@ -529,7 +529,7 @@ applied on types, e.g. \lstinline|rep List<norep> list;|. They allow owners
 higher in the hierarchy to declare their ownership of references held by
 descendants in their contexts. In the case of the previous \lstinline|list|
 example, the \lstinline|list| is declared to be part of the client object's
-context, but the elements it contains has no owner. Parameterized ownership is
+context, but the elements it contains has no owner. Parameterised ownership is
 the key innovation that (partially) solves the container problem and also
 enables different roles for different references of the same object class.
 
@@ -573,7 +573,7 @@ boyapati03innerclass, cunningham08ut, dietl11gut, cameron07mojo}.
 \subsection{Boyapati's SafeJava}
 \label{subsec:boyapati}
 
-Boyapati et al.\ tackled the expressivity problem with the motivation of making
+Boyapati et al.\ tackled the expressivity problem with the intention of making
 ownership types a practical solution for local reasoning and software upgrades
 in persistent object stores~\cite{boyapati03innerclass}. His idea was to simply
 provide an exception for inner-classes (which iterators are often implemented
@@ -594,7 +594,7 @@ consistent. Context arguments can be one of the following:
 	\item \textbf{\lstinline|world|}:
 		Referencing the root context as the owner.
 	\item \textbf{$v$}:
-		A parameterized owner.
+		A parameterised owner.
 \end{itemize}
 
 For example, the \lstinline|list| in \cref{subsec:clarke} would be declared
@@ -616,10 +616,10 @@ method.
 declaring such references to be \lstinline|unique|.
 \end{itemize}
 
-While impressive overall, we find the ``principled violation of encapsulation''
-(as the authors call it) for inner-classes to not be a particularly elegant
-solution.\footnote{In fact, Aldrich and Chambers have generalized such an
-approach in their development of \emph{ownership
+While impressive overall, we find that the ``principled violation of 
+encapsulation'' as the authors call it) for inner-classes is not a particularly 
+elegant solution.\footnote{In fact, Aldrich and Chambers have generalized such 
+an approach in their development of \emph{ownership
 domains}~\cite{aldrich04domains}. We did not have time to evaluate this system
 in depth, but it appears to be \emph{too} expressive for programmers to use
 easily in practice.} Moreover, binary operations such as
@@ -680,7 +680,7 @@ type-checking:
 		There are constraints on the owner that cannot be expressed, i.e.\ the
 		identity of the owner has been lost.
 	\item \textbf{\lstinline|self|}:
-		Refers to \lstinline|this| object, which is a specialization of 
+		Refers to \lstinline|this| object, which is a specialisation of 
 		\lstinline|peer|.
 \end{itemize}
 
@@ -697,7 +697,7 @@ viewpoint of the current object. For example, following a 2-reference chain
 declared \lstinline|any.rep| would result in \lstinline|lost| because
 \lstinline|rep| requires a specific owner to type-check but the ownership of
 its parent object is not available.
-		
+
 These five modifiers form a hierarchy as shown in \cref{fig:ut-modifiers}. An
 object assignment (e.g.\ $\alpha$\lstinline| = |$\beta$) is legal if the
 ownership type of $\alpha$ is expressible and is identical to or a
@@ -756,7 +756,7 @@ class Map<K, V> {
 \end{lstlisting}
 
 Universe Types is clearly limited without some form of ownership
-parameterization similar to Clarke's~\cite{clarke03ownership} and
+parameterisation similar to Clarke's~\cite{clarke03ownership} and
 Boyapati's~\cite{boyapati04safejava}. However, when Clarke and Boyapati
 developed their ownership systems, Java had yet to introduce generic classes.
 Dietl et al.\ subsequently developed Generic Universe
@@ -765,18 +765,18 @@ languages that have a generic type syntax similar to Java's. As it turns out,
 unlike~\cite{clarke03ownership} and~\cite{boyapati04safejava}, which conflict
 with the syntax of Java's generic classes, the approach taken with Universe
 Types (in applying modifiers to existing types) extends naturally to the
-generic type syntax of Java and adds the ownership parameterization necessary
+generic type syntax of Java and adds the ownership parameterisation necessary
 to make the system practical. An example of the ownership declarations for an
 imaginary set of generic collection classes (adapted from~\cite{dietl07gut}) is
 provided in \cref{code:usage_gut}.
 
-Generic Universe Types (GUT) does have limitations, but it seems to be one of
-the more popular and practical ownership systems in existence, likely due to
-it's natural compatibility with the current syntax of Java and (relative)
-simplicity. UT and GUT have been extended with ownership
-transfers~\cite{muller07transfer} and type inference~\cite{dietl11inference},
-respectively. And, at least two implementations of a type
-checker~\cite{cameron10gut,dietl14checker} and one for
+Generic Universe Types does have limitations, but it seems to be one of the 
+more popular and practical ownership systems in existence, likely due to its 
+natural compatibility with the current syntax of Java and (relative) 
+simplicity. Universe Types and Generic Universe Types have both been extended 
+with ownership transfers~\cite{muller07transfer} and type 
+inference~\cite{dietl11inference}, respectively. Furthermore, at least two 
+implementations of a type checker~\cite{cameron10gut,dietl14checker} and one for
 inference~\cite{dietl14checker} are available as well.
 
 %
@@ -809,13 +809,14 @@ in~\cite{cameron07mojo}, is impossible to express.
 
 The object topology presented here is a DAG instead of a tree: both Projects and
 Workers may conceptually own Tasks and accordingly modify them. In other words,
-the axis of organisation is flexible and may be either Projects or Workers.
+the axis of organisation is flexible and may be either organised by Projects or 
+by Workers.
 
 The \textbf{owners-as-dominators} discipline prevents this, as it requires that
 the object topology be a tree: only one owner may dominate access paths to
-Tasks. The \textbf{owners-as-modifier} discipline also causes problems as is:
-only one of Projects and Workers may own tasks, so only one would be able to
-modify them.
+Tasks. The \textbf{owners-as-modifiers} discipline also causes problems as 
+previously described: only either Projects or Workers may own tasks, so only 
+one would be able to modify them.
 
 \begin{lstlisting}[
 	float, floatplacement=t,
@@ -840,10 +841,10 @@ class Worker { // Symmetric
 }
 \end{lstlisting}
 
-To work around this with single ownership, we would have to flatten the object
-structure, making all the objects involved peers of each other. This would solve
-the problem, but would remove all encapsulation and defeat the purpose of having
-an ownership type system in the first place.
+To work around this problem with single ownership, the object structure would 
+have to be flattened, making all the objects involved peers of each other. This 
+would solve the immediate problem, but would remove all encapsulation and 
+defeats the purpose of having an ownership type system in the first place.
 
 These deficiencies motivated \cite{cameron07mojo}, which generalises the notion
 of single ownership by reimagining ownership contexts (called boxes in their
@@ -851,45 +852,42 @@ terminology) as sets; multiple or joint ownership is then easily expressible via
 set intersection.
 
 The \textbf{owners-as-dominators} discipline is too constraining as there are
-multiple access paths to objects; it is thus relaxed. We are left with the
-\textbf{owners-as-modifiers} discipline, which still applies, allowing any one
-of an object's multiple owners to modify it.
+multiple access paths to objects -- it is therefore relaxed. The 
+\textbf{owners-as-modifiers} discipline still applies, allowing any one
+of an object's multiple owners to modify it. Multiple ownership is reified with 
+several syntactic additions:
 
-\vspace{1ex}
-Multiple ownership is reified with several syntactic additions:
 \begin{itemize}
+	
+	\item \textbf{Ownership parameters} (as in \cite{boyapati04safejava}), are
+		used to express secondary or child owners.
+	
+	\item \textbf{An intersection operator} (\lstinline|&|) on ownership
+		contexts is introduced. It specifies that an object's owner is the
+		intersection of two existing ownership contexts: conceptually, if an
+		object's owner is \lstinline|a & b|, it means that the object is jointly
+		owned by a and b.
 
-    \item \textbf{Ownership parameters} (as in \cite{boyapati04safejava}), are
-        used to express secondary or child owners.
+	\item \textbf{Wildcards} (or \textit{existential owners}) allow programmers 
+		to express the notion of co-owners which the current scope does not 
+		have access to. This is illustrated in
+		\cref{code:ownership_types_multiple_wildcards}.\footnote{Ownership
+		parameters as specified in the paper \textit{are} covariant; a
+		notable difference from Java's generic type parameters.\linebreak
+		\lstinline|Task<a & b>| is considered a subtype of both
+		\lstinline|Task<a & ?>| and \lstinline|Task<b & ?>|, allowing it to be
+		used wherever the latter two are expected.}
 
-    \item \textbf{An intersection operator} (\lstinline|&|) on ownership
-        contexts is introduced. It specifies that an object's owner is the
-        intersection of two existing ownership contexts: conceptually, if an
-        object's owner is \lstinline|a & b|, it means that the object is jointly
-        owned by a and b.
-
-    \item \textbf{Wildcards} (or \textit{existential owners}) are also
-        introduced. The idea is that as we parameterise types with owners, we
-        only know about owners in scope; we know no more about other owners than
-        that \textit{there exist} other owners. Wildcards allow us to express
-        exactly this. This is illustrated in
-        \cref{code:ownership_types_multiple_wildcards}.\footnote{Ownership
-        parameters as specified in the paper \textit{are} covariant; a
-        notable difference from Java's generic type parameters.
-        \lstinline|Task<a & b>| is considered a subtype of both
-        \lstinline|Task<a & ?>| and \lstinline|Task<b & ?>|, allowing it to be
-        used wherever the latter two are expected.}
-
-        \begin{lstlisting}[
-            float, floatplacement=t,
-            caption={Multiple Ownership},
-            label=code:ownership_types_multiple_wildcards
-        ]
+		\begin{lstlisting}[
+			float, floatplacement=t,
+			caption={Multiple Ownership},
+			label=code:ownership_types_multiple_wildcards
+		]
 class Project {
 	void add(Task<this & ?> t) { /* ... */ }
 }
 new Project().add(new Task<p1 & w1>());
-        \end{lstlisting}
+		\end{lstlisting}
 
 \end{itemize}
 
@@ -899,21 +897,21 @@ keywords.
 
 \begin{itemize}
 
-    \item \lstinline{a} \textbf{\lstinline|intersects|} \lstinline{b} is
-        required for \lstinline|a & b| to type-check. This forces the programmer
-        to specify upfront which ownership contexts intersect, reducing the
-        chance of erroneous or invalid ownership parameterisation.
+	\item \lstinline{a} \textbf{\lstinline|intersects|} \lstinline{b} is
+		required for \lstinline|a & b| to type-check. This forces the programmer
+		to specify upfront which ownership contexts intersect, reducing the
+		chance of erroneous or invalid ownership parameterisation.
 
-    \item \lstinline{a} \textbf{\lstinline|disjoint|} \lstinline{b} guarantees
-        effect-independence between \lstinline{a} and \lstinline{b}. This can be
-        seen intuitively as we are sure that the ownership contexts of a and b
-        do not intersect, and thus method calls on a and b cannot interfere.
+	\item \lstinline{a} \textbf{\lstinline|disjoint|} \lstinline{b} guarantees
+		effect-independence between \lstinline{a} and \lstinline{b}. This can be
+		seen intuitively as we are sure that the ownership contexts of a and b
+		do not intersect, and thus method calls on a and b cannot interfere.
 
-    \item \textbf{\lstinline|where|} clauses enable us to constrain ownership
-        parameters to classes. This is illustrated in
-        \cref{code:ownership_types_multiple_constraints}: we are unable to take
-        the intersections of disjoint ownership boxes, or boxes that we know
-        nothing about. Another notable constraint is that disjoint boxes cannot
+	\item \textbf{\lstinline|where|} clauses enable us to constrain ownership
+		parameters to classes. This is illustrated in
+		\cref{code:ownership_types_multiple_constraints}: we are unable to take
+		the intersections of disjoint ownership boxes, or boxes that we know
+		nothing about. Another notable constraint is that disjoint boxes cannot
 		be parameterised with identical elements as disjointness is irreflexive.
 
 \end{itemize}
@@ -955,8 +953,9 @@ limitations:
 	\item \textbf{The owners-as-dominators discipline is dropped}. Access paths
 		are no longer restricted to one dominating object, and thus the type
 		system cannot make guarantees about object encapsulation that are nearly
+		% TODO: Darius please annotate this with the citation
 		as strong. Cameron et al. propose future work on extending
-		owners-as-dominators to accomodate multiple owners, ensuring that at
+		owners-as-dominators to accommodate multiple owners, ensuring that at
 		least \textit{one of the owners} of an object dominates access paths to
 		it.
 
@@ -971,7 +970,7 @@ limitations:
 		solutions for. More specifically, work on integrating it with generics
 		and race detection is ongoing. This is understandable as it is work in
 		a new direction, being the first implementation to relax the
-		\textbf{owners-as-dominators} discipline and admit multiple owners.
+		\textbf{Owners-as-Dominators} discipline and admit multiple owners.
 
 \end{itemize}
 
