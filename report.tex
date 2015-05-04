@@ -221,7 +221,7 @@ the core principles and terminology used, and its various applications in
 program analysis. \Cref{sec:systems} gives a detailed overview of each of the
 four ownership type systems that we have investigated in depth. \Cref{sec:eval}
 provides a comparative evaluation on the expressiveness of each system and
-their benefits for local reasoning/analysis. Finally, we conclude in
+their benefits for local reasoning and analysis. Finally, we conclude in
 \cref{sec:conclusion} with a summary of the fundamental limitations of
 ownership types. Our coverage of the topic in breadth is spread over
 \cref{sec:ownership,sec:systems}.
@@ -433,22 +433,22 @@ restricted to scopes where the reference is valid.
 \label{subsubsec:data_race_prevention}
 
 Because ownership types impose a structure on the object store, it is possible
-to prevent data races. Typically, when an object A needs to be locked for an
-update, it is not obvious which dependent objects (references which A
-maintains) need to be locked as well. Since there is an ownership topology
-imposed on the object store, it would be possible to know at compile-time which
-objects need to be locked as part of locking A. This prevents data from being
-accessed if an object is left unlocked by human error. Thus data races can be
-prevented.
+to prevent data races. Typically, when an object \textbf{A} needs to be locked 
+for an update, it is not obvious which dependent objects (references which
+\textbf{A} maintains) need to be locked as well. Since there is an ownership 
+topology imposed on the object store, it would be possible to know at 
+compile-time which objects need to be locked as part of locking \textbf{A}. 
+This prevents data from being accessed if an object is left unlocked by human 
+error; data races can thus be prevented.
 
 In the same vein, it is possible to prevent deadlocks from occurring by always
 acquiring a set of locks in the same order. Acquiring multiple locks in the same
 order prevents a circular wait condition, which is a necessary condition for a
 deadlock to occur~\cite{silberschatz08os}. Regardless of topology,
 locking objects using depth-first or breadth-first traversal guarantees that
-all objects which are reachable will be locked, and because the traversal is
-deterministic, will guarantee that the order of lock acquisition is always the
-same~\cite{boyapati02races}.
+all objects which are reachable will be locked. Furthermore, because the 
+traversal is deterministic, it is guaranteed that the order of lock acquisition 
+is always the same~\cite{boyapati02races}.
 
 \subsubsection{Persisted Object Upgrades}
 \label{subsubsec:object_upgrades}
