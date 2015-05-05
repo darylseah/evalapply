@@ -631,45 +631,18 @@ the state of the heap) and \lstinline|impure| otherwise. This is necessary
 since external aliases to an encapsulated object are read-only and therefore
 only \lstinline|pure| methods may be invoked on such references.
 
-\begin{lstlisting}[
-	float, floatplacement=t,
+\lstinputlisting[
+	float,
 	caption={Usage of Generic Universe Types},
 	label=code:usage_gut
+]{examples/universe-types/generic-universe-types.java}
+
+\begin{lstlisting}[
+	float, floatplacement=t,
+	caption={},
+	label=code:
 ]
-class Link<X> {
-	X next;
-}
 
-class Node<K, V> extends Link<peer Node<K, V>> {
-	K key; V value;
-}
-
-class Iterator<X extends any Link<X>> {
-	X current;
-
-	Iterator(X first) {
-		current = first;
-	}
-
-	pure boolean hasNext() {
-		return current != null;
-	}
-
-	impure X next() {
-		X result = current;
-		current = current.next;
-		return result;
-	}
-}
-
-class Map<K, V> {
-	rep Node<K, V> first;
-
-	impure peer Iterator<rep Node<K, V>> iterator() {
-		return new peer Iterator
-				<rep Node<K, V>>(first);
-	}
-}
 \end{lstlisting}
 
 Universe Types is clearly limited without some form of ownership
