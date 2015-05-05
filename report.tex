@@ -815,6 +815,13 @@ limitations:
 \section{Evaluation}
 \label{sec:eval}
 
+In this section we evaluate each of the systems which we have introduced in the
+earlier section. We first examine the expressivity of each system, because a
+system which is too restrictive would prevent widespread adoption. We then look
+at the unique features that each system presents, and what that would allow in
+programs. Finally, we examine the benefits that adopting such a system would
+bring.
+
 \subsection{Expressivity}
 \label{subsec:expressivity}
 
@@ -880,17 +887,6 @@ that can be used both by client code (represented by the \lstinline|Client|
 class) and have simultaneous access to the \lstinline|List|'s representation
 invariant.
 
-The \textbf{owners-as-modifiers} discipline allowed read-only references to
-other objects' representation invariants. This was sufficiently liberal to
-implement an iterator over the container. However, this was not particularly 
-useful when the iterator needed to mutate the container, as in the 
-\hyperref[item:mutable-views]{Mutable views} example.
-
-Therefore, the \hyperref[item:mutable-views-as-inner-classes]{Mutable views as
-Inner classes} example was constructed to capitalise on special privileged
-access~\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}. It
-turns out that both systems did allow an efficient view to be written.
-
 \begin{figure}[t]
 	\centering
 	\includegraphics{iterator-fail-inside.eps}
@@ -904,6 +900,17 @@ turns out that both systems did allow an efficient view to be written.
 	\caption{List Iterator outside representation}
 	\label{fig:iterator-outside}
 \end{figure}
+
+The \textbf{owners-as-modifiers} discipline allowed read-only references to
+other objects' representation invariants. This was sufficiently liberal to
+implement an iterator over the container. However, this was not particularly 
+useful when the iterator needed to mutate the container, as in the 
+\hyperref[item:mutable-views]{Mutable views} example.
+
+Therefore, the \hyperref[item:mutable-views-as-inner-classes]{Mutable views as
+Inner classes} example was constructed to capitalise on special privileged
+access~\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}. It
+turns out that both systems did allow an efficient view to be written.
 
 \subsubsection{Binary Operators}
 \label{subsubsec:binary_ops}
