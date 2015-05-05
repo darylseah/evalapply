@@ -926,10 +926,10 @@ Iterator implementations:
 		involves a linked list and an iterator which is not allowed to modify
 		the list that it is associated with.
 
-	\item \textbf{Mutable views} (\texttt{mutable-view}): This example involves
-		a linked list and an iterator which can \lstinline|remove()| the
-		element that the iterator points to. This mirrors Java's implementation
-		of iterators.
+	\item \label{item:mutable-views} \textbf{Mutable views}
+		(\texttt{mutable-view}): This example involves a linked list and an
+		iterator which can \lstinline|remove()| the element that the iterator
+		points to. This mirrors Java's implementation of iterators.
 
 	\item \label{item:mutable-views-as-inner-classes} \textbf{Mutable views as
 		Inner classes} (\texttt{mutable-view-inner-\linebreak~class}): This
@@ -947,6 +947,12 @@ well: following the discipline, it would not be possible to define an iterator
 that can be used both by client code (represented by the \lstinline|Client|
 class) and have simultaneous access to the \lstinline|List|'s representation
 invariant.
+
+The \textbf{owners-as-modifiers} discipline allowed read-only references to
+other objects' representation invariants. This was sufficiently liberal to
+implement an iterator over the container. However, this was not particularly 
+useful when the iterator needed to mutate the container, as in the 
+\hyperref[item:mutable-views]{Mutable views} example.
 
 Therefore, the \hyperref[item:mutable-views-as-inner-classes]{Mutable views as
 Inner classes} example was constructed to capitalise on special privileged
