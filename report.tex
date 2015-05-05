@@ -815,77 +815,6 @@ limitations:
 \section{Evaluation}
 \label{sec:eval}
 
-\begin{table*}[t]
-\caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
-\label{tab:summary}
-\centering
-\NewDocumentCommand{\rot}
-	{O{45} O{1.8em} m}{\makebox[#2][l]{\rotatebox{#1}{#3}}}
-\newcommand{\Yes}{$~\medbullet$}
-\newcommand{\Limited}{$~\medcirc$}
-\newcommand{\Maybe}{$~\bigtriangleup$}
-\newcommand{\No}{$~\times$}
-\newcommand{\note}[1]{\textsuperscript{$#1$}}
-\newcommand{\comment}[2]{
-	& & \multicolumn{12}{l}{
-		\scriptsize \note{#1}\,#2 \vspace{-0.7em}
-	} \\
-}
-\renewcommand{\arraystretch}{1.4}
-\vspace{1em}
-\begin{tabular}{rllllllllllllll}
-	\scriptsize
-	\begin{tabular}[b]{|rl|} \hline
-		\Yes & Supported \\
-		\Limited & Partially Supported \\
-		\No & Not Supported \\
-		\Maybe & Not Discussed \\
-		\hline \multicolumn{1}{r}{}
-	\end{tabular} \hspace{10pt}
-&~&
-\rot{Immutable View} &
-\rot{Mutable View} &
-\rot{Binary Operations} &
-\rot{Class Inheritance} &
-\rot{Ownership Constraints} &
-\rot{Ownership Transfer} &
-\rot{Ownership Parameters} &
-\rot{Generic Types} &
-\rot{Multiple Owners} &
-\rot{\bf Alias Control} &
-\rot{\bf Effect Specifications} &
-\rot{\bf Local Reasoning} &~~
-\\ \toprule
-Ownership Types~\cite{clarke98ownership}&
-	& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
-	& \Yes & \Maybe & \Yes
-\\
-SafeJava~\cite{boyapati04safejava}&
-	& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
-	& \Yes & \Yes & \Yes
-\\
-Universe Types~\cite{cunningham08ut}&
-	& \Yes & \No & \Yes & \Yes & \No & \Yes & \No & \Maybe & \No
-	& \No & \Limited\note{\ast} & \Yes
-\\
-Generic Universe Types~\cite{dietl11gut}&
-	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
-	& \No & \Limited\note{\ast} & \Yes
-\\
-Multiple Ownership~\cite{cameron07mojo}&
-	& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
-	& \Yes & \Yes & \Limited\note{\dagger}
-\\ \bottomrule
-\comment{\ast}{
-	UT/GUT only supports \lstinline|pure| and \lstinline|impure|, rather than
-	the more general \lstinline|reads| and \lstinline|writes| declarations.
-}
-\comment{\dagger}{
-	The ownership wildcard \lstinline|?| limits the local reasoning possible.
-}
-\end{tabular}
-\end{table*}
-
 \subsection{Expressivity}
 \label{subsec:expressivity}
 
@@ -898,8 +827,7 @@ directory. Each code example includes a standard Java implementation (called
 systems we have examined. Systems which did not allow expressing the example
 would have a comment indicating so. If a system does not allow expressing a
 given syntactic construct (e.g. inheritance or inner classes), then the
-implementation for that system would be omitted. A summary of our findings is
-listed in \cref{tab:summary}.
+implementation for that system would be omitted.
 
 \subsubsection{Collection Views}
 \label{subsubsec:views}
@@ -1049,6 +977,79 @@ Ownership Constraints
 \subsubsection{Alias Control}
 \subsubsection{Local Reasoning}
 Not so much the system, but the discipline that the system enforces.
+
+A summary of our findings is listed in \cref{tab:summary}.
+
+\begin{table*}[t]
+\caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
+\label{tab:summary}
+\centering
+\NewDocumentCommand{\rot}
+	{O{45} O{1.8em} m}{\makebox[#2][l]{\rotatebox{#1}{#3}}}
+\newcommand{\Yes}{$~\medbullet$}
+\newcommand{\Limited}{$~\medcirc$}
+\newcommand{\Maybe}{$~\bigtriangleup$}
+\newcommand{\No}{$~\times$}
+\newcommand{\note}[1]{\textsuperscript{$#1$}}
+\newcommand{\comment}[2]{
+	& & \multicolumn{12}{l}{
+		\scriptsize \note{#1}\,#2 \vspace{-0.7em}
+	} \\
+}
+\renewcommand{\arraystretch}{1.4}
+\vspace{1em}
+\begin{tabular}{rllllllllllllll}
+	\scriptsize
+	\begin{tabular}[b]{|rl|} \hline
+		\Yes & Supported \\
+		\Limited & Partially Supported \\
+		\No & Not Supported \\
+		\Maybe & Not Discussed \\
+		\hline \multicolumn{1}{r}{}
+	\end{tabular} \hspace{10pt}
+&~&
+\rot{Immutable View} &
+\rot{Mutable View} &
+\rot{Binary Operations} &
+\rot{Class Inheritance} &
+\rot{Ownership Constraints} &
+\rot{Ownership Transfer} &
+\rot{Ownership Parameters} &
+\rot{Generic Types} &
+\rot{Multiple Owners} &
+\rot{\bf Alias Control} &
+\rot{\bf Effect Specifications} &
+\rot{\bf Local Reasoning} &~~
+\\ \toprule
+Ownership Types~\cite{clarke98ownership}&
+	& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
+	& \Yes & \Maybe & \Yes
+\\
+SafeJava~\cite{boyapati04safejava}&
+	& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
+	& \Yes & \Yes & \Yes
+\\
+Universe Types~\cite{cunningham08ut}&
+	& \Yes & \No & \Yes & \Yes & \No & \Yes & \No & \Maybe & \No
+	& \No & \Limited\note{\ast} & \Yes
+\\
+Generic Universe Types~\cite{dietl11gut}&
+	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
+	& \No & \Limited\note{\ast} & \Yes
+\\
+Multiple Ownership~\cite{cameron07mojo}&
+	& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
+	& \Yes & \Yes & \Limited\note{\dagger}
+\\ \bottomrule
+\comment{\ast}{
+	UT/GUT only supports \lstinline|pure| and \lstinline|impure|, rather than
+	the more general \lstinline|reads| and \lstinline|writes| declarations.
+}
+\comment{\dagger}{
+	The ownership wildcard \lstinline|?| limits the local reasoning possible.
+}
+\end{tabular}
+\end{table*}
 
 \section{Conclusion}
 \label{sec:conclusion}
