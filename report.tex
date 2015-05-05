@@ -973,12 +973,46 @@ turns out that both systems did allow an efficient view to be written.
 	\label{fig:iterator-outside}
 \end{figure}
 
+\subsection{Binary Operators}
+\label{subsec:binary_ops}
+
+Another common operation that is performed regularly in programs is the use of
+a binary operator, such as a list append. Sometimes, it is necessary to perform
+the binary operation over two values with different owners, such as merging the
+results of a parallel reduction function. We have chosen to implement a queue
+which allows merging together to simulate this situation.
+
+Once again, the \textbf{owners-as-dominators} discipline is proving to be too
+strict to allow such an operation. \Cref{fig:binary-operators} demonstrates
+that it is not possible for either object to access each other's representation 
+invariants. The \textbf{owners-as-modifiers} discipline will not prevent a
+programmer from implementing such an operation.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics{binary-fail.eps}
+	\caption{Binary operators do not have access to another object's 
+		representation invariant}
+	\label{fig:binary-operators}
+\end{figure}
+
+Universe Types allowed objects with a \lstinline|peer| \cite{dietl11gut}
+relationship to explore each other's representations. Therefore, binary
+operators could be implemented. Even if the binary operator did not have
+\lstinline|peer| access, it is possible to implement it with only read-access.
+Typically, binary operators do not modify its operands, hence read-only access
+is sufficient.
+
+If multiple ownership is allowed, relaxing the \textbf{owners-as-dominators}
+discipline, then binary operators can be implemented. This can be accomplished
+by declaring the operator as accepting objects that the type has co-ownership
+for.
+
+
+
 \begin{itemize}
 
-	\item The \textit{Binary Operators} example concerns objects with a peer
-		\cite{dietl11gut} relationship that are able to explore each other's
-		representations. This is useful to gauge the varying levels of access
-		given to peers in the different type systems.
+	\item The \textit{Binary Operators} 
 	
 	\item A number of the examples contain unique features that aren't found in
 		more than one type system, for example: multiple ownership, ownership
