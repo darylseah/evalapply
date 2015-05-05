@@ -227,7 +227,7 @@ a consistent set of terms to be used across the different systems proposed.
 		analysed each system for its ability to express such a design pattern.
 		Our use cases can be broadly categorised as such:
 
-	% TODO: Synchronise with section 4.
+	%TODO: Synchronise with section 4.
 	\begin{itemize}
 		\item \textbf{Abstract Data Types}: We modified a Queue example
 			from~\cite{boyapati04safejava} and added iterators, which can be
@@ -791,7 +791,7 @@ limitations:
 	\item \textbf{The owners-as-dominators discipline is dropped}. Access paths
 		are no longer restricted to one dominating object, and thus the type
 		system cannot make guarantees about object encapsulation that are nearly
-		% TODO: Darius please annotate this with the citation
+		%TODO: Darius please annotate this with the citation
 		as strong. Cameron et al. propose future work on extending
 		owners-as-dominators to accommodate multiple owners, ensuring that at
 		least \textit{one of the owners} of an object dominates access paths to
@@ -965,19 +965,33 @@ the system~\cite{dietl09gut}.
 \subsection{Other Features}
 \label{subsec:other_features}
 
-Each system which we have examined contain unique features that are not found in
-others.
+Each system which we have examined contain unique features that were not found 
+across all systems.
 
-, for example: multiple ownership, ownership
-transfer, and accommodation of generics. Because they have no analogue
-these features can't be compared. The situation is similar for ownership
-parameters and constraints.
-
-Multiple Ownership
-Generic Types
-Inheritance
-Ownership Parameters
-Ownership Constraints
+\begin{itemize}
+	\item \textbf{Generics}: Only Generic Universe Types discussed generics at
+		length. Existing programs would be likely to use generics extensively,
+		especially since Java's runtime library has had generics for a long
+		time now.
+		%TODO: Implementation
+	\item \textbf{Inheritance}: Among the implementations surveyed, only
+		\linebreak Clarke's Ownership Types was silent about inheritance.
+		This is an important feature to have, because existing Object-Oriented
+		programs leverage on inheritance extensively to structure large
+		programs. The lack of inheritance would impede the system's ability to
+		be used immediately.
+	\item \textbf{Ownership Parameters}: Among the implementations \linebreak
+		surveyed, only the Universe Types system did not support ownership
+		parameters. This is a good feature to have because it allows
+		context-sensitive ownership information to be expressed in the program.
+		While we were not able to construct an example that demonstrated this 
+		as a weakness, we conjecture that this would be a handicap.
+	\item \textbf{Ownership Constraints}: Only the SafeJava and Multiple
+		\linebreak Ownership systems allowed constraints to be placed on
+		owners. This is not strictly necessary to be able to correctly express
+		the intention of the programmer; however, it would be useful in
+		verifying the correctness of programs.
+\end{itemize}
 
 \subsection{Program Analysis Benefits}
 \subsubsection{Effect Specifications}
