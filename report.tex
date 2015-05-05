@@ -892,7 +892,8 @@ Full code examples can be found in the \texttt{examples/\linebreak~comparisons}
 directory. Each code example includes a standard Java implementation (called
 \texttt{standard.java}), and an equivalent implementation for each of the
 systems we have examined. Systems which did not allow expressing the example
-were ignored. A summary of our findings is listed in \cref{tab:summary}.
+would have a comment indicating so. A summary of our findings is listed in
+\cref{tab:summary}.
 
 \subsection{Collection Views}
 \label{subsec:views}
@@ -936,10 +937,10 @@ Iterator implementations:
 
 This category of simple examples were able to articulate the differences between
 the various systems very well. The \textbf{owners-as-dominators} discipline,
-following the definition given in \cref{subsec:definitions} is generally too
+following the definition given in \cref{subsec:definitions} was shown to be too
 strict to be able to capture the notion that an object is able to explore the
 representation invariant of another, even in a controlled way.
-\Cref{fig:iterator-inside,fig:iterator-outside} demonstrate the limitations 
+\Cref{fig:iterator-inside,fig:iterator-outside} highlights the limitations 
 well: following the discipline, it would not be possible to define an iterator
 that can be used both by client code (represented by the \lstinline|Client|
 class) and have simultaneous access to the \lstinline|List|'s representation
@@ -949,7 +950,6 @@ Therefore, the \hyperref[item:mutable-views-as-inner-classes]{Mutable views as
 Inner classes} example was constructed to capitalise on special privileged
 access~\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}. It
 turns out that both systems did allow an efficient view to be written.
-
 
 \begin{figure}[t]
 	\centering
