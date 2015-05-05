@@ -637,14 +637,6 @@ only \lstinline|pure| methods may be invoked on such references.
 	label=code:usage_gut
 ]{examples/universe-types/generic-universe-types.java}
 
-\begin{lstlisting}[
-	float, floatplacement=t,
-	caption={},
-	label=code:
-]
-
-\end{lstlisting}
-
 Universe Types is clearly limited without some form of ownership
 parameterisation similar to Clarke's~\cite{clarke03ownership} and
 Boyapati's~\cite{boyapati04safejava}. However, when Clarke and Boyapati
@@ -708,28 +700,11 @@ Tasks. The \textbf{owners-as-modifiers} discipline also causes problems as
 previously described: only either Projects or Workers may own tasks, so only
 one would be able to modify them.
 
-\begin{lstlisting}[
-	float, floatplacement=t,
-	caption={Multiple Ownership},
+\lstinputlisting[
+	float,
+	caption={Multiple ownership},
 	label=code:ownership_types_multiple
-]
-class Task { /* ... */ }
-class TaskList { /* ... */ }
-
-class Project {
-	TaskList tasks;
-	void delay() {
-		for (Task t : tasks) { t.delay(); }
-	}
-}
-
-class Worker { // Symmetric
-	TaskList tasks;
-	void delay() {
-		for (Task t : tasks) { t.delay(); }
-	}
-}
-\end{lstlisting}
+]{examples/multiple-ownership/multiple-ownership.java}
 
 To work around this problem with single ownership, the object structure would
 have to be flattened, making all the objects involved peers of each other. This
@@ -768,16 +743,11 @@ several syntactic additions:
 		\lstinline|Task<a & ?>| and \lstinline|Task<b & ?>|, allowing it to be
 		used wherever the latter two are expected.}
 
-		\begin{lstlisting}[
-			float, floatplacement=t,
-			caption={Multiple Ownership},
+		\lstinputlisting[
+			float,
+			caption={Existential owners},
 			label=code:ownership_types_multiple_wildcards
-		]
-class Project {
-	void add(Task<this & ?> t) { /* ... */ }
-}
-new Project().add(new Task<p1 & w1>());
-		\end{lstlisting}
+		]{examples/multiple-ownership/existential-owners.java}
 
 \end{itemize}
 
@@ -806,34 +776,11 @@ keywords.
 
 \end{itemize}
 
-\begin{lstlisting}[
-	float, floatplacement=t,
+\lstinputlisting[
+	float,
 	caption={Multiple Ownership Constraints},
 	label=code:ownership_types_multiple_constraints
-]
-class C<owner, a, b> where
-	a intersects owner,
-	b disjoint owner
-{
-	// legal: known intersection
-	Object<a & owner> o1;
-
-	// illegal: known disjointness
-	Object<b & owner> o2;
-
-	// illegal: nothing known
-	Object<a & b> o3;
-}
-
-class Example {
-	void method(Object a, Object b, Object c) {
-		// legal
-		new C<a, b, c>();
-		// illegal: disjointness is irreflexive
-		new C<a, b, a>();
-	}
-}
-\end{lstlisting}
+]{examples/multiple-ownership/ownership-constraints.java}
 
 Multiple ownership as described is a powerful notion but has a number of
 limitations:
