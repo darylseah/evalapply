@@ -886,6 +886,9 @@ Multiple Ownership~\cite{cameron07mojo}&
 \end{tabular}
 \end{table*}
 
+\subsection{Expressivity}
+\label{subsec:expressivity}
+
 As mentioned earlier, we have chosen to measure expressivity in terms of the
 design patterns and object structures that the different systems support.
 
@@ -898,8 +901,8 @@ given syntactic construct (e.g. inheritance or inner classes), then the
 implementation for that system would be omitted. A summary of our findings is
 listed in \cref{tab:summary}.
 
-\subsection{Collection Views}
-\label{subsec:views}
+\subsubsection{Collection Views}
+\label{subsubsec:views}
 
 A common design pattern when designing abstract data types is to define
 \emph{views}. A view is an object that presents the data in some other
@@ -974,8 +977,8 @@ turns out that both systems did allow an efficient view to be written.
 	\label{fig:iterator-outside}
 \end{figure}
 
-\subsection{Binary Operators}
-\label{subsec:binary_ops}
+\subsubsection{Binary Operators}
+\label{subsubsec:binary_ops}
 
 Another common operation that is performed regularly in programs is the use of
 a binary operator, such as a list append. Sometimes, it is necessary to perform
@@ -1009,8 +1012,8 @@ If multiple ownership is allowed, relaxing the
 be implemented. This can be accomplished by declaring the operator as accepting
 objects that the type has co-ownership for.
 
-\subsection{Ownership Transfer}
-\label{subsec:ownership_transfer}
+\subsubsection{Ownership Transfer}
+\label{subsubsec:ownership_transfer}
 
 A common design pattern in concurrent programming is the producer-consumer
 pattern. In this pattern, two tasks run in parallel, with the output of the
@@ -1041,6 +1044,11 @@ Inheritance
 Ownership Parameters
 Ownership Constraints
 
+\subsection{Program Analysis Benefits}
+\subsubsection{Effect Specifications}
+\subsubsection{Alias Control}
+\subsubsection{Local Reasoning}
+Not so much the system, but the discipline that the system enforces.
 
 \section{Conclusion}
 \label{sec:conclusion}
