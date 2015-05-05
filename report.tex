@@ -20,7 +20,12 @@
 \setkeys{Gin}{width=0.98\linewidth}
 \graphicspath{{./figures/}}
 
-\IfFileExists{zi4.sty}{\usepackage{zi4}}{\usepackage{inconsolata}}
+\IfFileExists{zi4.sty}{
+	\usepackage{zi4}
+}{
+	\usepackage{inconsolata}
+	\usepackage{breakurl}
+}
 \usepackage{listings}
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
@@ -59,7 +64,6 @@
 \PassOptionsToPackage{pdfpagelabels=false}{hyperref}
 \usepackage{hyperref}
 \usepackage{cleveref}
-\usepackage{breakurl}
 
 % using deprecated package because subcaption does not work with ACM template
 \usepackage[tight]{subfigure}
