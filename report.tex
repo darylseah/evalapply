@@ -1,6 +1,7 @@
 \documentclass{acm_proc_article-sp}
 \setlength{\paperheight}{297mm}
 \setlength{\paperwidth}{210mm}
+\setlength{\parindent}{15pt}
 
 \usepackage{txfonts}
 \usepackage{pifont}
@@ -60,7 +61,10 @@
 \usepackage{cleveref}
 \usepackage{breakurl}
 
-\setlength{\parindent}{15pt}
+% using deprecated package because subcaption does not work with ACM template
+\usepackage[tight]{subfigure}
+\setlength{\subfigcapskip}{5pt}
+\setlength{\subfigbottomskip}{2pt}
 
 \begin{document}
 
@@ -823,6 +827,19 @@ at the unique features that each system presents, and what that would allow in
 programs. Finally, we examine the benefits that adopting such a system would
 bring.
 
+\begin{figure*}[t]
+	\centering
+	\subfigure[Inside Representation]{
+		\includegraphics[width=0.97\columnwidth]{iterator-fail-inside.eps}
+	}
+	\hspace{\columnsep}
+	\subfigure[Outside Representation]{
+		\includegraphics[width=0.97\columnwidth]{iterator-fail-outside.eps}
+	}
+	\caption{List Iterator Impossible to Define}
+	\label{fig:iterator-fail}
+\end{figure*}
+
 \subsection{Expressivity}
 \label{subsec:expressivity}
 
@@ -877,30 +894,15 @@ Iterator implementations:
 		iterator is implemented as an inner class of the linked list.
 \end{enumerate}
 
-This category of simple examples were able to articulate the differences between
-the various systems very well. The \textbf{owners-as-dominators} discipline,
-following the definition given in \cref{subsec:definitions} was shown to be too
-strict to be able to capture the notion that an object is able to explore the
-representation invariant of another, even in a controlled way.
-\Cref{fig:iterator-inside,fig:iterator-outside} highlights the limitations 
-well: following the discipline, it would not be possible to define an iterator
-that can be used both by client code (represented by the \lstinline|Client|
-class) and have simultaneous access to the \lstinline|List|'s representation
-invariant.
-
-\begin{figure}[t]
-	\centering
-	\includegraphics{iterator-fail-inside.eps}
-	\caption{List Iterator inside representation}
-	\label{fig:iterator-inside}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-	\includegraphics{iterator-fail-outside.eps}
-	\caption{List Iterator outside representation}
-	\label{fig:iterator-outside}
-\end{figure}
+This category of simple examples were able to articulate the differences
+between the various systems very well. The \textbf{owners-as-dominators}
+discipline, following the definition given in \cref{subsec:definitions} was
+shown to be too strict to be able to capture the notion that an object is able
+to explore the representation invariant of another, even in a controlled way.
+\Cref{fig:iterator-fail} highlights the limitations well: following the
+discipline, it would not be possible to define an iterator that can be used
+both by client code (represented by the \lstinline|Client| class) and have
+simultaneous access to the \lstinline|List|'s representation invariant.
 
 The \textbf{owners-as-modifiers} discipline allowed read-only references to
 other objects' representation invariants. This was sufficiently liberal to
@@ -912,6 +914,79 @@ Therefore, the \hyperref[item:mutable-views-as-inner-classes]{Mutable views as
 Inner classes} example was constructed to capitalise on special privileged
 access~\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}. It
 turns out that both systems did allow an efficient view to be written.
+
+
+\begin{table*}[t]
+\caption{Summary of Expressivity and (Analytical) Benefits of Ownership Type Systems}
+\label{tab:summary}
+\centering
+\NewDocumentCommand{\rot}
+	{O{45} O{1.8em} m}{\makebox[#2][l]{\rotatebox{#1}{#3}}}
+\newcommand{\Yes}{$~\medbullet$}
+\newcommand{\Limited}{$~\medcirc$}
+\newcommand{\Maybe}{$~\bigtriangleup$}
+\newcommand{\No}{$~\times$}
+\newcommand{\note}[1]{\textsuperscript{$#1$}}
+\newcommand{\comment}[2]{
+	& & \multicolumn{12}{l}{
+		\scriptsize \note{#1}\,#2 \vspace{-0.7em}
+	} \\
+}
+\renewcommand{\arraystretch}{1.4}
+\vspace{1em}
+\begin{tabular}{rllllllllllllll}
+	\scriptsize
+	\begin{tabular}[b]{|rl|} \hline
+		\Yes & Supported \\
+		\Limited & Partially Supported \\
+		\No & Not Supported \\
+		\Maybe & Not Discussed \\
+		\hline \multicolumn{1}{r}{}
+	\end{tabular} \hspace{10pt}
+&~&
+\rot{Immutable View} &
+\rot{Mutable View} &
+\rot{Binary Operations} &
+\rot{Class Inheritance} &
+\rot{Ownership Constraints} &
+\rot{Ownership Transfer} &
+\rot{Ownership Parameters} &
+\rot{Generic Types} &
+\rot{Multiple Owners} &
+\rot{\bf Alias Control} &
+\rot{\bf Effect Specifications} &
+\rot{\bf Local Reasoning} &~~
+\\ \toprule
+Ownership Types~\cite{clarke98ownership}&
+	& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
+	& \Yes & \Maybe & \Yes
+\\
+SafeJava~\cite{boyapati04safejava}&
+	& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
+	& \Yes & \Yes & \Yes
+\\
+Universe Types~\cite{cunningham08ut}&
+	& \Yes & \No & \Yes & \Yes & \No & \Yes & \No & \Maybe & \No
+	& \No & \Limited\note{\ast} & \Yes
+\\
+Generic Universe Types~\cite{dietl11gut}&
+	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
+	& \No & \Limited\note{\ast} & \Yes
+\\
+Multiple Ownership~\cite{cameron07mojo}&
+	& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
+	& \Yes & \Yes & \Limited\note{\dagger}
+\\ \bottomrule
+\comment{\ast}{
+	UT/GUT only supports \lstinline|pure| and \lstinline|impure|, rather than
+	the more general \lstinline|reads| and \lstinline|writes| declarations.
+}
+\comment{\dagger}{
+	The ownership wildcard \lstinline|?| limits the local reasoning possible.
+}
+\end{tabular}
+\end{table*}
+
 
 \subsubsection{Binary Operators}
 \label{subsubsec:binary_ops}
@@ -947,6 +1022,8 @@ If multiple ownership is allowed, relaxing the
 \textbf{owners-as-\linebreak~dominators} discipline, then binary operators can
 be implemented. This can be accomplished by declaring the operator as accepting
 objects that the type has co-ownership for.
+
+
 
 \subsubsection{Ownership Transfer}
 \label{subsubsec:ownership_transfer}
@@ -1024,6 +1101,9 @@ the fact that aliases are restricted to a portion of the program. However, this
 property -- local reasoning -- is useful in the general case, and is discussed
 in the following section.
 
+
+
+
 \subsubsection{Local Reasoning}
 \lipsum[1]
 
@@ -1031,76 +1111,6 @@ Not so much the system, but the discipline that the system enforces.
 
 A summary of our findings is listed in \cref{tab:summary}.
 
-\begin{table*}[t]
-\caption{Expressivity and (Analytical) Benefits of Ownership Type Systems}
-\label{tab:summary}
-\centering
-\NewDocumentCommand{\rot}
-	{O{45} O{1.8em} m}{\makebox[#2][l]{\rotatebox{#1}{#3}}}
-\newcommand{\Yes}{$~\medbullet$}
-\newcommand{\Limited}{$~\medcirc$}
-\newcommand{\Maybe}{$~\bigtriangleup$}
-\newcommand{\No}{$~\times$}
-\newcommand{\note}[1]{\textsuperscript{$#1$}}
-\newcommand{\comment}[2]{
-	& & \multicolumn{12}{l}{
-		\scriptsize \note{#1}\,#2 \vspace{-0.7em}
-	} \\
-}
-\renewcommand{\arraystretch}{1.4}
-\vspace{1em}
-\begin{tabular}{rllllllllllllll}
-	\scriptsize
-	\begin{tabular}[b]{|rl|} \hline
-		\Yes & Supported \\
-		\Limited & Partially Supported \\
-		\No & Not Supported \\
-		\Maybe & Not Discussed \\
-		\hline \multicolumn{1}{r}{}
-	\end{tabular} \hspace{10pt}
-&~&
-\rot{Immutable View} &
-\rot{Mutable View} &
-\rot{Binary Operations} &
-\rot{Class Inheritance} &
-\rot{Ownership Constraints} &
-\rot{Ownership Transfer} &
-\rot{Ownership Parameters} &
-\rot{Generic Types} &
-\rot{Multiple Owners} &
-\rot{\bf Alias Control} &
-\rot{\bf Effect Specifications} &
-\rot{\bf Local Reasoning} &~~
-\\ \toprule
-Ownership Types~\cite{clarke98ownership}&
-	& \No & \No & \No & \Maybe & \No & \No & \Yes & \Maybe & \No
-	& \Yes & \Maybe & \Yes
-\\
-SafeJava~\cite{boyapati04safejava}&
-	& \Yes & \Yes & \No & \Yes & \Yes & \Yes & \Yes & \Maybe & \No
-	& \Yes & \Yes & \Yes
-\\
-Universe Types~\cite{cunningham08ut}&
-	& \Yes & \No & \Yes & \Yes & \No & \Yes & \No & \Maybe & \No
-	& \No & \Limited\note{\ast} & \Yes
-\\
-Generic Universe Types~\cite{dietl11gut}&
-	& \Yes & \No & \Yes & \Yes & \No & \Maybe & \Yes & \Yes & \No
-	& \No & \Limited\note{\ast} & \Yes
-\\
-Multiple Ownership~\cite{cameron07mojo}&
-	& \Yes & \Yes & \Yes & \Yes & \Yes & \Maybe & \Yes & \Maybe & \Yes
-	& \Yes & \Yes & \Limited\note{\dagger}
-\\ \bottomrule
-\comment{\ast}{
-	UT/GUT only supports \lstinline|pure| and \lstinline|impure|, rather than
-	the more general \lstinline|reads| and \lstinline|writes| declarations.
-}
-\comment{\dagger}{
-	The ownership wildcard \lstinline|?| limits the local reasoning possible.
-}
-\end{tabular}
-\end{table*}
 
 \section{Conclusion}
 \label{sec:conclusion}
