@@ -50,7 +50,8 @@
 		where,reads,writes,pure,impure,
 		intersects,disjoint,unique,lost,self},
 	otherkeywords={&,?},
-	escapeinside={/*@}{@*/}
+	escapeinside={/*@}{@*/},
+	floatplacement=t
 }
 
 \usepackage{varioref}
@@ -112,36 +113,11 @@ reason about its behaviour and effects. We present an example in
 \cref{code:modular_reasoning_car_engine_1}, originally
 described in~\cite{clarke98ownership}.
 
-\begin{lstlisting}[
-	float, floatplacement=t,
-	caption={Car},
+\lstinputlisting[
+	float,
+	caption={Car}, 
 	label=code:modular_reasoning_car_engine_1
-]
-class Person {}
-
-class Engine {
-	void start() { /* ... */}
-}
-
-class Car {
-	Engine engine;
-	Person driver;
-
-	void start() {
-		if (driver != null) {
-			engine.start();
-		}
-	}
-}
-
-class Main {
-	static void main() {
-		Car car = new Car();
-		car.start();
-		car.engine.start();/*@\label{code:modular_reasoning_car_engine_1_engine_start}@*/
-	}
-}
-\end{lstlisting}
+]{examples/motivation/1.java}
 
 Here we present a car with a driver and an engine. The car defines a
 \lstinline|start| method which will start the engine, but only if a driver is
@@ -159,41 +135,11 @@ appropriate scope. \Cref{code:modular_reasoning_car_engine_2}, modified from
 \cref{code:modular_reasoning_car_engine_1}, demonstrates their use, but also
 that enforcing encapsulation using access specifiers alone is insufficient.
 
-\begin{lstlisting}[
-	float, floatplacement=t,
+\lstinputlisting[
+	float,
 	caption={Car with Access Specifiers},
 	label=code:modular_reasoning_car_engine_2
-]
-class Person {}
-
-class Engine {
-	public void start() { /* ... */ }
-}
-
-class Car {
-	private Engine engine;
-	private Person driver;
-
-	public void start() {
-		if (driver != null) {
-			engine.start();
-		}
-	}
-
-	public Engine getEngine() {
-		return engine;
-	}
-}
-
-class Main {
-	public static void main() {
-		Car car = new Car();
-		car.start();
-		car.getEngine().start();/*@\label{code:modular_reasoning_car_engine_2_engine_start}@*/
-	}
-}
-
-\end{lstlisting}
+]{examples/motivation/2.java}
 
 In \cref{code:modular_reasoning_car_engine_2} we annotate each method
 and member variable with an appropriate access specifier. We also define an
@@ -247,41 +193,11 @@ referenced). Furthermore, it is not possible to express the ownership type of
 an object belonging to another object, preventing the encapsulation violation
 on \cref{code:ownership_types_car_engine_1_engine_start}.
 
-\begin{lstlisting}[
-	float, floatplacement=t,
+\lstinputlisting[
+	float,
 	caption={Car with Ownership Types},
 	label=code:ownership_types_car_engine_1
-]
-class Person {}
-
-class Engine<EngineOwner> {
-	void start() { /* ... */ }
-}
-
-class Car<CarOwner, DriverOwner> { /*@
-		\label{code:ownership_types_car_engine_1_parametric_owner} @*/
-	Engine<this> engine;
-	Person<DriverOwner> driver;
-
-	void start() {
-		if (driver != null) {
-			getEngine().start();
-		}
-	}
-
-	Engine<this> getEngine() {
-		return engine;
-	}
-}
-
-class Main {
-	static void main() {
-		Car<this, world> car = new Car<this, world>();
-		car.start();
-		car.getEngine().start();/*@\label{code:ownership_types_car_engine_1_engine_start}@*/
-	}
-}
-\end{lstlisting}
+]{examples/motivation/3.java}
 
 Ownership parameters can also be used within the class declaration, as shown on
 \cref{code:ownership_types_car_engine_1_parametric_owner}. Special keywords
