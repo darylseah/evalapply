@@ -994,9 +994,38 @@ across all systems.
 \end{itemize}
 
 \subsection{Program Analysis Benefits}
+\label{subsec:program_analysis_benefits}
+
 \subsubsection{Effect Specifications}
+\label{subsubsec:benefits_effect_specifications}
+
+Only SafeJava and Multiple Ownership describes effect specifications as part of
+the system. Effect specifications are useful because they allow analysis tools
+to make assumptions about the program that is being analysed, increasing the
+accuracy of the analyses.
+
+%TODO needs more work.
+
 \subsubsection{Alias Control}
+\label{subsubsec:benefits_alias_control}
+
+All the systems impose an encapsulation discipline. This is useful in
+controlling where in the program aliases for values are allowed to exist.
+
+If the \textbf{owners-as-dominators} discipline is used, then aliases are
+allowable only in places where the object context is a child of the object
+being referenced. If the \textbf{owners-as-modifiers} discipline is used, then
+aliases are allowed anywhere in the program. This is an explicit design choice 
+by Dietl et al.~\cite{dietl07gut}.
+
+In both situations, Ownership Types do not assist in alias analysis beyond
+the fact that aliases are restricted to a portion of the program. However, this
+property -- local reasoning -- is useful in the general case, and is discussed
+in the following section.
+
 \subsubsection{Local Reasoning}
+\lipsum[1]
+
 Not so much the system, but the discipline that the system enforces.
 
 A summary of our findings is listed in \cref{tab:summary}.
