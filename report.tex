@@ -938,11 +938,32 @@ This category of simple examples were able to articulate the differences between
 the various systems very well. The \textbf{owners-as-dominators} discipline,
 following the definition given in \cref{subsec:definitions} is generally too
 strict to be able to capture the notion that an object is able to explore the
-representation invariant of another, even in a controlled way. The
-\hyperref[item:mutable-views-as-inner-classes]{Mutable views as Inner classes}
-example was therefore specifically constructed to overcome this problem,
-capitalising on special privileged access~\cite{boyapati04safejava} or multiple
-ownership \cite{cameron07mojo}.
+representation invariant of another, even in a controlled way.
+\Cref{fig:iterator-inside,fig:iterator-outside} demonstrate the limitations 
+well: following the discipline, it would not be possible to define an iterator
+that can be used both by client code (represented by the \lstinline|Client|
+class) and have simultaneous access to the \lstinline|List|'s representation
+invariant.
+
+Therefore, the \hyperref[item:mutable-views-as-inner-classes]{Mutable views as
+Inner classes} example was constructed to capitalise on special privileged
+access~\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}. It
+turns out that both systems did allow an efficient view to be written.
+
+
+\begin{figure}[t]
+	\centering
+	\includegraphics{iterator-fail-inside.eps}
+	\caption{List Iterator inside representation}
+	\label{fig:iterator-inside}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics{iterator-fail-outside.eps}
+	\caption{List Iterator outside representation}
+	\label{fig:iterator-outside}
+\end{figure}
 
 \begin{itemize}
 
@@ -990,22 +1011,6 @@ an unprecedented amount of safety and encapsulation, they can also be cumbersome
 to work with. We postulate that they will see most use in safety-critical
 applications, where their strengths in ensuring the correctness of programs can
 outweigh the costs of using them.
-
-
-% Figures
-% \begin{figure}[t]
-% \centering
-% \includegraphics{iterator-fail-inside.eps}
-% \caption{List Iterator inside representation.}
-% \label{fig:iterator-inside-test}
-% \end{figure}
-%
-% \begin{figure}[t]
-% \centering
-% \includegraphics{iterator-fail-outside.eps}
-% \caption{List Iterator outside representation.}
-% \label{fig:iterator-outside-test}
-% \end{figure}
 
 %
 % Reference to \cref{code:car_eng_test}, \cref{sec:test} and
