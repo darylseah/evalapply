@@ -886,42 +886,65 @@ Multiple Ownership~\cite{cameron07mojo}&
 \end{table*}
 
 As mentioned earlier, we have chosen to measure expressivity in terms of the
-design patterns and object structures that the different systems support. Full 
-code examples can be found in the \linebreak\texttt{examples/comparisons} 
-directory and a summary of our findings is listed in \cref{tab:summary}.
+design patterns and object structures that the different systems support.
 
-\subsection{Views}
+Full code examples can be found in the \texttt{examples/\linebreak~comparisons}
+directory. Each code example includes a standard Java implementation (called
+\texttt{standard.java}), and an equivalent implementation for each of the
+systems we have examined. Systems which did not allow expressing the example
+were ignored. A summary of our findings is listed in \cref{tab:summary}.
+
+\subsection{Collection Views}
 \label{subsec:views}
 
 A common design pattern when designing abstract data types is to define
-\emph{views}. A view is an object that presents the data in some container in a
-different object -- iterators over a container being the most common view used
-in programs today. These views may allow modification of the data type that it
+\emph{views}. A view is an object that presents the data in some other
+container -- iterators over a container being the most common view used in
+programs today. These views may allow modification of the data type that it
 is associated with. Owing to its ubiquity, we have adopted it as a benchmark
 for ownership types to be able to express.
 
-Views generally require cooperation from the container (access to its
-representation invariant) to be efficient. As a case in point, assume that an
-iterator over a linked list does not have access to its links and nodes. While
-the iterator might still be able to traverse the linked list (possibly using
-integer indices to elements), accessing an element in the list would require
-require $O(n)$ time.
+Views generally require access to the container's representation invariant to
+be efficient. As a case in point, assume that an iterator over a linked list
+does not have access to its links and nodes. While the iterator might still be
+able to traverse the linked list (possibly using integer indices to elements),
+accessing successive elements in the list would require $O(n)$ time, resulting
+in a complete list traversal that requires $O(n^2)$ time.
 
-Even more problems are presented if the views need to be mutable. For example, 
-Java's iterators allow mutation during traversal~\cite{java8java_util_iterator}.
+Even more problems are presented if the views need to be mutable. For example,
+Java's iterators allow removal of the next element during
+traversal~\cite{java8java_util_iterator}.
+
+Owing to the variety of possible views, we have written three different
+Iterator implementations:
+
+\begin{enumerate}
+	\item \textbf{Immutable views} (\texttt{immutable-view}): This example
+		involves a linked list and an iterator which is not allowed to modify
+		the list that it is associated with.
+
+	\item \textbf{Mutable views} (\texttt{mutable-view}): This example involves
+		a linked list and an iterator which can \lstinline|remove()| the
+		element that the iterator points to. This mirrors Java's implementation
+		of iterators.
+
+	\item \label{item:mutable-views-as-inner-classes} \textbf{Mutable views as
+		Inner classes} (\texttt{mutable-view-inner-\linebreak~class}): This
+		example is the same as the Mutable views example, except that the
+		iterator is implemented as an inner class of the linked list.
+\end{enumerate}
+
+This category of simple examples were able to articulate the differences between
+the various systems very well. The \textbf{owners-as-dominators} discipline,
+following the definition given in \cref{subsec:definitions} is generally too
+strict to be able to capture the notion that an object is able to explore the
+representation invariant of another, even in a controlled way. The
+\hyperref[item:mutable-views-as-inner-classes]{Mutable views as Inner classes}
+example was therefore specifically constructed to overcome this problem,
+capitalising on special privileged access~\cite{boyapati04safejava} or multiple
+ownership \cite{cameron07mojo}.
 
 \begin{itemize}
-
-	\item The \textit{Mutable View} and \textit{Immutable View} examples expore
-		the concept of a \textit{view} over data, the most common implementation
-		of which being an iterator for a generic collection. The iterator itself
-		has sufficient access to the collection for a client to be able to read
-		its data, and possibly mutate the collection to remove elements. This is
-		an interesting example because the common \textbf{owners-as-dominators}
-		discipline is generally too strict for the notion of an object that is
-		able to explore the innards of another, albeit in a controlled way. It
-		is only overcome with special privileged access
-		\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}.
 
 	\item The \textit{Binary Operators} example concerns objects with a peer
 		\cite{dietl11gut} relationship that are able to explore each other's
