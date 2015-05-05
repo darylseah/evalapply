@@ -890,6 +890,26 @@ design patterns and object structures that the different systems support. Full
 code examples can be found in the \linebreak\texttt{examples/comparisons} 
 directory and a summary of our findings is listed in \cref{tab:summary}.
 
+\subsection{Views}
+\label{subsec:views}
+
+A common design pattern when designing abstract data types is to define
+\emph{views}. A view is an object that presents the data in some container in a
+different object -- iterators over a container being the most common view used
+in programs today. These views may allow modification of the data type that it
+is associated with. Owing to its ubiquity, we have adopted it as a benchmark
+for ownership types to be able to express.
+
+Views generally require cooperation from the container (access to its
+representation invariant) to be efficient. As a case in point, assume that an
+iterator over a linked list does not have access to its links and nodes. While
+the iterator might still be able to traverse the linked list (possibly using
+integer indices to elements), accessing an element in the list would require
+require $O(n)$ time.
+
+Even more problems are presented if the views need to be mutable. For example, 
+Java's iterators allow mutation during traversal~\cite{java8java_util_iterator}.
+
 \begin{itemize}
 
 	\item The \textit{Mutable View} and \textit{Immutable View} examples expore
@@ -905,7 +925,7 @@ directory and a summary of our findings is listed in \cref{tab:summary}.
 
 	\item The \textit{Binary Operators} example concerns objects with a peer
 		\cite{dietl11gut} relationship that are able to explore each other's
-		representations. This is useful to guage the varying levels of access
+		representations. This is useful to gauge the varying levels of access
 		given to peers in the different type systems.
 	
 	\item A number of the examples contain unique features that aren't found in
