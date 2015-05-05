@@ -147,7 +147,7 @@ Here we present a car with a driver and an engine. The car defines a
 \lstinline|start| method which will start the engine, but only if a driver is
 present. However, due to the lack of encapsulation, the car's engine can be
 started directly in \cref{code:modular_reasoning_car_engine_1_engine_start},
-bypassing the check.  This should not be allowed because it breaks
+bypassing the check. This should not be allowed because it breaks
 encapsulation.
 
 The traditional means of preventing this is to utilise access specifiers: using
@@ -960,11 +960,11 @@ limitations:
 		least \textit{one of the owners} of an object dominates access paths to
 		it.
 
-    \item \textbf{Ease of use may suffer}. Ownership constraints reflect their
-        implementation, which in this case is in the form of sets. Their
-        semantics are difficult to reason about without a working understanding
-        of the view of ownership contexts as sets, and may not be as easy to use
-        as the other type systems.
+	\item \textbf{Ease of use may suffer}. Ownership constraints reflect their
+		implementation, which in this case is in the form of sets. Their
+		semantics are difficult to reason about without a working understanding
+		of the view of ownership contexts as sets, and may not be as easy to use
+		as the other type systems.
 
 	\item \textbf{Multiple ownership has not been fully generalised} to solve
 		other problems that ownership types are known for, or already have
@@ -1002,7 +1002,7 @@ limitations:
 	\begin{tabular}[b]{|rl|} \hline
 		\Yes & Supported \\
 		\Limited & Partially Supported \\
-		\No & Not Supported   \\
+		\No & Not Supported \\
 		\Maybe & Not Discussed \\
 		\hline \multicolumn{1}{r}{}
 	\end{tabular} \hspace{10pt}
@@ -1042,7 +1042,7 @@ Multiple Ownership~\cite{cameron07mojo}&
 \\ \bottomrule
 \comment{\ast}{
 	UT/GUT only supports \lstinline|pure| and \lstinline|impure|, rather than
-  the more general \lstinline|reads| and \lstinline|writes| declarations.
+	the more general \lstinline|reads| and \lstinline|writes| declarations.
 }
 \comment{\dagger}{
 	The ownership wildcard \lstinline|?| limits the local reasoning possible.
@@ -1068,15 +1068,15 @@ Our findings are listed in the table below. Here are a few highlights.
 		is only overcome with special privileged access
 		\cite{boyapati04safejava} or multiple ownership \cite{cameron07mojo}.
 
-    \item The \textit{Binary Operators} example concerns objects with a peer
-        \cite{dietl11gut} relationship that are able to explore each other's
-        representations. This is useful to guage the varying levels of access
+	\item The \textit{Binary Operators} example concerns objects with a peer
+		\cite{dietl11gut} relationship that are able to explore each other's
+		representations. This is useful to guage the varying levels of access
 		given to peers in the different type systems.
-
-    \item A number of the examples contain unique features that aren't found in
-        more than one type system, for example: multiple ownership, ownership
-        transfer, and accomodation of generics. Because they have no analogue
-        these features can't be compared. The situation is similar for ownership
+	
+	\item A number of the examples contain unique features that aren't found in
+		more than one type system, for example: multiple ownership, ownership
+		transfer, and accommodation of generics. Because they have no analogue
+		these features can't be compared. The situation is similar for ownership
 		parameters and constraints.
 
 \end{itemize}
