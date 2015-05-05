@@ -227,6 +227,7 @@ a consistent set of terms to be used across the different systems proposed.
 		analysed each system for its ability to express such a design pattern.
 		Our use cases can be broadly categorised as such:
 
+	% TODO: Synchronise with section 4.
 	\begin{itemize}
 		\item \textbf{Abstract Data Types}: We modified a Queue example
 			from~\cite{boyapati04safejava} and added iterators, which can be
@@ -848,7 +849,7 @@ limitations:
 \rot{Class Inheritance} &
 \rot{Ownership Constraints} &
 \rot{Ownership Transfer} &
-\rot{Generic Ownership} &
+\rot{Ownership Parameters} &
 \rot{Generic Types} &
 \rot{Multiple Owners} &
 \rot{\bf Alias Control} &
@@ -1008,19 +1009,38 @@ If multiple ownership is allowed, relaxing the
 be implemented. This can be accomplished by declaring the operator as accepting
 objects that the type has co-ownership for.
 
+\subsection{Ownership Transfer}
+\label{subsec:ownership_transfer}
 
+A common design pattern in concurrent programming is the producer-consumer
+pattern. In this pattern, two tasks run in parallel, with the output of the
+first being used as input in the second. This would exploit increased
+parallelism in modern computers. If ownership cannot be transferred from
+producers to consumers, then possible operations would be restricted in the
+consumer, which reduces the usefulness of the design pattern.
 
-\begin{itemize}
+Among the systems studied, only SafeJava~\cite{boyapati04safejava} and Universe
+Types~\cite{dietl07gut} discuss this. Generic Universe Types does not currently
+support this; however, it is mentioned that it would be a future extension to
+the system~\cite{dietl09gut}.
 
-	\item The \textit{Binary Operators} 
-	
-	\item A number of the examples contain unique features that aren't found in
-		more than one type system, for example: multiple ownership, ownership
-		transfer, and accommodation of generics. Because they have no analogue
-		these features can't be compared. The situation is similar for ownership
-		parameters and constraints.
+\subsection{Other Features}
+\label{subsec:other_features}
 
-\end{itemize}
+Each system which we have examined contain unique features that are not found in
+others.
+
+, for example: multiple ownership, ownership
+transfer, and accommodation of generics. Because they have no analogue
+these features can't be compared. The situation is similar for ownership
+parameters and constraints.
+
+Multiple Ownership
+Generic Types
+Inheritance
+Ownership Parameters
+Ownership Constraints
+
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -1053,38 +1073,6 @@ an unprecedented amount of safety and encapsulation, they can also be cumbersome
 to work with. We postulate that they will see most use in safety-critical
 applications, where their strengths in ensuring the correctness of programs can
 outweigh the costs of using them.
-
-%
-% Reference to \cref{code:car_eng_test}, \cref{sec:test} and
-% \cref{fig:iterator-inside-test,fig:iterator-outside-test}.
-%
-% % Citations
-% aldrich04domains~\cite{aldrich04domains},\newline
-% aldrich02aliasjava~\cite{aldrich02aliasjava},\newline
-% almeida97balloons~\cite{almeida97balloons},\newline
-% boyapati04safejava~\cite{boyapati04safejava},\newline
-% boyapati02races~\cite{boyapati02races},\newline
-% boyapati03innerclass~\cite{boyapati03innerclass},\newline
-% boyapati03rtsj~\cite{boyapati03rtsj},\newline
-% cameron07mojo~\cite{cameron07mojo},\newline
-% cameron10encoding~\cite{cameron10encoding},\newline
-% clarke03ownership~\cite{clarke03ownership},\newline
-% clarke02ownership~\cite{clarke02ownership},\newline
-% clarke13aliasing~\cite{clarke13aliasing},\newline
-% clarke98ownership~\cite{clarke98ownership},\newline
-% cunningham08ut~\cite{cunningham08ut},\newline
-% dietl09gut~\cite{dietl09gut},\newline
-% dietl11gut~\cite{dietl11gut},\newline
-% dietl07gut~\cite{dietl07gut},\newline
-% dietl13ownership~\cite{dietl13ownership},\newline
-% dietl08dependent~\cite{dietl08dependent},\newline
-% dietl05jml~\cite{dietl05jml},\newline
-% hogg91islands~\cite{hogg91islands},\newline
-% muller02modular~\cite{muller02modular},\newline
-% muller99universes~\cite{muller99universes},\newline
-% noble98alias~\cite{noble98alias}, \newline
-% clarke13survey~\cite{clarke13survey}
-%
 
 \nocite{*}
 
