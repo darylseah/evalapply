@@ -816,7 +816,7 @@ limitations:
 		solutions for. More specifically, work on integrating it with generics
 		and race detection is ongoing. This is understandable as it is work in
 		a new direction, being the first implementation to relax the
-		\textbf{Owners-as-Dominators} discipline and admit multiple owners.
+		\textbf{owners-as-dominators} discipline and admit multiple owners.
 
 \end{itemize}
 
@@ -958,11 +958,11 @@ relationship to explore each other's representations. Therefore, binary
 operators can be implemented, with read-access if not with \lstinline|peer|
 access.
 
-If multiple ownership is allowed, relaxing the
-\textbf{owners-as-\linebreak~dominators} discipline, then binary operators can
-be implemented. This can be accomplished by declaring the operator as accepting
-objects that the type has co-ownership for. Read access is granted due to the
-\textbf{owners-as-modifiers} discipline.
+Multiple ownership also allows binary operators to be implemented, with the
+\textbf{owners-as-dominators} discipline relaxed.  This can be accomplished by
+declaring the operator as accepting objects that the type has co-ownership for.
+Read access is granted due to the \textbf{owners-as-modifiers} discipline, as
+the operands to the operator appear in the same ownership tree.
 
 
 \subsubsection{Ownership Transfer}

@@ -1,6 +1,6 @@
-class Num<owner, otherOwner> {
+class Num<owner> {
     int value;
-    void add(Num<otherOwner, this> other) {
+    void add(Num<owner & ?> other) {
         value += other.value;
     }
 }
