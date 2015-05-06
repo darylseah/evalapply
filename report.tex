@@ -748,10 +748,10 @@ several syntactic additions:
 		have access to. This is illustrated in
 		\cref{code:ownership_types_multiple_wildcards}.\footnote{Ownership
 		parameters as specified in the paper \textit{are} covariant; a
-		notable difference from Java's generic type parameters.\linebreak
-		\lstinline|Task<a & b>| is considered a subtype of both
-		\lstinline|Task<a & ?>| and \lstinline|Task<b & ?>|, allowing it to be
-		used wherever the latter two are expected.}
+		notable difference from Java's generic type parameters, which are
+		\textit{invariant}.  \lstinline|Task<a & b>| is considered a subtype of
+		both \lstinline|Task<a & ?>| and \lstinline|Task<b & ?>|, allowing it to
+		be used wherever the latter two are expected.}
 
 		\lstinputlisting[
 			float,
