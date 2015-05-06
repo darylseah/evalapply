@@ -944,7 +944,7 @@ that it is not possible for either object to access each other's representation
 invariants. The \textbf{owners-as-modifiers} discipline will not prevent a
 programmer from implementing such an operation as read access is sufficient.
 
-\begin{figure}[b]
+\begin{figure}[t]
 	\centering
 	\includegraphics{binary-fail.eps}
 	\caption{Binary operators do not have access to another object's
@@ -957,7 +957,7 @@ relationship to explore each other's representations. Therefore, binary
 operators can be implemented even if \lstinline|peer| access is not granted.
 
 Multiple ownership also allows binary operators to be implemented, with the
-\textbf{owners-as-dominators} discipline relaxed.  This can be accomplished by
+\textbf{owners-as-dominators} discipline relaxed. This can be accomplished by
 declaring the operator as accepting objects that the type has co-ownership for.
 Read access is granted due to the \textbf{owners-as-modifiers} discipline, as
 the operands to the operator appear in the same ownership tree.
@@ -981,8 +981,7 @@ the system~\cite{dietl09gut}.
 \subsection{Other Features}
 \label{subsec:other_features}
 
-Some systems which we examined contained unique features that were not found in
-other others. Here is a summary of them.
+Some systems we examined contained unique features not found in others:
 
 \begin{itemize}
 	\item \textbf{Generics}: Only Generic Universe Types discussed generics at
@@ -991,14 +990,14 @@ other others. Here is a summary of them.
 		time now.
 		%TODO: Implementation
 	\item \textbf{Inheritance}: Only Clarke's Ownership Types was silent about
-		inheritance.  This is an important feature to have, because existing
+		inheritance. This is an important feature to have, because existing
 		Object-Oriented programs leverage inheritance extensively to structure
 		large programs. The lack of inheritance would impede a system's ability
 		to be used immediately.
 	\item \textbf{Ownership Parameters}: Only the Universe Types system did not
 		support ownership parameters. This is a good feature to have because it
 		allows context-sensitive ownership information to be expressed in the
-		program.  While we were not able to construct an example that
+		program. While we were not able to construct an example that
 		demonstrated this as a weakness, we conjecture that this would be a
 		handicap.
 	\item \textbf{Ownership Constraints}: Only the SafeJava and Multiple
