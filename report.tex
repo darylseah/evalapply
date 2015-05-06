@@ -800,11 +800,10 @@ limitations:
 	\item \textbf{The owners-as-dominators discipline is dropped}. Access paths
 		are no longer restricted to one dominating object, and thus the type
 		system cannot make guarantees about object encapsulation that are nearly
-		%TODO: Darius please annotate this with the citation
-		as strong. Cameron et al. propose future work on extending
-		owners-as-dominators to accommodate multiple owners, ensuring that at
-		least \textit{one of the owners} of an object dominates access paths to
-		it.
+		as strong. Cameron et al. propose future work \cite{cameron07mojo} on
+		extending \textbf{owners-as-dominators} to accommodate multiple owners,
+		ensuring that at least \textit{one of the owners} of an object dominates
+		access paths to it.
 
 	\item \textbf{Ease of use may suffer}. Ownership constraints reflect their
 		implementation, which in this case is in the form of sets. Their
