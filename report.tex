@@ -566,6 +566,7 @@ problematic to express in both Clarke's and Boyapati's systems.
 % are allowed in Java and so he proposes a complementary runtime system that
 % checks casts.
 
+\vspace{2ex}
 \subsection{Dietl and M\"{u}ller's Universe Types}
 \label{subsec:dietl}
 
@@ -692,7 +693,7 @@ object structures. For example, \cref{code:ownership_types_multiple}
 (visualised in \cref{fig:multiple-ownership}), which is originally described
 in~\cite{cameron07mojo}, is impossible to express.
 
-\begin{figure}[t]
+\begin{figure}[b]
 \centering
 \includegraphics{multiple-ownership.eps}
 \caption{Multiple Ownership}
@@ -707,7 +708,7 @@ by Workers.
 The \textbf{owners-as-dominators} discipline prevents this, as it requires that
 the object topology be a tree: only one owner may dominate access paths to
 Tasks. The \textbf{owners-as-modifiers} discipline also causes problems as
-previously described: only either Projects or Workers may own tasks, so only
+previously described: either Projects or Workers may own tasks, so only
 one would be able to modify them.
 
 \lstinputlisting[
@@ -729,7 +730,7 @@ set intersection.
 The \textbf{owners-as-dominators} discipline is too constraining as there are
 multiple access paths to objects -- it is therefore relaxed. The
 \textbf{owners-as-modifiers} discipline still applies in principle, allowing any
-one of an object's multiple owners to modify it. \footnote{In practice, however,
+one of an object's multiple owners to modify it.\footnote{In practice, however,
 the implementation of multiple ownership discussed in the paper, MOJO, does
 not enforce owners-as-modifiers; it has been left to future work.} Multiple
 ownership is reified with several syntactic additions:
@@ -825,9 +826,9 @@ limitations:
 \section{Evaluation}
 \label{sec:eval}
 
-In this section we evaluate each of the systems which we have introduced in the
-earlier section. We first examine the expressivity of each system, because a
-system which is too restrictive would prevent widespread adoption. We then look
+In this section we evaluate each of the systems that we were introduced in
+\cref{sec:systems}. We first examine the expressivity of each system, because a
+system that is too restrictive would prevent widespread adoption. We then look
 at the unique features that each system presents, and what that would allow in
 programs. Finally, we examine the benefits that adopting such a system would
 bring.
@@ -940,12 +941,6 @@ will typically be to the recipient, hence read-only access to the other is
 sufficient. We will also assume that this access is not granted via an access
 specifier in order to retain encapsulation.
 
-Once again, the \textbf{owners-as-dominators} discipline is proving to be too
-strict to allow such an operation. \Cref{fig:binary-operators} demonstrates
-that it is not possible for either object to access each other's representation
-invariants. The \textbf{owners-as-modifiers} discipline will not prevent a
-programmer from implementing such an operation as read access is sufficient.
-
 \begin{figure}[t]
 	\centering
 	\includegraphics{binary-fail.eps}
@@ -953,6 +948,12 @@ programmer from implementing such an operation as read access is sufficient.
 		representation invariant}
 	\label{fig:binary-operators}
 \end{figure}
+
+Once again, the \textbf{owners-as-dominators} discipline is proving to be too
+strict to allow such an operation. \Cref{fig:binary-operators} demonstrates
+that it is not possible for either object to access each other's representation
+invariants. The \textbf{owners-as-modifiers} discipline will not prevent a
+programmer from implementing such an operation as read access is sufficient.
 
 Universe Types allows objects with a \lstinline|peer| \cite{dietl11gut}
 relationship to explore each other's representations. Therefore, binary
@@ -1081,12 +1082,16 @@ Multiple Ownership~\cite{cameron07mojo}&
 }
 \comment{\dagger}{
 	The ownership wildcard \lstinline|?| limits the local reasoning possible.
-}
+} \\
 \end{tabular}
 \end{table*}
 
 \subsection{Program Analysis Benefits}
 \label{subsec:program_analysis_benefits}
+
+Programming languages integrated with an ownership type system can provide a
+number of benefits for program analysis. Specifically, in terms of effects,
+alias control and local reasoning.
 
 \subsubsection{Effect Specifications}
 \label{subsubsec:benefits_effect_specifications}
@@ -1142,11 +1147,11 @@ that the system enforces. We find that \textbf{owners-as-dominators} tend to
 allow for analyses with more local reasoning owing to its strictness and
 restriction as to where variables can be used, depending on its type.
 \textbf{Owners-as-modifiers} relaxes the constraint significantly, and would
-not be as beneficial for automated program analysis tools\footnote{In spite of
+not be as beneficial for automated program analysis tools.\footnote{In spite of
 this, if we modify the definition of local reasoning to also include the
 \emph{programmer}, then \textbf{owners-as-modifiers} does assist the programmer
 is comprehending what a component does. Alas, this does not really help program
-analysis tools.}.
+analysis tools.}
 
 Having additional annotations does allow some extra information to be captured
 by the system, ameliorating the deficiencies in using the
@@ -1157,8 +1162,8 @@ Nonetheless, the expressivity concerns presented in \cref{subsec:expressivity}
 are more important when deciding which system to use and which encapsulation
 discipline to follow. We find that as a general trend, expressivity of programs
 increase as the permissivity of the encapsulation discipline
-decreases\footnote{The trivial case being no restrictions on expressivity when
-there is no limit on encapsulation.}. It is pointless to adopt an encapsulation
+decreases.\footnote{The trivial case being no restrictions on expressivity when
+there is no limit on encapsulation.} It is pointless to adopt an encapsulation
 discipline that does not allow a program to be written, because not only would
 there not be any functional program, there would be no need to analyse the
 program.
@@ -1197,6 +1202,7 @@ to work with. We postulate that they will see most use in safety-critical
 applications, where their strengths in ensuring the correctness of programs can
 outweigh the costs of using them.
 
+\pagebreak
 \nocite{*}
 
 \bibliographystyle{abbrv}
