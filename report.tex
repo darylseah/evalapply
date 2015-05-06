@@ -124,7 +124,7 @@ described in~\cite{clarke98ownership}.
 
 \lstinputlisting[
 	float,
-	caption={Car}, 
+	caption={Car},
 	label=code:modular_reasoning_car_engine_1
 ]{examples/motivation/1.java}
 
@@ -667,7 +667,7 @@ popular and practical ownership systems in existence, likely due to its natural
 compatibility with the current syntax of Java and (relative) simplicity.
 Universe Types has been extended with ownership
 transfers~\cite{muller07transfer}, and both Universe Types and Generic Universe
-types feature type inference~\cite{dietl11inference}. Furthermore, at least two
+types feature type inference~\cite{dietl11inference}. At least two
 implementations of a type checker~\cite{cameron10gut,dietl14checker} and one for
 inference~\cite{dietl14checker} are available as well.
 
@@ -899,7 +899,7 @@ Iterator implementations:
 		iterator is implemented as an inner class of the linked list.
 \end{enumerate}
 
-This category of simple examples were able to articulate the differences
+This category of simple examples is able to articulate the differences
 between the various systems very well. The \textbf{owners-as-dominators}
 discipline, following the definition given in \cref{subsec:definitions} was
 shown to be too strict to be able to capture the notion that an object is able
@@ -911,8 +911,8 @@ simultaneous access to the \lstinline|List|'s representation invariant.
 
 The \textbf{owners-as-modifiers} discipline allowed read-only references to
 other objects' representation invariants. This was sufficiently liberal to
-implement an iterator over the container. However, this was not particularly 
-useful when the iterator needed to mutate the container, as in the 
+implement an iterator over the container. However, this was not particularly
+useful when the iterator needed to mutate the container, as in the
 \hyperref[item:mutable-views]{Mutable views} example.
 
 Therefore, the \hyperref[item:mutable-views-as-inner-classes]{Mutable views as
@@ -956,14 +956,14 @@ sufficient for it to work.
 
 Universe Types allowed objects with a \lstinline|peer| \cite{dietl11gut}
 relationship to explore each other's representations. Therefore, binary
-operators could be implemented. Even if the binary operator did not have
-\lstinline|peer| access, it is possible to implement it with only read-access.
+operators can be implemented, with read-access if not with \lstinline|peer|
+access.
 
-If multiple ownership is allowed, relaxing the 
+If multiple ownership is allowed, relaxing the
 \textbf{owners-as-\linebreak~dominators} discipline, then binary operators can
 be implemented. This can be accomplished by declaring the operator as accepting
-objects that the type has co-ownership for.
-
+objects that the type has co-ownership for. Read access is granted due to the
+\textbf{owners-as-modifiers} discipline.
 
 
 \subsubsection{Ownership Transfer}
@@ -984,7 +984,7 @@ the system~\cite{dietl09gut}.
 \subsection{Other Features}
 \label{subsec:other_features}
 
-Each system which we have examined contain unique features that were not found 
+Each system which we have examined contain unique features that were not found
 across all systems.
 
 \begin{itemize}
@@ -1003,7 +1003,7 @@ across all systems.
 		surveyed, only the Universe Types system did not support ownership
 		parameters. This is a good feature to have because it allows
 		context-sensitive ownership information to be expressed in the program.
-		While we were not able to construct an example that demonstrated this 
+		While we were not able to construct an example that demonstrated this
 		as a weakness, we conjecture that this would be a handicap.
 	\item \textbf{Ownership Constraints}: Only the SafeJava and Multiple
 		\linebreak Ownership systems allowed constraints to be placed on
@@ -1110,7 +1110,7 @@ controlling where in the program aliases for values are allowed to exist.
 If the \textbf{owners-as-dominators} discipline is used, then aliases are
 allowable only in places where the object context is a child of the object
 being referenced. If the \textbf{owners-as-modifiers} discipline is used, then
-aliases are allowed anywhere in the program. This is an explicit design choice 
+aliases are allowed anywhere in the program. This is an explicit design choice
 by Dietl et al.~\cite{dietl07gut}.
 
 In both situations, Ownership Types do not assist in alias analysis beyond
@@ -1140,8 +1140,8 @@ bring the level of encapsulation that \textbf{owners-as-dominators} provides.
 Nonetheless, the expressivity concerns presented in \cref{subsec:expressivity}
 are more important when deciding which system to use and which encapsulation
 discipline to follow. We find that as a general trend, expressivity of programs
-increase as the permissivity of the encapsulation discipline 
-decreases\footnote{The trivial case being no restrictions on expressivity when 
+increase as the permissivity of the encapsulation discipline
+decreases\footnote{The trivial case being no restrictions on expressivity when
 there is no limit on encapsulation.}. It is pointless to adopt an encapsulation
 discipline that does not allow a program to be written, because not only would
 there not be any functional program, there would be no need to analyse the
