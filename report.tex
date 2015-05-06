@@ -863,17 +863,18 @@ implementation for that system would be omitted.
 
 A common design pattern when designing abstract data types is to define
 \emph{views}. A view is an object that presents the data in some other
-container -- iterators over a container being the most common view used in
-programs today. These views may allow modification of the data type that it
+object -- iterators over a container being the most common view used in
+programs today. These views may allow modification of the object that it
 is associated with. Owing to its ubiquity, we have adopted it as a benchmark
-for ownership types to be able to express.
+to assess the expressivity of ownership types.
 
-Views generally require access to the container's representation invariant to
-be efficient. As a case in point, assume that an iterator over a linked list
-does not have access to its links and nodes. While the iterator might still be
-able to traverse the linked list (possibly using integer indices to elements),
-accessing successive elements in the list would require $O(n)$ time, resulting
-in a complete list traversal that requires $O(n^2)$ time.
+Views generally require access to the container's representation invariant to be
+efficient. As a case in point, assume that an iterator over a linked list does
+not have access to its links and nodes. While the iterator would still be able
+to traverse the linked list (using the public interface that the collection
+presents; for example, accessing elements by index), accessing successive
+elements in the list could require $O(n)$ time, resulting in a complete list
+traversal that requires $O(n^2)$ time.
 
 Even more problems are presented if the views need to be mutable. For example,
 Java's iterators allow removal of the next element during
