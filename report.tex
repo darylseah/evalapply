@@ -929,12 +929,12 @@ may have different owners, such as when merging the results of a parallel
 reduction function. We have chosen to implement a queue which allows merging
 together to illustrate this situation.
 
-Typically in object-oriented style, a binary operator is implemented as a method
-of the values' class and used via method invocation, with one value as the
-receiver. The actual operation is performed with respect to that value. It
-follows that the receiver value must have access to the internals of the other
-in order to carry out the operation. If any state changes occur, also, they will
-typically be to the receiver operand, hence read-only access to the other is
+Typically, in an object-oriented program, a binary operator is implemented as a
+method of the values' class and invoked with one value as the receiver. The
+actual operation is performed with respect to the recipient. It follows that the
+recipient must have access to the internals of the other in order to carry
+out the operation. If there are any changes in the state of the objects, they
+will typically be to the recipient, hence read-only access to the other is
 sufficient. We will also assume that this access is not granted via an access
 specifier in order to retain encapsulation.
 
@@ -942,8 +942,7 @@ Once again, the \textbf{owners-as-dominators} discipline is proving to be too
 strict to allow such an operation. \Cref{fig:binary-operators} demonstrates
 that it is not possible for either object to access each other's representation
 invariants. The \textbf{owners-as-modifiers} discipline will not prevent a
-programmer from implementing such an operation, however, as read access is
-sufficient for it to work.
+programmer from implementing such an operation as read access is sufficient.
 
 \begin{figure}[b]
 	\centering
@@ -953,10 +952,9 @@ sufficient for it to work.
 	\label{fig:binary-operators}
 \end{figure}
 
-Universe Types allowed objects with a \lstinline|peer| \cite{dietl11gut}
+Universe Types allows objects with a \lstinline|peer| \cite{dietl11gut}
 relationship to explore each other's representations. Therefore, binary
-operators can be implemented, with read-access if not with \lstinline|peer|
-access.
+operators can be implemented even if \lstinline|peer| access is not granted.
 
 Multiple ownership also allows binary operators to be implemented, with the
 \textbf{owners-as-dominators} discipline relaxed.  This can be accomplished by
