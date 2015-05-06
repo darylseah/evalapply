@@ -1003,8 +1003,6 @@ across all systems.
 		verifying the correctness of programs.
 \end{itemize}
 
-
-
 \begin{table*}[t]
 \caption{Summary of Expressivity and (Analytical) Benefits of Ownership Type Systems}
 \label{tab:summary}
@@ -1081,7 +1079,6 @@ Multiple Ownership~\cite{cameron07mojo}&
 \end{tabular}
 \end{table*}
 
-
 \subsection{Program Analysis Benefits}
 \label{subsec:program_analysis_benefits}
 
@@ -1112,16 +1109,36 @@ the fact that aliases are restricted to a portion of the program. However, this
 property -- local reasoning -- is useful in the general case, and is discussed
 in the following section.
 
-
-
-
 \subsubsection{Local Reasoning}
-\lipsum[1]
+\label{subsubsec:benefits_local_reasoning}
 
-Not so much the system, but the discipline that the system enforces.
+The benefits to local reasoning are dependent on the encapsulation discipline
+that the system enforces. We find that \textbf{owners-as-dominators} tend to
+allow for analyses with more local reasoning owing to its strictness and
+restriction as to where variables can be used, depending on its type.
+\textbf{Owners-as-modifiers} relaxes the constraint significantly, and would
+not be as beneficial for automated program analysis tools\footnote{In spite of
+this, if we modify the definition of local reasoning to also include the
+\emph{programmer}, then \textbf{owners-as-modifiers} does assist the programmer
+is comprehending what a component does. Alas, this does not really help program
+analysis tools.}.
+
+Having additional annotations does allow some extra information to be captured
+by the system, ameliorating the deficiencies in using the
+\textbf{owners-as-modifiers} discipline for local reasoning. Still, it does not
+bring the level of encapsulation that \textbf{owners-as-dominators} provides.
+
+Nonetheless, the expressivity concerns presented in \cref{subsec:expressivity}
+are more important when deciding which system to use and which encapsulation
+discipline to follow. We find that as a general trend, expressivity of programs
+increase as the permissivity of the encapsulation discipline 
+decreases\footnote{The trivial case being no restrictions on expressivity when 
+there is no limit on encapsulation.}. It is pointless to adopt an encapsulation
+discipline that does not allow a program to be written, because not only would
+there not be any functional program, there would be no need to analyse the
+program.
 
 A summary of our findings is listed in \cref{tab:summary}.
-
 
 \section{Conclusion}
 \label{sec:conclusion}
