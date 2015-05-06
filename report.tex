@@ -728,9 +728,11 @@ set intersection.
 
 The \textbf{owners-as-dominators} discipline is too constraining as there are
 multiple access paths to objects -- it is therefore relaxed. The
-\textbf{owners-as-modifiers} discipline still applies, allowing any one
-of an object's multiple owners to modify it. Multiple ownership is reified with
-several syntactic additions:
+\textbf{owners-as-modifiers} discipline still applies in principle, allowing any
+one of an object's multiple owners to modify it. \footnote{In practice, however,
+the implementation of multiple ownership discussed in the paper, MOJO, does
+not enforce owners-as-modifiers; it has been left to future work.} Multiple
+ownership is reified with several syntactic additions:
 
 \begin{itemize}
 
@@ -959,7 +961,7 @@ operators can be implemented even if \lstinline|peer| access is not granted.
 Multiple ownership also allows binary operators to be implemented, with the
 \textbf{owners-as-dominators} discipline relaxed. This can be accomplished by
 declaring the operator as accepting objects that the type has co-ownership for.
-Read access is granted due to the \textbf{owners-as-modifiers} discipline, as
+Read access is granted even with the \textbf{owners-as-modifiers} discipline, as
 the operands to the operator appear in the same ownership tree.
 
 
