@@ -984,8 +984,8 @@ the system~\cite{dietl09gut}.
 \subsection{Other Features}
 \label{subsec:other_features}
 
-Each system which we have examined contain unique features that were not found
-across all systems.
+Some systems which we examined contained unique features that were not found in
+other others. Here is a summary of them.
 
 \begin{itemize}
 	\item \textbf{Generics}: Only Generic Universe Types discussed generics at
@@ -993,18 +993,17 @@ across all systems.
 		especially since Java's runtime library has had generics for a long
 		time now.
 		%TODO: Implementation
-	\item \textbf{Inheritance}: Among the implementations surveyed, only
-		\linebreak Clarke's Ownership Types was silent about inheritance.
-		This is an important feature to have, because existing Object-Oriented
-		programs leverage on inheritance extensively to structure large
-		programs. The lack of inheritance would impede the system's ability to
-		be used immediately.
-	\item \textbf{Ownership Parameters}: Among the implementations \linebreak
-		surveyed, only the Universe Types system did not support ownership
-		parameters. This is a good feature to have because it allows
-		context-sensitive ownership information to be expressed in the program.
-		While we were not able to construct an example that demonstrated this
-		as a weakness, we conjecture that this would be a handicap.
+	\item \textbf{Inheritance}: Only Clarke's Ownership Types was silent about
+		inheritance.  This is an important feature to have, because existing
+		Object-Oriented programs leverage inheritance extensively to structure
+		large programs. The lack of inheritance would impede a system's ability
+		to be used immediately.
+	\item \textbf{Ownership Parameters}: Only the Universe Types system did not
+		support ownership parameters. This is a good feature to have because it
+		allows context-sensitive ownership information to be expressed in the
+		program.  While we were not able to construct an example that
+		demonstrated this as a weakness, we conjecture that this would be a
+		handicap.
 	\item \textbf{Ownership Constraints}: Only the SafeJava and Multiple
 		\linebreak Ownership systems allowed constraints to be placed on
 		owners. This is not strictly necessary to be able to correctly express
