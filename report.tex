@@ -1089,35 +1089,32 @@ Multiple Ownership~\cite{cameron07mojo}&
 \subsubsection{Effect Specifications}
 \label{subsubsec:benefits_effect_specifications}
 
-
-SafeJava, Universe Types, and Multiple Ownership also include effect
-specifications, to varying degrees of sophistication. Effect specifications are
-useful because they allow analysis tools to make stronger assumptions about
-programs, increasing the accuracy of analyses.
+SafeJava, Universe Types, and Multiple Ownership include effect specifications
+in some form. Effect specifications are useful because they allow analysis
+tools to make stronger assumptions about programs, increasing the accuracy of
+analyses.
 
 %TODO check again
 
-Universe Types give perhaps the simplest facilities for effect specification:
-\textbf{\lstinline|pure|} and \textbf{\lstinline|impure|} method annotations to
-indicate the presence of side effects. This is used to constrain the methods
-that may be invoked on objects with given ownership properties: impure methods
-are not permitted in contexts where only read access is available.
+Universe Types gives the simplest facility for effect specification: the
+\lstinline|pure| and \lstinline|impure| method annotations to indicate the
+presence of side effects. This is used to constrain methods that may be invoked
+on objects with the given ownership properties: impure methods are not
+permitted in contexts where only read access is available.
 
-SafeJava takes a more fine-grained approach, with \textbf{\lstinline|reads|} and
-\textbf{\lstinline|writes|} clauses listing the individual members of a class
-that a method operates on. This is used to the same effect as in Universe Types:
-constraining the possible method calls that can be made on objects based on
-their ownership properties.
+SafeJava provides finer-grained control, using \lstinline|reads| and
+\lstinline|writes| clauses listing individual members of a class that a method
+operates on. This is used to the same effect as in Universe Types: restricting
+the possible method calls that can be made on objects based on their ownership
+properties.
 
-Multiple Ownership uses \textbf{\lstinline|intersects|} and
-\textbf{\lstinline|disjoint|} clauses, which express the relationships between
-ownership \textit{boxes}, to give a conservative, sound, \textit{must} analysis
-of the areas of the heap written to or read by an expression. This information
-is used to similar effect: verifying that methods do not violate their
-encapsulation discipline. Information on the effects of methods is assumed to
-already be present, therefore in practice it also requires some means of
-distinguishing impure methods from pure ones.
-
+Multiple Ownership uses \lstinline|intersects| and \lstinline|disjoint|
+clauses, which express the relationships between ownership contexts, to
+give a conservative, sound, \textit{must} analysis of the areas of the heap
+written to or read by an expression. This information is also used to verify
+that methods do not violate their encapsulation discipline. Information on the
+effects of methods is assumed to be present, therefore in practice it requires
+some means of distinguishing pure methods from impure ones.
 
 \subsubsection{Alias Control} \label{subsubsec:benefits_alias_control}
 
